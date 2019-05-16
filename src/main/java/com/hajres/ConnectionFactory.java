@@ -6,18 +6,21 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class ConnectionFactory {
-    private String driverClassName = "com.mysql.cj.jdbc.Driver";
     private String connectionUrl;
     private String dbUser;
     private String dbPassword;
 
     private static ConnectionFactory connectionFactory = null;
 
-    private ConnectionFactory(Properties settings) {
+    private ConnectionFactory() {
+        Properties settings = Main.settings;
+
         this.dbUser = settings.getProperty("user");
         this.dbPassword = settings.getProperty("password");
         this.connectionUrl = settings.getProperty("url");
+
         try {
+            String driverClassName = "com.mysql.cj.jdbc.Driver";
             Class.forName(driverClassName);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -30,9 +33,9 @@ public class ConnectionFactory {
         return  conn;
     }
 
-    public static ConnectionFactory getInstance(Properties settings) {
+    public static ConnectionFactory getInstance() {
         if (connectionFactory == null) {
-            connectionFactory = new ConnectionFactory(settings);
+            connectionFactory = new ConnectionFactory();
         }
         return  connectionFactory;
     }
