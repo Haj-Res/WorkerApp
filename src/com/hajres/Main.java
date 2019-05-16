@@ -1,4 +1,4 @@
-package com.hajres;
+package hajres;
 
 public class Main {
 
