@@ -68,13 +68,14 @@ public class Worker {
 
     @Override
     public String toString() {
-        return "Worker{" +
-                "jmbg='" + jmbg + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", birthDate=" + birthDate +
-                ", company=" + company +
-                ", address=" + address +
-                '}';
+        StringBuilder sb = new StringBuilder(150);
+        sb.append("JMBG: ").append(jmbg).append(", ");
+        sb.append("Name: ").append(firstName).append(" ").append(lastName).append(", ");
+        sb.append("Born on: ").append(birthDate).append(", ");
+        sb.append("Address: ").append(address);
+        if (company.getIdCompany() != 0) {
+            sb.append(", ").append("Employed at ").append(company);
+        }
+        return sb.toString();
     }
 }

@@ -34,10 +34,12 @@ public class Company {
 
     @Override
     public String toString() {
-        return "Company{" +
-                "idCompany=" + idCompany +
-                ", name='" + name + '\'' +
-                ", address=" + address +
-                '}';
+        StringBuilder sb = new StringBuilder(100);
+        sb.append("[ID:").append(idCompany).append(']').append(' ');
+        sb.append(name).append(' ');
+        if (address.getIdAddress() != 0) {
+            sb.append(address);
+        }
+        return sb.toString();
     }
 }

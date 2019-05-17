@@ -45,11 +45,10 @@ public class Address implements Serializable {
 
     @Override
     public String toString() {
-        return "Address{" +
-                "idAddress=" + idAddress +
-                ", city='" + city + '\'' +
-                ", street='" + street + '\'' +
-                ", number='" + number + '\'' +
-                '}';
+        StringBuilder sb = new StringBuilder(100);
+        sb.append("[ID:").append(idAddress).append("] ");
+        sb.append(street).append(" ").append(number);
+        sb.append(", ").append(city);
+        return  sb.toString();
     }
 }
