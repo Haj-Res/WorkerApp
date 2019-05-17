@@ -1,12 +1,13 @@
-package com.hajres.domain;
+package com.hajres.domain.model;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 public class Worker {
     private String jmbg;
     private String firstName;
     private String lastName;
-    private Date birthDate;
+    private LocalDate birthDate;
     private Company company;
     private Address address;
 
@@ -37,11 +38,15 @@ public class Worker {
         this.lastName = lastName;
     }
 
-    public Date getBirthDate() {
+    public LocalDate getLocalDateBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public Date getBirthDate() {
+        return Date.valueOf(birthDate);
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 
@@ -59,5 +64,17 @@ public class Worker {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    @Override
+    public String toString() {
+        return "Worker{" +
+                "jmbg='" + jmbg + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", birthDate=" + birthDate +
+                ", company=" + company +
+                ", address=" + address +
+                '}';
     }
 }
