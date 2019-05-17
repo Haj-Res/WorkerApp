@@ -1,4 +1,4 @@
-package com.hajres.domain;
+package com.hajres.domain.model;
 
 public class Company {
     private int idCompany = 0;
@@ -30,5 +30,14 @@ public class Company {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    @Override
+    public String toString() {
+        return "Company{" +
+                "idCompany=" + idCompany +
+                ", name='" + name + '\'' +
+                ", address=" + address +
+                '}';
     }
 }

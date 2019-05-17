@@ -1,4 +1,4 @@
-package com.hajres.domain;
+package com.hajres.domain.dao;
 
 import com.hajres.ConnectionFactory;
 
