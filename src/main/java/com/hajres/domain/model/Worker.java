@@ -1,19 +1,16 @@
-package com.hajres.models;
+package com.hajres.domain;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Worker {
-    private String  jmbg;
+    private String jmbg;
     private String firstName;
     private String lastName;
     private Date birthDate;
-    private int idCompany;
+    private Company company;
+    private Address address;
 
-    public Worker(String jmbg, String firstName, String lastName, Date birthDate) {
-        this.jmbg = jmbg;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.birthDate = birthDate;
+    public Worker() {
     }
 
     public String getJmbg() {
@@ -48,11 +45,19 @@ public class Worker {
         this.birthDate = birthDate;
     }
 
-    public int getIdCompany() {
-        return idCompany;
+    public Company getCompany() {
+        return company;
     }
 
-    public void setIdCompany(int idCompany) {
-        this.idCompany = idCompany;
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 }

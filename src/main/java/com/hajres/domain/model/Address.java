@@ -1,15 +1,14 @@
-package com.hajres.models;
+package com.hajres.domain;
 
-public class Address {
-    private int idAddress;
+import java.io.Serializable;
+
+public class Address implements Serializable {
+    private int idAddress = 0;
     private String city;
     private String street;
     private String number;
 
-    public Address(String city, String street, String number) {
-        this.city = city;
-        this.street = street;
-        this.number = number;
+    public Address() {
     }
 
     public int getIdAddress() {
