@@ -1,4 +1,4 @@
-package com.hajres.domain;
+package com.hajres.domain.model;
 
 import java.io.Serializable;
 
@@ -41,5 +41,15 @@ public class Address implements Serializable {
 
     public void setNumber(String number) {
         this.number = number;
+    }
+
+    @Override
+    public String toString() {
+        return "Address{" +
+                "idAddress=" + idAddress +
+                ", city='" + city + '\'' +
+                ", street='" + street + '\'' +
+                ", number='" + number + '\'' +
+                '}';
     }
 }

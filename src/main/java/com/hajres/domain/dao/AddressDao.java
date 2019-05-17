@@ -1,4 +1,4 @@
-package com.hajres.domain;
+package com.hajres.domain.dao;
 
 import com.hajres.domain.model.Address;
 
@@ -11,33 +11,41 @@ public class AddressDao extends Dao {
 
     public int add(Address address) {
         int id = 0;
-        try {
-            String queryString = "INSERT INTO `address` (`city`, `street`, `number`) VALUES(?,?,?)";
-            connection = getConnection();
-            preparedStatement = connection.prepareStatement(queryString, Statement.RETURN_GENERATED_KEYS);
-            preparedStatement.setString(1, address.getCity());
-            preparedStatement.setString(2, address.getStreet());
-            preparedStatement.setString(3, address.getNumber());
 
-            int affectedRows = preparedStatement.executeUpdate();
+        // Check if address exists. Return idAddress if it exists, otherwise
+        // insert address and return id of if new row
+        Address temp = checkIfExists(address);
+        if (temp != null) {
+            return temp.getIdAddress();
+        } else {
+            try {
+                String queryString = "INSERT INTO `address` (`city`, `street`, `number`) VALUES(?,?,?)";
+                connection = getConnection();
+                preparedStatement = connection.prepareStatement(queryString, Statement.RETURN_GENERATED_KEYS);
+                preparedStatement.setString(1, address.getCity());
+                preparedStatement.setString(2, address.getStreet());
+                preparedStatement.setString(3, address.getNumber());
 
-            if (affectedRows == 0) {
-                throw new SQLException("Creating address failed, no rows affected.");
+                int affectedRows = preparedStatement.executeUpdate();
+
+                if (affectedRows == 0) {
+                    throw new SQLException("Creating address failed, no rows affected.");
+                }
+
+                ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    id = generatedKeys.getInt(1);
+                } else {
+                    throw new SQLException("Creating address failed, no ID obtained.");
+
+                }
+                System.out.println("Address added successfully!");
+            } catch (SQLException e) {
+                System.out.println("Error: " + e.getMessage());
+//                e.printStackTrace();
+            } finally {
+                cleanUp();
             }
-
-            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                id = generatedKeys.getInt(1);
-            } else {
-                throw new SQLException("Creating address failed, no ID obtained.");
-
-            }
-            System.out.println("Address added successfully!");
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        } finally {
-            cleanUp();
         }
         return id;
     }
@@ -101,6 +109,31 @@ public class AddressDao extends Dao {
         return addressList;
     }
 
+    public Address findById(int idAddress) {
+        Address address = new Address();
+        try {
+            String queryString = "SELECT * FROM `address` WHERE `idAddress`=?";
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(queryString);
+            preparedStatement.setInt(1, idAddress);
+
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                address.setIdAddress(resultSet.getInt("idAddress"));
+                address.setCity(resultSet.getString("city"));
+                address.setStreet(resultSet.getString("street"));
+                address.setNumber(resultSet.getString("number"));
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        } finally {
+            cleanUp();
+        }
+        return address;
+    }
+
     public Address checkIfExists(Address address) {
         Address result = new Address();
         try {
@@ -122,8 +155,8 @@ public class AddressDao extends Dao {
             } else {
                 result = null;
             }
-        }catch (SQLException e) {
-            System.out.println(e.getMessage());
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
             e.printStackTrace();
         } finally {
             cleanUp();
