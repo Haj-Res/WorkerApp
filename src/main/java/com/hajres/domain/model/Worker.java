@@ -73,7 +73,7 @@ public class Worker {
         sb.append("Name: ").append(firstName).append(" ").append(lastName).append(", ");
         sb.append("Born on: ").append(birthDate).append(", ");
         sb.append("Address: ").append(address);
-        if (company.getIdCompany() != 0) {
+        if (company != null && company.getName() != null) {
             sb.append(", ").append("Employed at ").append(company);
         }
         return sb.toString();

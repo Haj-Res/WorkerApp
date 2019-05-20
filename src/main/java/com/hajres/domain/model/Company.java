@@ -37,7 +37,7 @@ public class Company {
         StringBuilder sb = new StringBuilder(100);
         sb.append("[ID:").append(idCompany).append(']').append(' ');
         sb.append(name).append(' ');
-        if (address.getIdAddress() != 0) {
+        if (address != null && address.getCity() != null) {
             sb.append(address);
         }
         return sb.toString();
