@@ -18,7 +18,7 @@ public abstract class Dao {
                 preparedStatement.close();
             }
             if (connection != null) {
-                connection.close();
+                returnConnection(connection);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -28,6 +28,10 @@ public abstract class Dao {
 
     protected Connection getConnection() throws SQLException {
         return ConnectionFactory.getInstance().getConnection();
+    }
+
+    protected void returnConnection(Connection  connection) {
+        ConnectionFactory.getInstance().returnConnection(connection);
     }
 
 }

@@ -4,34 +4,50 @@ import java.io.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.Properties;
+import java.util.Queue;
 
 public class ConnectionFactory {
-    private String connectionUrl;
-    private String dbUser;
-    private String dbPassword;
+    private static String connectionUrl;
+    private static String dbUser;
+    private static String dbPassword;
 
     private static ConnectionFactory connectionFactory = null;
+    private static LinkedList<Connection> connectionQueue;
 
     private ConnectionFactory() {
         Properties settings = getDbProperties();
 
-        this.dbUser = settings.getProperty("user");
-        this.dbPassword = settings.getProperty("password");
-        this.connectionUrl = settings.getProperty("url");
+        dbUser = settings.getProperty("user");
+        dbPassword = settings.getProperty("password");
+        connectionUrl = settings.getProperty("url");
 
+        connectionQueue = new LinkedList<>();
         try {
             String driverClassName = "com.mysql.cj.jdbc.Driver";
             Class.forName(driverClassName);
-        } catch (ClassNotFoundException e) {
+            for (int i = 0; i < 10; i++) {
+                addNewConnection();
+            }
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
     }
 
     public Connection getConnection() throws SQLException {
-        Connection conn = null;
-        conn = DriverManager.getConnection(connectionUrl, dbUser, dbPassword);
-        return conn;
+        if (connectionQueue.isEmpty()) {
+            addNewConnection();
+        }
+        return connectionQueue.poll();
+    }
+
+    public void returnConnection(Connection connection) {
+        connectionQueue.add(connection);
+    }
+
+    private static void addNewConnection() throws SQLException {
+        connectionQueue.add(DriverManager.getConnection(connectionUrl, dbUser, dbPassword));
     }
 
     public static ConnectionFactory getInstance() {
