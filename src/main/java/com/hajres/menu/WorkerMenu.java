@@ -47,11 +47,7 @@ public class WorkerMenu extends Menu {
                 case 3:
                     printWorkerByJmbg();
                     break;
-                case 4:
-                    System.out.println("Selected \"Edit worker\"!");
-                    break;
                 case 0:
-                    System.out.println("Selected \"Back to main menu\"!");
                     break;
                 default:
                     System.out.println("Try again");

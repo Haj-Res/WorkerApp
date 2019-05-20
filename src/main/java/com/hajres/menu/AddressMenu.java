@@ -17,12 +17,41 @@ public class AddressMenu extends Menu {
 
     @Override
     void printMenu() {
+        System.out.println("\n==============================");
+        System.out.println("******** Address Menu ********");
+        System.out.println("==============================");
+        System.out.println("\t1. Add new address");
+        System.out.println("\t2. List addresses");
+        System.out.println("\t3. Search address by city");
 
+        System.out.println("\n\t0. Back to main menu");
     }
 
     @Override
     public void start() {
+        do {
+            clearScreen();
+            printMenu();
+            selectedOption = scanner.nextInt();
+            scanner.nextLine();
 
+            switch (selectedOption) {
+                case 1:
+                    System.out.println("Add address");
+                    break;
+                case 2:
+                    System.out.println("Print all addresses");
+                    break;
+                case 3:
+                    System.out.println("Print by city");
+                    break;
+                case 0:
+                    break;
+                default:
+                    System.out.println("Try again");
+            }
+
+        } while (selectedOption != 0);
     }
 
     public Address getAddressData() {

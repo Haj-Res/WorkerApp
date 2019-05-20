@@ -26,15 +26,13 @@ public class MainMenu extends Menu {
                     WorkerMenu.getInstance().start();
                     break;
                 case 2:
-                    System.out.println("Selected Company!");
+                    CompanyMenu.getInstance().start();
                     break;
                 case 3:
-                    System.out.println("Selected Address!");
+                    AddressMenu.getInstance().start();
                     break;
                 case 0:
                     System.out.println("Goodbye");
-                    break;
-                case -1:
                     break;
                 default:
                     System.out.println("Please try again!");
@@ -45,9 +43,9 @@ public class MainMenu extends Menu {
 
     @Override
     void printMenu() {
-        System.out.println("\n==============================");
-        System.out.println("********** MainMenu **********");
-        System.out.println("==============================");
+        System.out.println("\n===============================");
+        System.out.println("********** Main Menu **********");
+        System.out.println("===============================");
         System.out.println("\t1. Worker");
         System.out.println("\t2. Company");
         System.out.println("\t3. Address");

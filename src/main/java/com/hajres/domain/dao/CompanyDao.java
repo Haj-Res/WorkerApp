@@ -137,7 +137,6 @@ public class CompanyDao extends Dao {
         return companyList;
     }
 
-
     public Company findById(int idCompany) {
         Company company = new Company();
         try {
@@ -206,7 +205,6 @@ public class CompanyDao extends Dao {
         }
         return companyList;
     }
-
 
     private Company checkIfExists(Company company) {
         Company result = new Company();
