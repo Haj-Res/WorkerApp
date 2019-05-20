@@ -2,11 +2,23 @@ package com.hajres.domain.dao;
 
 import com.hajres.domain.model.Address;
 
-import java.sql.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 public class AddressDao extends Dao {
+
     public AddressDao() {
+    }
+
+    private Address readFromResultSet() throws SQLException {
+        Address address = new Address();
+        address.setIdAddress(resultSet.getInt("idAddress"));
+        address.setCity(resultSet.getString("city"));
+        address.setStreet(resultSet.getString("street"));
+        address.setNumber(resultSet.getString("number"));
+        return address;
     }
 
     public int add(Address address) {
@@ -93,11 +105,7 @@ public class AddressDao extends Dao {
             preparedStatement = connection.prepareStatement(queryString);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                Address address = new Address();
-                address.setIdAddress(resultSet.getInt("idAddress"));
-                address.setCity(resultSet.getString("city"));
-                address.setStreet(resultSet.getString("street"));
-                address.setNumber(resultSet.getString("number"));
+                Address address = readFromResultSet();
                 addressList.add(address);
             }
         } catch (SQLException e) {
@@ -132,6 +140,27 @@ public class AddressDao extends Dao {
             cleanUp();
         }
         return address;
+    }
+
+    public ArrayList<Address> findByCity(String city) {
+        ArrayList<Address> addressList = new ArrayList<>();
+        city = '%' + city + '%';
+        try {
+            String queryString = "SELECT * FROM address WHERE city LIKE ?";
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(queryString);
+            preparedStatement.setString(1, city);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Address address = readFromResultSet();
+                addressList.add(address);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        } finally {
+            cleanUp();
+        }
+        return addressList;
     }
 
     public Address checkIfExists(Address address) {

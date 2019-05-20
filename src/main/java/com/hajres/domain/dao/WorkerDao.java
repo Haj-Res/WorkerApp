@@ -2,15 +2,13 @@ package com.hajres.domain.dao;
 
 import com.hajres.domain.model.Worker;
 
-import java.sql.*;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class WorkerDao extends Dao {
 
-
     public WorkerDao() {
     }
-
 
     public int add(Worker worker) {
         int id = 0;
