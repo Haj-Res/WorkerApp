@@ -90,9 +90,7 @@ public class WorkerMenu extends Menu {
 
     private void printAllWorker() {
         ArrayList<Worker> workerList = dao.findAll();
-        for (Worker w : workerList) {
-            System.out.println(w);
-        }
+        printArray(workerList);
         System.out.println("Press ENTER to continue . . .");
         scanner.nextLine();
     }
