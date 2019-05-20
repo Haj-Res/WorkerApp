@@ -92,7 +92,6 @@ public class AddressMenu extends Menu {
         return address;
     }
 
-
     private void addAddress() {
         Address address = getAddressData();
         int result = dao.add(address);
