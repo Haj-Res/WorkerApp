@@ -64,25 +64,17 @@ public class CompanyMenu extends Menu {
         } while (selectedOption != 0);
     }
 
-    private void printArray(ArrayList<Company> companyList) {
-        int counter = 1;
-        for (Company company: companyList) {
-            System.out.print(counter + ".\t");
-            System.out.println(company);
-            if (counter % 10 == 0) {
-                System.out.println("Press ENTER to view next 10 results");
-                scanner.nextLine();
-            }
-            counter++;
-        }
+
+    public Company getCompanyData() {
+        return getCompanyData("");
     }
 
-
-    public Company getCompanyDate() {
+    public Company getCompanyData(String inputName) {
         Company company = new Company();
         boolean valid = false;
-        String name = "";
+        String name = inputName;
         Address address;
+
         while (!valid) {
             System.out.println("Enter company data");
             while (name.equals("")) {
@@ -99,7 +91,7 @@ public class CompanyMenu extends Menu {
     }
 
     private void addCompany() {
-        Company company = getCompanyDate();
+        Company company = getCompanyData();
         int result= dao.add(company);
         if (result != 0) {
             System.out.println("Company successfully added.");

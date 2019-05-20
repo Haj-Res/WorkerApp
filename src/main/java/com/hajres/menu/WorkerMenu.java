@@ -1,13 +1,11 @@
 package com.hajres.menu;
 
-import com.hajres.domain.dao.AddressDao;
+import com.hajres.domain.dao.CompanyDao;
 import com.hajres.domain.dao.WorkerDao;
 import com.hajres.domain.model.Address;
 import com.hajres.domain.model.Company;
 import com.hajres.domain.model.Worker;
 
-import java.io.IOException;
-import java.lang.invoke.LambdaConversionException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -75,19 +73,6 @@ public class WorkerMenu extends Menu {
         System.out.println();
     }
 
-    private void printArray(ArrayList<Worker> workerList) {
-        int counter = 1;
-        for(Worker worker: workerList) {
-            System.out.print(counter + ".\t");
-            System.out.println(worker);
-            if (counter % 10 == 0) {
-                System.out.println("Press ENTER to view next 10");
-                scanner.nextLine();
-            }
-            counter++;
-        }
-    }
-
     private void printAllWorker() {
         ArrayList<Worker> workerList = dao.findAll();
         printArray(workerList);
@@ -153,7 +138,37 @@ public class WorkerMenu extends Menu {
             worker.setAddress(address);
             boolean employed = getConfirmation("Is worker employed?");
             if (employed) {
-                worker.setCompany(CompanyMenu.getInstance().getCompanyDate());
+                System.out.print("Company name: ");
+                String company = scanner.nextLine();
+
+                CompanyDao companyDao = new CompanyDao();
+                ArrayList<Company> companyList = companyDao.findByName(company);
+                if (companyList.size() > 0) {
+                    if (companyList.size() > 10) {
+                        ArrayList<Company> reducedList = new ArrayList<>();
+                        for (int i = 0; i < 10; i++) {
+                            reducedList.add(companyList.get(i));
+                        }
+                        companyList = reducedList;
+                    }
+                    System.out.println("Companies with that name:");
+                    printArray(companyList);
+                    boolean foundCompany = getConfirmation("Is the worker's company on the list?");
+                    if (foundCompany) {
+                        System.out.print("Enter the index of the company (0 for back): ");
+                        int index = scanner.nextInt();
+                        scanner.nextLine();
+                        index--;
+                        if (index < 0) {
+                            foundCompany = false;
+                        } else {
+                            worker.setCompany(companyList.get(index));
+                        }
+                    }
+                    if (!foundCompany) {
+                        worker.setCompany(CompanyMenu.getInstance().getCompanyData());
+                    }
+                }
             } else {
                 worker.setCompany(null);
             }
@@ -243,7 +258,7 @@ public class WorkerMenu extends Menu {
                 if (change) {
                     change = getConfirmation("Is worker employed?");
                     if (change) {
-                        Company company = CompanyMenu.getInstance().getCompanyDate();
+                        Company company = CompanyMenu.getInstance().getCompanyData();
                         worker.setCompany(company);
                     } else {
                         worker.setCompany(null);

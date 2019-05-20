@@ -34,4 +34,17 @@ abstract class Menu {
             }
         }
     }
+
+    protected void printArray(ArrayList arrayList) {
+        int counter = 1;
+        for(Object obj: arrayList) {
+            System.out.print(counter + ".\t");
+            System.out.println(obj);
+            if (counter % 10 == 0) {
+                System.out.println("Press ENTER to view next 10");
+                scanner.nextLine();
+            }
+            counter++;
+        }
+    }
 }

@@ -92,18 +92,6 @@ public class AddressMenu extends Menu {
         return address;
     }
 
-    private void printArray(ArrayList<Address> addressList) {
-        int counter = 1;
-        for (Object address: addressList) {
-            System.out.print(counter + ".\t");
-            System.out.println(address);
-            if (counter % 10 == 0) {
-                System.out.println("Press ENTER to view next 10");
-                scanner.nextLine();
-            }
-            counter++;
-        }
-    }
 
     private void addAddress() {
         Address address = getAddressData();
