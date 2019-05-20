@@ -17,27 +17,8 @@ public class WorkerDao extends Dao {
         int idAddress;
         Integer idCompany;
         try {
-
-            if (worker.getAddress() == null) {
-                throw new SQLException("Creating worker failed. Worker need an address.");
-            } else {
-                AddressDao addressDao = new AddressDao();
-                idAddress = addressDao.add(worker.getAddress());
-                if (idAddress == 0) {
-                    throw new SQLException("Creating user failed, no address ID obtained.");
-                }
-            }
-
-            if (worker.getCompany() == null) {
-                idCompany = null;
-            } else {
-                CompanyDao companyDao = new CompanyDao();
-                idCompany = companyDao.add(worker.getCompany());
-                if (idCompany == 0) {
-                    throw new SQLException("Creating user failed, no company ID obtained.");
-                }
-            }
-
+            idAddress = getAddressId(worker);
+            idCompany = getCompanyId(worker);
 
             String queryString = "INSERT INTO `worker` " +
                     "(JMBG, firstName, lastName, birthDate, idCompany, idAddress)" +
@@ -68,19 +49,25 @@ public class WorkerDao extends Dao {
         return id;
     }
 
-    public void update(Worker worker) {
+    public void update(Worker worker, String oldJmbg) {
 
+        int idAddress;
+        Integer idCompany;
         try {
-            String queryString = "UPDATE `worker` set `firstName`=?, `lastName`=?, `birthDate`=?," +
+            idAddress = getAddressId(worker);
+            idCompany = getCompanyId(worker);
+
+            String queryString = "UPDATE `worker` set `JMBG`=?, `firstName`=?, `lastName`=?, `birthDate`=?," +
                     " `idAddress`=?, `idCompany`=? WHERE `JMBG`=?";
             connection = getConnection();
             preparedStatement = connection.prepareStatement(queryString);
-            preparedStatement.setString(1, worker.getFirstName());
-            preparedStatement.setString(2, worker.getLastName());
-            preparedStatement.setDate(3, worker.getBirthDate());
-            preparedStatement.setInt(4, worker.getAddress().getIdAddress());
-            preparedStatement.setInt(5, worker.getCompany().getIdCompany());
-            preparedStatement.setString(6, worker.getJmbg());
+            preparedStatement.setString(1, worker.getJmbg());
+            preparedStatement.setString(2, worker.getFirstName());
+            preparedStatement.setString(3, worker.getLastName());
+            preparedStatement.setDate(4, worker.getBirthDate());
+            preparedStatement.setInt(5, idAddress);
+            preparedStatement.setObject(6, idCompany);
+            preparedStatement.setString(7, oldJmbg);
 
             int affectedRows = preparedStatement.executeUpdate();
             if (affectedRows == 0) {
@@ -167,5 +154,36 @@ public class WorkerDao extends Dao {
         CompanyDao companyDao = new CompanyDao();
         worker.setCompany(companyDao.findById(resultSet.getInt("idCompany")));
         return worker;
+    }
+
+    private int getAddressId(Worker worker) throws SQLException {
+        int idAddress;
+        if (worker.getAddress() == null) {
+            throw new SQLException("Creating worker failed. Worker need an address.");
+        } else {
+            AddressDao addressDao = new AddressDao();
+            idAddress = addressDao.add(worker.getAddress());
+            if (idAddress == 0) {
+                throw new SQLException("Creating user failed, no address ID obtained.");
+            }
+        }
+        return idAddress;
+    }
+
+    private Integer getCompanyId(Worker worker) throws SQLException {
+        Integer idCompany;
+
+        if (worker.getCompany() == null || worker.getCompany().getName() == null) {
+            idCompany = null;
+        } else if (worker.getCompany().getIdCompany() == 0) {
+            CompanyDao companyDao = new CompanyDao();
+            idCompany = companyDao.add(worker.getCompany());
+            if (idCompany == 0) {
+                throw new SQLException("Creating user failed, no company ID obtained.");
+            }
+        } else {
+            idCompany = worker.getCompany().getIdCompany();
+        }
+        return idCompany;
     }
 }
