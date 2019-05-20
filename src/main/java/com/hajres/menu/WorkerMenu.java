@@ -80,7 +80,7 @@ public class WorkerMenu extends Menu {
         for (Worker w : workerList) {
             System.out.println(w);
         }
-        System.out.println("Press ENTER to continue...");
+        System.out.println("Press ENTER to continue . . .");
         scanner.nextLine();
     }
 
