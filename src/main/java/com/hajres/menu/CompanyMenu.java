@@ -64,6 +64,20 @@ public class CompanyMenu extends Menu {
         } while (selectedOption != 0);
     }
 
+    private void printArray(ArrayList<Company> companyList) {
+        int counter = 1;
+        for (Company company: companyList) {
+            System.out.print(counter + ".\t");
+            System.out.println(company);
+            if (counter % 10 == 0) {
+                System.out.println("Press ENTER to view next 10 results");
+                scanner.nextLine();
+            }
+            counter++;
+        }
+    }
+
+
     public Company getCompanyDate() {
         Company company = new Company();
         boolean valid = false;
@@ -95,9 +109,7 @@ public class CompanyMenu extends Menu {
 
     private void printAllCompanies() {
         ArrayList<Company> companyList = dao.findAll();
-        for (Company comp: companyList) {
-            System.out.println(comp);
-        }
+        printArray(companyList);
         System.out.println("Press ENTER to continue . . .");
         scanner.nextLine();
     }
@@ -107,9 +119,7 @@ public class CompanyMenu extends Menu {
         String name = scanner.nextLine();
 
         ArrayList<Company> companyList = dao.findByName(name);
-        for (Company comp: companyList) {
-            System.out.println(comp);
-        }
+        printArray(companyList);
         System.out.println("Press ENTER to continue . . .");
         scanner.nextLine();
     }
@@ -118,9 +128,7 @@ public class CompanyMenu extends Menu {
         System.out.println("Enter city: ");
         String city = scanner.nextLine();
         ArrayList<Company> companyList = dao.findByCity(city);
-        for (Company comp : companyList) {
-            System.out.println(comp);
-        }
+        printArray(companyList);
         System.out.println("Press ENTER to continue . . .");
         scanner.nextLine();
     }

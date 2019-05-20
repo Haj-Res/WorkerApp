@@ -75,6 +75,19 @@ public class WorkerMenu extends Menu {
         System.out.println();
     }
 
+    private void printArray(ArrayList<Worker> workerList) {
+        int counter = 1;
+        for(Worker worker: workerList) {
+            System.out.print(counter + ".\t");
+            System.out.println(worker);
+            if (counter % 10 == 0) {
+                System.out.println("Press ENTER to view next 10");
+                scanner.nextLine();
+            }
+            counter++;
+        }
+    }
+
     private void printAllWorker() {
         ArrayList<Worker> workerList = dao.findAll();
         for (Worker w : workerList) {

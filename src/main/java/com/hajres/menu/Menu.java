@@ -1,5 +1,6 @@
 package com.hajres.menu;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 abstract class Menu {

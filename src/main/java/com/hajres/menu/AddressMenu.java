@@ -31,6 +31,7 @@ public class AddressMenu extends Menu {
         System.out.println("\t3. Search address by city");
 
         System.out.println("\n\t0. Back to main menu");
+
     }
 
     @Override
@@ -49,7 +50,7 @@ public class AddressMenu extends Menu {
                     printAllAddresses();
                     break;
                 case 3:
-                    System.out.println("Print by city");
+                    printAddressByCity();
                     break;
                 case 0:
                     break;
@@ -91,6 +92,19 @@ public class AddressMenu extends Menu {
         return address;
     }
 
+    private void printArray(ArrayList<Address> addressList) {
+        int counter = 1;
+        for (Object address: addressList) {
+            System.out.print(counter + ".\t");
+            System.out.println(address);
+            if (counter % 10 == 0) {
+                System.out.println("Press ENTER to view next 10");
+                scanner.nextLine();
+            }
+            counter++;
+        }
+    }
+
     private void addAddress() {
         Address address = getAddressData();
         int result = dao.add(address);
@@ -103,9 +117,16 @@ public class AddressMenu extends Menu {
     private void printAllAddresses() {
         ArrayList<Address> addressList = new ArrayList<>();
         addressList = dao.findAll();
-        for (Address address : addressList) {
-            System.out.println(address);
-        }
+        printArray(addressList);
+        System.out.println("Press ENTER to continue . . .");
+        scanner.nextLine();
+    }
+
+    private void printAddressByCity() {
+        System.out.print("City or part of the name: ");
+        String city = scanner.nextLine();
+        ArrayList<Address> addressList = dao.findByCity(city);
+        printArray(addressList);
         System.out.println("Press ENTER to continue . . .");
         scanner.nextLine();
     }
