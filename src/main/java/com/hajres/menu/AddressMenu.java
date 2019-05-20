@@ -1,18 +1,24 @@
 package com.hajres.menu;
 
+import com.hajres.domain.dao.AddressDao;
 import com.hajres.domain.model.Address;
+
+import javax.sound.midi.Soundbank;
+import java.util.ArrayList;
 
 public class AddressMenu extends Menu {
     private static AddressMenu menu = null;
+    private AddressDao dao;
 
     private AddressMenu() {
+        dao = new AddressDao();
     }
 
     public static AddressMenu getInstance() {
         if (menu == null) {
             menu = new AddressMenu();
         }
-        return menu ;
+        return menu;
     }
 
     @Override
@@ -37,10 +43,10 @@ public class AddressMenu extends Menu {
 
             switch (selectedOption) {
                 case 1:
-                    System.out.println("Add address");
+                    addAddress();
                     break;
                 case 2:
-                    System.out.println("Print all addresses");
+                    printAllAddresses();
                     break;
                 case 3:
                     System.out.println("Print by city");
@@ -83,5 +89,24 @@ public class AddressMenu extends Menu {
             valid = getConfirmation("Is the entered data correct?");
         }
         return address;
+    }
+
+    private void addAddress() {
+        Address address = getAddressData();
+        int result = dao.add(address);
+        if (result != 0) {
+            System.out.println("Address successfully added.");
+            System.out.println(address);
+        }
+    }
+
+    private void printAllAddresses() {
+        ArrayList<Address> addressList = new ArrayList<>();
+        addressList = dao.findAll();
+        for (Address address : addressList) {
+            System.out.println(address);
+        }
+        System.out.println("Press ENTER to continue . . .");
+        scanner.nextLine();
     }
 }
