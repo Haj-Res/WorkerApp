@@ -13,6 +13,17 @@ public class CompanyDao extends Dao {
     public CompanyDao() {
     }
 
+    private Company readFromResultSet() throws SQLException {
+        Company company = new Company();
+
+        company.setIdCompany(resultSet.getInt("idCompany"));
+        company.setName(resultSet.getString("name"));
+        AddressDao addressDao = new AddressDao();
+        company.setAddress(addressDao.findById(resultSet.getInt("idAddress")));
+
+        return company;
+    }
+
     public int add(Company company) {
         int idCompany = 0;
         int idAddress;
@@ -106,20 +117,15 @@ public class CompanyDao extends Dao {
     public ArrayList<Company> findAll() {
         ArrayList<Company> companyList = new ArrayList<Company>();
         try {
-            String queryString  = "SELECT * FROM `company` " +
+            String queryString = "SELECT * FROM `company` " +
                     "LEFT JOIN address a ON company.idAddress = a.idAddress";
             connection = getConnection();
             preparedStatement = connection.prepareStatement(queryString);
             resultSet = preparedStatement.executeQuery();
 
-            while(resultSet.next()) {
-                Company company = new Company();
-
-                company.setIdCompany(resultSet.getInt("idCompany"));
-                company.setName(resultSet.getString("name"));
-                AddressDao addressDao = new AddressDao();
-                company.setAddress(addressDao.findById(resultSet.getInt("idAddress")));
-
+            while (resultSet. next()) {
+                Company company;
+                company = readFromResultSet();
                 companyList.add(company);
             }
 
@@ -131,9 +137,10 @@ public class CompanyDao extends Dao {
         return companyList;
     }
 
+
     public Company findById(int idCompany) {
         Company company = new Company();
-        try{
+        try {
             String queryString = "SELECT * FROM `company` WHERE `idCompany`=?";
             connection = getConnection();
             preparedStatement = connection.prepareStatement(queryString);
@@ -152,6 +159,54 @@ public class CompanyDao extends Dao {
         }
         return company;
     }
+
+    public ArrayList<Company> findByCity(String city) {
+        ArrayList<Company> companyList = new ArrayList<>();
+        city ='%' + city + '%';
+        try {
+            String queryString = "SELECT idCompany, name, c.idAddress FROM company c LEFT JOIN address a on a.idAddress = c.idAddress WHERE a.city LIKE ?";
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(queryString);
+            preparedStatement.setString(1, city);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Company company;
+                company = readFromResultSet();
+                companyList.add(company);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        } finally {
+            cleanUp();
+        }
+        return companyList;
+    }
+
+    public ArrayList<Company> findByName(String name) {
+        ArrayList<Company> companyList = new ArrayList<Company>();
+        name = '%' + name + '%';
+        try {
+            String queryString = "SELECT * FROM `company` WHERE `name` LIKE ?";
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(queryString);
+            preparedStatement.setString(1, name);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Company company;
+                company = readFromResultSet();
+                companyList.add(company);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        } finally {
+            cleanUp();
+        }
+        return companyList;
+    }
+
 
     private Company checkIfExists(Company company) {
         Company result = new Company();
