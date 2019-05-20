@@ -3,7 +3,17 @@ package com.hajres.menu;
 import com.hajres.domain.model.Address;
 
 public class AddressMenu extends Menu {
+    private static AddressMenu menu = null;
 
+    private AddressMenu() {
+    }
+
+    public static AddressMenu getInstance() {
+        if (menu == null) {
+            menu = new AddressMenu();
+        }
+        return menu ;
+    }
 
     @Override
     void printMenu() {

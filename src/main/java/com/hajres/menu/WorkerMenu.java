@@ -142,13 +142,11 @@ public class WorkerMenu extends Menu {
             LocalDate birthDate = null;
             valid = false;
             setWorkerBirthDate(worker, pattern, birthDate, valid);
-            AddressMenu addressMenu = new AddressMenu();
-            Address address = addressMenu.getAddressData();
+            Address address = AddressMenu.getInstance().getAddressData();
             worker.setAddress(address);
             boolean employed = getConfirmation("Is worker employed?");
             if (employed) {
-                CompanyMenu companyMenu = new CompanyMenu();
-                worker.setCompany(companyMenu.getCompanyDate());
+                worker.setCompany(CompanyMenu.getInstance().getCompanyDate());
             } else {
                 worker.setCompany(null);
             }
@@ -230,17 +228,15 @@ public class WorkerMenu extends Menu {
 
                 change = getConfirmation("Change address?");
                 if (change) {
-                    AddressMenu addressMenu = new AddressMenu();
-                    Address address = addressMenu.getAddressData();
+                    Address address = AddressMenu.getInstance().getAddressData();
                     worker.setAddress(address);
                 }
 
                 change = getConfirmation("Change employment?");
                 if (change) {
-                    CompanyMenu companyMenu = new CompanyMenu();
                     change = getConfirmation("Is worker employed?");
                     if (change) {
-                        Company company = companyMenu.getCompanyDate();
+                        Company company = CompanyMenu.getInstance().getCompanyDate();
                         worker.setCompany(company);
                     } else {
                         worker.setCompany(null);
