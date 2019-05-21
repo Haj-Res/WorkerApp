@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CompanyDao extends Dao {
 
@@ -115,8 +116,8 @@ public class CompanyDao extends Dao {
         }
     }
 
-    public ArrayList<Company> findAll() {
-        ArrayList<Company> companyList = new ArrayList<Company>();
+    public List<Company> findAll() {
+        List<Company> companyList = new ArrayList<Company>();
         try {
             String queryString = "SELECT * FROM `company` " +
                     "LEFT JOIN address a ON company.idAddress = a.idAddress";
@@ -160,8 +161,8 @@ public class CompanyDao extends Dao {
         return company;
     }
 
-    public ArrayList<Company> findByCity(String city) {
-        ArrayList<Company> companyList = new ArrayList<>();
+    public List<Company> findByCity(String city) {
+        List<Company> companyList = new ArrayList<>();
         city ='%' + city + '%';
         try {
             String queryString = "SELECT idCompany, name, c.idAddress FROM company c LEFT JOIN address a on a.idAddress = c.idAddress WHERE a.city LIKE ?";
@@ -184,8 +185,8 @@ public class CompanyDao extends Dao {
         return companyList;
     }
 
-    public ArrayList<Company> findByName(String name) {
-        ArrayList<Company> companyList = new ArrayList<Company>();
+    public List<Company> findByName(String name) {
+        List<Company> companyList = new ArrayList<Company>();
         name = '%' + name + '%';
         try {
             String queryString = "SELECT * FROM `company` WHERE `name` LIKE ?";

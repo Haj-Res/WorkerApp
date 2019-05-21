@@ -4,6 +4,7 @@ import com.hajres.domain.model.Worker;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class WorkerDao extends Dao {
 
@@ -98,8 +99,8 @@ public class WorkerDao extends Dao {
         }
     }
 
-    public ArrayList<Worker> findAll() {
-        ArrayList<Worker> workerList = null;
+    public List<Worker> findAll() {
+        List<Worker> workerList = null;
         try {
             String queryString = "SELECT * FROM `worker`";
             connection = getConnection();

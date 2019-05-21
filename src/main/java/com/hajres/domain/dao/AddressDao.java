@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 public class AddressDao extends Dao {
 
@@ -97,8 +98,8 @@ public class AddressDao extends Dao {
         }
     }
 
-    public ArrayList<Address> findAll() {
-        ArrayList<Address> addressList = new ArrayList<Address>();
+    public List<Address> findAll() {
+        List<Address> addressList = new ArrayList<Address>();
         try {
             String queryString = "SELECT * FROM `address`";
             connection = getConnection();
@@ -142,8 +143,8 @@ public class AddressDao extends Dao {
         return address;
     }
 
-    public ArrayList<Address> findByCity(String city) {
-        ArrayList<Address> addressList = new ArrayList<>();
+    public List<Address> findByCity(String city) {
+        List<Address> addressList = new ArrayList<>();
         city = '%' + city + '%';
         try {
             String queryString = "SELECT * FROM address WHERE city LIKE ?";
