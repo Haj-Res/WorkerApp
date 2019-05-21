@@ -1,6 +1,7 @@
 package com.hajres.menu;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 abstract class Menu {
@@ -36,9 +37,9 @@ abstract class Menu {
         }
     }
 
-    protected void printArray(ArrayList arrayList) {
+    protected void printArray(List list) {
         int counter = 1;
-        for(Object obj: arrayList) {
+        for(Object obj: list) {
             System.out.print(counter + ".\t");
             System.out.println(obj);
             if (counter % LINE_LIMIT == 0) {

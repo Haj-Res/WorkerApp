@@ -5,6 +5,7 @@ import com.hajres.domain.model.Address;
 
 import javax.sound.midi.Soundbank;
 import java.util.ArrayList;
+import java.util.List;
 
 public class AddressMenu extends Menu {
     private static AddressMenu menu = null;
@@ -105,7 +106,7 @@ public class AddressMenu extends Menu {
     }
 
     private void printAllAddresses() {
-        ArrayList<Address> addressList = new ArrayList<>();
+        List<Address> addressList = new ArrayList<>();
         addressList = dao.findAll();
         printArray(addressList);
         System.out.println("Press ENTER to continue . . .");
@@ -115,7 +116,7 @@ public class AddressMenu extends Menu {
     private void printAddressByCity() {
         System.out.print("City or part of the name: ");
         String city = scanner.nextLine();
-        ArrayList<Address> addressList = dao.findByCity(city);
+        List<Address> addressList = dao.findByCity(city);
         printArray(addressList);
         System.out.println("Press ENTER to continue . . .");
         scanner.nextLine();

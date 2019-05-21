@@ -99,12 +99,19 @@ public class WorkerDao extends Dao {
         }
     }
 
-    public List<Worker> findAll() {
+    public List<Worker> findAll(int from, int to) {
         List<Worker> workerList = null;
         try {
             String queryString = "SELECT * FROM `worker`";
+            if (from !=-1 && to != -1) {
+                queryString += " LIMIT ?, ?";
+            }
             connection = getConnection();
             preparedStatement = connection.prepareStatement(queryString);
+            if (from !=-1 && to != -1) {
+                preparedStatement.setInt(1, from);
+                preparedStatement.setInt(2, to);
+            }
             resultSet = preparedStatement.executeQuery();
             workerList = new ArrayList<Worker>();
             while (resultSet.next()) {
@@ -118,6 +125,10 @@ public class WorkerDao extends Dao {
             cleanUp();
         }
         return workerList;
+    }
+
+    public List<Worker> findAll() {
+        return findAll(-1, -1);
     }
 
     public Worker findById(String jmbg) {

@@ -5,6 +5,7 @@ import com.hajres.domain.model.Address;
 import com.hajres.domain.model.Company;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CompanyMenu extends Menu {
     private static CompanyMenu menu = null;
@@ -99,7 +100,7 @@ public class CompanyMenu extends Menu {
     }
 
     private void printAllCompanies() {
-        ArrayList<Company> companyList = dao.findAll();
+        List<Company> companyList = dao.findAll();
         printArray(companyList);
         System.out.println("Press ENTER to continue . . .");
         scanner.nextLine();
@@ -109,7 +110,7 @@ public class CompanyMenu extends Menu {
         System.out.print("Company name or part of it: ");
         String name = scanner.nextLine();
 
-        ArrayList<Company> companyList = dao.findByName(name);
+        List<Company> companyList = dao.findByName(name);
         printArray(companyList);
         System.out.println("Press ENTER to continue . . .");
         scanner.nextLine();
@@ -118,7 +119,7 @@ public class CompanyMenu extends Menu {
     private void printCompanyByCity() {
         System.out.println("Enter city: ");
         String city = scanner.nextLine();
-        ArrayList<Company> companyList = dao.findByCity(city);
+        List<Company> companyList = dao.findByCity(city);
         printArray(companyList);
         System.out.println("Press ENTER to continue . . .");
         scanner.nextLine();

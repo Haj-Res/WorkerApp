@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class WorkerMenu extends Menu {
 
@@ -73,7 +74,7 @@ public class WorkerMenu extends Menu {
     }
 
     private void printAllWorker() {
-        ArrayList<Worker> workerList = dao.findAll();
+        List<Worker> workerList = dao.findAll();
         printArray(workerList);
         System.out.println("Press ENTER to continue . . .");
         scanner.nextLine();
@@ -140,7 +141,7 @@ public class WorkerMenu extends Menu {
                 String company = scanner.nextLine();
 
                 CompanyDao companyDao = new CompanyDao();
-                ArrayList<Company> companyList = companyDao.findByName(company);
+                List<Company> companyList = companyDao.findByName(company);
                 if (companyList.size() > 0) {
                     if (companyList.size() > 10) {
                         ArrayList<Company> reducedList = new ArrayList<>();
