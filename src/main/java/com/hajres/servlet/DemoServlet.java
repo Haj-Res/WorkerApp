@@ -1,4 +1,4 @@
-package com.hajres;
+package com.hajres.servlet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

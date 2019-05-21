@@ -16,12 +16,12 @@ public class ConnectionFactory {
     private static LinkedList<Connection> connectionQueue;
 
     private ConnectionFactory() {
-        Properties settings = getDbProperties();
+//        Properties settings = getDbProperties();
 
-        dbUser = settings.getProperty("user");
-        dbPassword = settings.getProperty("password");
-        connectionUrl = settings.getProperty("url");
-
+        dbUser = "root";
+        dbPassword = "Dvcs01u+10ns";
+        connectionUrl = "jdbc:mysql://localhost:3306/WorkersDB?autoReconnect=true&useSSL=false&" +
+                "useLegacyDatetimeCode=false&serverTimezone=Europe/Sarajevo";
         connectionQueue = new LinkedList<>();
         try {
             String driverClassName = "com.mysql.cj.jdbc.Driver";
@@ -60,7 +60,7 @@ public class ConnectionFactory {
         InputStream inputStream = null;
         Properties prop = new Properties();
         try {
-            File file = new File("src/main/resources/db.properties");
+            File file = new File("db.properties");
             inputStream = new FileInputStream(file);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
