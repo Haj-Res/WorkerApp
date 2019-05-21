@@ -6,7 +6,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.Properties;
-import java.util.Queue;
 
 public class ConnectionFactory {
     private static String connectionUrl;

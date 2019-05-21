@@ -1,8 +1,6 @@
 package com.hajres.domain.model;
 
-import java.io.Serializable;
-
-public class Address implements Serializable {
+public class Address {
     private int idAddress = 0;
     private String city;
     private String street;
