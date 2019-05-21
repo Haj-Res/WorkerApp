@@ -29,6 +29,7 @@ public class AddressMenu extends Menu {
         System.out.println("\t1. Add new address");
         System.out.println("\t2. List addresses");
         System.out.println("\t3. Search address by city");
+        System.out.println("\t4. Search address by id");
 
         System.out.println("\n\t0. Back to main menu");
 
@@ -39,8 +40,7 @@ public class AddressMenu extends Menu {
         do {
             clearScreen();
             printMenu();
-            selectedOption = scanner.nextInt();
-            scanner.nextLine();
+            selectedOption = getIntInput();
 
             switch (selectedOption) {
                 case 1:
@@ -51,6 +51,9 @@ public class AddressMenu extends Menu {
                     break;
                 case 3:
                     printAddressByCity();
+                    break;
+                case 4:
+                    printAddressById();
                     break;
                 case 0:
                     break;
@@ -116,5 +119,32 @@ public class AddressMenu extends Menu {
         printArray(addressList);
         System.out.println("Press ENTER to continue . . .");
         scanner.nextLine();
+    }
+
+    private void printAddressById() {
+        boolean valid = false;
+        int id = 0;
+        do {
+            System.out.print("Enter address ID (numeric): ");
+            String idString = scanner.nextLine();
+            try {
+                id = Integer.parseInt(idString);
+                valid = true;
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input.");
+            }
+        } while(!valid);
+        Address address = dao.findById(id);
+        if (address.getIdAddress() == 0) {
+            System.out.println("No matching address found.");
+        } else {
+            System.out.println(address);
+            boolean confirmed = getConfirmation("Do you want to edit this address?");
+            if (confirmed) {
+                Address newAddress = getAddressData();
+                newAddress.setIdAddress(address.getIdAddress());
+                dao.update(newAddress);
+            }
+        }
     }
 }

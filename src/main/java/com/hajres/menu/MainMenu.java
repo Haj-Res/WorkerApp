@@ -19,7 +19,7 @@ public class MainMenu extends Menu {
         do {
             clearScreen();
             printMenu();
-            selectedOption = scanner.nextInt();
+            selectedOption = getIntInput();
 
             switch (selectedOption) {
                 case 1:

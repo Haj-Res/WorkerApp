@@ -32,8 +32,7 @@ public class WorkerMenu extends Menu {
         do {
             clearScreen();
             printMenu();
-            selectedOption = scanner.nextInt();
-            scanner.nextLine();
+            selectedOption = getIntInput();
 
             switch (selectedOption) {
                 case 1:
@@ -108,11 +107,10 @@ public class WorkerMenu extends Menu {
     private Worker getWorkerData() {
         Worker worker = new Worker();
         boolean validWorker = false;
-
         while (!validWorker) {
-            System.out.println("Enter worker data");
             boolean valid = false;
             String jmbg = null;
+            System.out.println("Enter worker data");
             while (!valid) {
                 System.out.print("JMBG (13 character): ");
                 jmbg = scanner.next();
@@ -156,8 +154,7 @@ public class WorkerMenu extends Menu {
                     boolean foundCompany = getConfirmation("Is the worker's company on the list?");
                     if (foundCompany) {
                         System.out.print("Enter the index of the company (0 for back): ");
-                        int index = scanner.nextInt();
-                        scanner.nextLine();
+                        int index = getIntInput();
                         index--;
                         if (index < 0) {
                             foundCompany = false;

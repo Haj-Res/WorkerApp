@@ -39,8 +39,7 @@ public class CompanyMenu extends Menu {
         do {
             clearScreen();
             printMenu();
-            selectedOption = scanner.nextInt();
-            scanner.nextLine();
+            selectedOption = getIntInput();
 
             switch (selectedOption) {
                 case 1:

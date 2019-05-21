@@ -25,7 +25,7 @@ public class AddressDao extends Dao {
         int id = 0;
 
         // Check if address exists. Return idAddress if it exists, otherwise
-        // insert address and return id of if new row
+        // insert address and return id of new row
         Address temp = checkIfExists(address);
         if (temp != null) {
             return temp.getIdAddress();
