@@ -27,7 +27,7 @@ public class CompanyServlet extends HttpServlet {
         System.out.println(action);
         switch (action) {
             case "/company/new":
-                System.out.println("In /company/new (post)");
+                addCompany(request, response);
                 break;
             case "/company/edit":
                 updateCompany(request, response);
@@ -46,7 +46,7 @@ public class CompanyServlet extends HttpServlet {
                 listCompanies(request, response);
                 break;
             case "/company/new":
-                System.out.println("In /company/new");
+                addCompany(request, response);
                 break;
             case "/company/edit":
                 updateCompany(request, response);
@@ -82,6 +82,20 @@ public class CompanyServlet extends HttpServlet {
         } else {
             Company company = getCompanyData(request);
             companyDao.update(company);
+            response.sendRedirect(request.getContextPath() + "/company");
+        }
+    }
+
+    private void addCompany(HttpServletRequest request, HttpServletResponse response)
+        throws IOException, ServletException {
+        String add = request.getParameter("add");
+        String stringId = request.getParameter("id");
+        if (add == null) {
+            request.setAttribute("action","new?add=true");
+            request.getRequestDispatcher("company-add-edit.jsp").forward(request, response);
+        } else {
+            Company company = getCompanyData(request);
+            companyDao.add(company);
             response.sendRedirect(request.getContextPath() + "/company");
         }
     }
