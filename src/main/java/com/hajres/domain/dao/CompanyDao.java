@@ -24,7 +24,7 @@ public class CompanyDao extends Dao {
         company.setAddress(addressDao.findById(resultSet.getInt("idAddress")));
 
         return company;
-    }q
+    }
 
     public int add(Company company) {
         int idCompany = 0;
