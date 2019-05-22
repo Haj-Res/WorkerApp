@@ -16,6 +16,7 @@
         Worker Management
     </h1>
     <h4>
+        <a href="${pageContext.request.contextPath}/">Main Menu</a>
         <a href="${pageContext.request.contextPath}/worker/new">Add New Worker</a>
         <a href="${pageContext.request.contextPath}/worker">List All Worker</a>
     </h4>

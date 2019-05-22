@@ -36,6 +36,9 @@ public class WorkerServlet extends HttpServlet {
                 case "/worker/edit":
                     editWorker(req, resp);
                     break;
+                case "/worker/delete":
+                    deleteWorker(req, resp);
+                    break;
                 default:
                     resp.sendError(405, "Wrong method used.");
             }
@@ -58,7 +61,7 @@ public class WorkerServlet extends HttpServlet {
                     editWorker(req, resp);
                     break;
                 case "/worker/delete":
-                    out.println("Selected delete");
+                    deleteWorker(req, resp);
                     break;
                 case "/worker":
                 default:
@@ -97,6 +100,19 @@ public class WorkerServlet extends HttpServlet {
         dispatcher.forward(req, resp);
     }
 
+    private void addWorker(HttpServletRequest req, HttpServletResponse resp)
+            throws IOException, ServletException {
+        String add = req.getParameter("add");
+        req.setAttribute("action", "new?add=true");
+        if (add == null) {
+            req.getRequestDispatcher("worker-add-edit.jsp").forward(req, resp);
+        } else {
+            Worker worker = getWorkerData(req);
+            workerDao.add(worker);
+            resp.sendRedirect(req.getContextPath() + "/worker");
+        }
+    }
+
     private void editWorker(HttpServletRequest req, HttpServletResponse resp)
             throws IOException, ServletException {
         String jmbg = req.getParameter("jmbg");
@@ -121,16 +137,17 @@ public class WorkerServlet extends HttpServlet {
         }
     }
 
-    private void addWorker(HttpServletRequest req, HttpServletResponse resp)
-            throws IOException, ServletException {
-        String add = req.getParameter("add");
-        req.setAttribute("action", "new?add=true");
-        if (add == null) {
-            req.getRequestDispatcher("worker-add-edit.jsp").forward(req, resp);
+    private void deleteWorker(HttpServletRequest request, HttpServletResponse response)
+        throws  IOException, ServletException {
+        String jmbg = request.getParameter("jmbg");
+        String confirmed = request.getParameter("confirm");
+        if (confirmed == null || !confirmed.equals("true")) {
+            Worker worker = workerDao.findById(jmbg);
+            request.setAttribute("worker", worker);
+            request.getRequestDispatcher("worker-delete.jsp").forward(request, response);
         } else {
-            Worker worker = getWorkerData(req);
-            workerDao.add(worker);
-            resp.sendRedirect(req.getContextPath() + "/worker");
+            workerDao.delete(jmbg);
+            response.sendRedirect(request.getContextPath() + "/worker");
         }
     }
 
