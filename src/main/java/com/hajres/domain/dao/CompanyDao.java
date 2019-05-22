@@ -129,7 +129,7 @@ public class CompanyDao extends Dao {
         List<Company> companyList = new ArrayList<Company>();
         try {
             String queryString = "SELECT * FROM `company` " +
-                    "LEFT JOIN address a ON company.idAddress = a.idAddress";
+                    "LEFT JOIN address a ON company.idAddress = a.idAddress ORDER BY `name`";
             connection = getConnection();
             preparedStatement = connection.prepareStatement(queryString);
             resultSet = preparedStatement.executeQuery();

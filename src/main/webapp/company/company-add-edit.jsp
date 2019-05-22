@@ -14,7 +14,7 @@
 <div class="container d-flex flex-column">
     <div class="d-flex justify-content-center p-2">
         <h1>
-            Edit Worker
+            Edit Company
         </h1>
     </div>
     <div class="d-flex justify-content-center p-2 btn-group btn-group-lg" role="group">

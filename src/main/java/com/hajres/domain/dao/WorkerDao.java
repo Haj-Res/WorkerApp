@@ -102,7 +102,7 @@ public class WorkerDao extends Dao {
     public List<Worker> findAll(int from, int to) {
         List<Worker> workerList = null;
         try {
-            String queryString = "SELECT * FROM `worker`";
+            String queryString = "SELECT * FROM `worker` order by `firstName`, `lastName`";
             if (from !=-1 && to != -1) {
                 queryString += " LIMIT ?, ?";
             }

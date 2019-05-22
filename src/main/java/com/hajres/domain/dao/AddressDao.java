@@ -101,7 +101,7 @@ public class AddressDao extends Dao {
     public List<Address> findAll() {
         List<Address> addressList = new ArrayList<Address>();
         try {
-            String queryString = "SELECT * FROM `address`";
+            String queryString = "SELECT * FROM `address` ORDER BY `city`, `street`, `number`";
             connection = getConnection();
             preparedStatement = connection.prepareStatement(queryString);
             resultSet = preparedStatement.executeQuery();
