@@ -80,6 +80,15 @@ public class CompanyDao extends Dao {
 
     public void update(Company company) {
         try {
+            if(company.getAddress() == null) {
+                throw new SQLException("Address can't be null");
+            }
+
+            if (company.getAddress().getIdAddress()==0) {
+                AddressDao addressDao = new AddressDao();
+                int id = addressDao.add(company.getAddress());
+                company.getAddress().setIdAddress(id);
+            }
             String queryString = "UPDATE `company` SET `name`=?, `idAddress`=? WHERE `idCompany`=?";
             connection = getConnection();
             preparedStatement = connection.prepareStatement(queryString);
