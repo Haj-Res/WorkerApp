@@ -20,17 +20,22 @@
         <div class="d-flex justify-content-center">
             <h2>Company List</h2>
         </div>
-        <div class="d-flex justify-content-start pl-2 pb-0 mb-0">
+        <div class="d-flex justify-content-start pl-2 py-0">
             <form class="form-inline" method="get" action="${pageContext.request.contextPath}/company">
-                <label class="sr-only" for="filter">Name</label>
-                <input class="form-control mr-sm-2" type="text" name="filter" id="filter" value="${filter}" placeholder="Filter"/>
-                <button type="submit" class="btn btn-secondary">Filter</button>
+                <div class="input-group">
+                    <input type="text" class="form-control form-control-sm" name="filter" id="filter" value="${filter}" placeholder="Filter"
+                           aria-label="Filter" aria-describedby="Filter box">
+                    <div class="input-group-append">
+                        <button class="btn btn-sm btn-secondary" type="submit">Go!</button>
+                    </div>
+                </div>
             </form>
         </div>
         <div class="d-flex justify-content-center p-2 pt-0 mt-0">
             <table class="table">
                 <thead class="thead-light">
                 <tr>
+                    <th>#</th>
                     <th>Company name</th>
                     <th>Address</th>
                     <th>Action</th>
@@ -38,8 +43,9 @@
                 </thead>
                 <tbody>
                 <%--@elvariable id="companyList" type="java.util.List<com.hajres.domain.model.Company>"--%>
-                <c:forEach var="company" items="${companyList}">
+                <c:forEach var="company" items="${companyList}" varStatus="loop">
                     <tr>
+                        <td><c:out value="${loop.index + 1}." /></td>
                         <td><c:out value="${company.name}"/></td>
                         <td><c:out
                                 value="${company.address.street} ${company.address.number}, ${company.address.city}"/></td>
