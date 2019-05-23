@@ -15,18 +15,27 @@
     </style>
 </head>
 <body>
-<div class="d-flex justify-content-center">
-    <div class="container d-flex flex-column p-5 m-5">
-        <div class="alert border-info bg-light p-5">
-            <h2>Company info:</h2>
-            <h4>${company.name}</h4>
-            <p>Address: ${company.address.street} ${company.address.number}, ${company.address.city}</p>
-        </div>
-        <div class="alert alert-danger p-2 d-flex justify-content-around" role="alert">
+<div class="container d-flex flex-column bg-light h-100">
+    <div class="d-flex justify-content-center p-2">
+        <h1>
+            Delete Company
+        </h1>
+    </div>
+    <%@include file="../navigation.jsp" %>
+    <div class="d-flex justify-content-center">
+        <div class="container d-flex flex-column p-5 m-5">
+            <div class="alert border-info bg-light p-5">
+                <h2>Company info:</h2>
+                <h4>${company.name}</h4>
+                <p>Address: ${company.address.street} ${company.address.number}, ${company.address.city}</p>
+            </div>
+            <div class="alert alert-danger p-2 d-flex justify-content-around" role="alert">
         <span class="m-2">You're about to delete this company. This process is irreversible. Are you sure you want to delete the
         user?</span>
-            <a class="btn btn-danger m-2" href="${pageContext.request.contextPath}/company/delete?id=${company.idCompany}&confirm=true">DELETE</a>
-            <a class="btn btn-light m-2" href="${pageContext.request.contextPath}/company">Cancel</a>
+                <a class="btn btn-danger m-2"
+                   href="${pageContext.request.contextPath}/company/delete?id=${company.idCompany}&confirm=true">DELETE</a>
+                <a class="btn btn-light m-2" href="${pageContext.request.contextPath}/company">Cancel</a>
+            </div>
         </div>
     </div>
 </div>

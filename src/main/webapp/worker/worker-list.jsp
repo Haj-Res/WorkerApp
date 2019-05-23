@@ -11,27 +11,13 @@
     </style>
 </head>
 <body>
-<div class="container d-flex flex-column">
+<div class="container d-flex flex-column bg-light h-100">
     <div class="d-flex justify-content-center p-2">
         <h1>
             Edit Worker
         </h1>
     </div>
-    <div class="d-flex justify-content-center p-2">
-        <h4>
-            <ul class="list-group list-group-horizontal">
-                <a href="${pageContext.request.contextPath}/">
-                    <li class="list-group-item">Main Menu</li>
-                </a>
-                <a href="${pageContext.request.contextPath}/worker/new">
-                    <li class="list-group-item">Add New Worker</li>
-                </a>
-                <a href="${pageContext.request.contextPath}/worker">
-                    <li class="list-group-item">List All Worker</li>
-                </a>
-            </ul>
-        </h4>
-    </div>
+    <%@include file="../navigation.jsp" %>
     <div class="container d-flex flex-column">
         <div class="d-flex justify-content-center">
             <h2>Worker list</h2>
@@ -40,7 +26,7 @@
             <form class="form-inline" method="get" action="${pageContext.request.contextPath}/worker">
                 <label class="sr-only" for="filter">Name</label>
                 <input class="form-control mr-sm-2" type="text" name="filter" id="filter" placeholder="Filter"/>
-                <button type="submit" class="btn btn-secondary">Submit</button>
+                <button type="submit" class="btn btn-secondary">Filter</button>
             </form>
         </div>
         <div class="p-2 pt-0 d-flex justify-content-center">

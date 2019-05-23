@@ -9,32 +9,25 @@
     </style>
 </head>
 <body>
-<div class="container d-flex flex-column">
+<div class="container d-flex flex-column bg-light h-100">
     <div class="d-flex justify-content-center p-2">
         <h1>
             Edit Company
         </h1>
     </div>
-    <div class="d-flex justify-content-center p-2 btn-group btn-group-lg" role="group">
-        <h4>
-            <ul class="list-group list-group-horizontal">
-                <a href="${pageContext.request.contextPath}/">
-                    <li class="list-group-item">Main Menu</li>
-                </a>
-                <a href="${pageContext.request.contextPath}/company/new">
-                    <li class="list-group-item">Add New Company</li>
-                </a>
-                <a href="${pageContext.request.contextPath}/company">
-                    <li class="list-group-item">List All Companies
-                </a>
-            </ul>
-        </h4>
-    </div>
+    <%@include file="../navigation.jsp" %>
     <div class="container d-flex flex-column">
         <div class="d-flex justify-content-center">
             <h2>Company List</h2>
         </div>
-        <div class="d-flex justify-content-center p-2">
+        <div class="d-flex justify-content-start pl-2 pb-0 mb-0">
+            <form class="form-inline" method="get" action="${pageContext.request.contextPath}/company">
+                <label class="sr-only" for="filter">Name</label>
+                <input class="form-control mr-sm-2" type="text" name="filter" id="filter" placeholder="Filter"/>
+                <button type="submit" class="btn btn-secondary">Filter</button>
+            </form>
+        </div>
+        <div class="d-flex justify-content-center p-2 pt-0 mt-0">
             <table class="table">
                 <thead class="thead-light">
                 <tr>

@@ -11,28 +11,14 @@
     </style>
 </head>
 <body>
-<div class="container d-flex flex-column">
+<div class="container d-flex flex-column bg-light h-100">
     <div class="d-flex justify-content-center p-2">
         <h1>
             Edit Company
         </h1>
     </div>
-    <div class="d-flex justify-content-center p-2 btn-group btn-group-lg" role="group">
-        <h4>
-            <ul class="list-group list-group-horizontal">
-                <a href="${pageContext.request.contextPath}/">
-                    <li class="list-group-item">Main Menu</li>
-                </a>
-                <a href="${pageContext.request.contextPath}/company/new">
-                    <li class="list-group-item">Add New Company</li>
-                </a>
-                <a href="${pageContext.request.contextPath}/company">
-                    <li class="list-group-item">List All Companies
-                </a>
-            </ul>
-        </h4>
-    </div>
-    <div class="p-2">
+    <%@include file="../navigation.jsp" %>
+    <div class="container p-2 pl-5 pr-5">
         <form method="post" action="${pageContext.request.contextPath}/company/${action}">
             <div class="form-group">
                 <label for="name">Company name</label>
