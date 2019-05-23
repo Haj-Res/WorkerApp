@@ -52,20 +52,20 @@ public class CompanyServlet extends HttpServlet {
                 updateCompany(request, response);
                 break;
             case "/company/delete":
-                System.out.println("In /company/delete");
+                deleteCompany(request, response);
                 break;
         }
     }
 
     private void listCompanies(HttpServletRequest request, HttpServletResponse response)
-        throws IOException, ServletException {
+            throws IOException, ServletException {
         List<Company> companyList = companyDao.findAll();
         request.setAttribute("companyList", companyList);
         request.getRequestDispatcher("/company/company-list.jsp").forward(request, response);
     }
 
     private void updateCompany(HttpServletRequest request, HttpServletResponse response)
-        throws IOException, ServletException {
+            throws IOException, ServletException {
         String stringId = request.getParameter("id");
         String name = request.getParameter("name");
         if (name == null) {
@@ -87,15 +87,35 @@ public class CompanyServlet extends HttpServlet {
     }
 
     private void addCompany(HttpServletRequest request, HttpServletResponse response)
-        throws IOException, ServletException {
+            throws IOException, ServletException {
         String add = request.getParameter("add");
         String stringId = request.getParameter("id");
         if (add == null) {
-            request.setAttribute("action","new?add=true");
+            request.setAttribute("action", "new?add=true");
             request.getRequestDispatcher("company-add-edit.jsp").forward(request, response);
         } else {
             Company company = getCompanyData(request);
             companyDao.add(company);
+            response.sendRedirect(request.getContextPath() + "/company");
+        }
+    }
+
+    private void deleteCompany(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException {
+        String companyId = request.getParameter("id");
+        String confirm = request.getParameter("confirm");
+        int id = 0;
+        try {
+            id = Integer.parseInt(companyId);
+        } catch (Exception e) {
+            response.sendRedirect(request.getContextPath() + "/company");
+        }
+        if (confirm == null || !confirm.equals("true")) {
+            Company company = companyDao.findById(id);
+            request.setAttribute("company", company);
+            request.getRequestDispatcher("company-delete.jsp").forward(request, response);
+        } else {
+            companyDao.delete(id);
             response.sendRedirect(request.getContextPath() + "/company");
         }
     }
