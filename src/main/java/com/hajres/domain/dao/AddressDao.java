@@ -9,17 +9,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddressDao extends Dao {
+    private static final String FIND_ALL = "SELECT * FROM `address` ORDER BY `city`, `street`, `number`";
+    private static final String FIND_BY_ID = "SELECT * FROM `address` WHERE `idAddress`=?";
+    private static final String FIND_BY_CITY = "SELECT * FROM address WHERE city LIKE ?";
+    private static final String FIND_IF_EXISTS = "SELECT * FROM `address` WHERE `city`=? AND `street`=? AND `number`=?";
+    private static final String INSERT_ADDRESS = "INSERT INTO `address` (`city`, `street`, `number`) VALUES(?,?,?)";
+    private static final String UPDATE_ADDRESS = "UPDATE `address` SET `city`=?, `street`=?, `number`=? WHERE `idAddress`=?";
+    private static final String DELETE_ADDRESS = "DELETE FROM `address` WHERE `idAddress`=?";
 
     public AddressDao() {
-    }
-
-    private Address readFromResultSet() throws SQLException {
-        Address address = new Address();
-        address.setIdAddress(resultSet.getInt("idAddress"));
-        address.setCity(resultSet.getString("city"));
-        address.setStreet(resultSet.getString("street"));
-        address.setNumber(resultSet.getString("number"));
-        return address;
     }
 
     public int add(Address address) {
@@ -32,9 +30,8 @@ public class AddressDao extends Dao {
             return temp.getIdAddress();
         } else {
             try {
-                String queryString = "INSERT INTO `address` (`city`, `street`, `number`) VALUES(?,?,?)";
                 connection = getConnection();
-                preparedStatement = connection.prepareStatement(queryString, Statement.RETURN_GENERATED_KEYS);
+                preparedStatement = connection.prepareStatement(INSERT_ADDRESS, Statement.RETURN_GENERATED_KEYS);
                 preparedStatement.setString(1, address.getCity());
                 preparedStatement.setString(2, address.getStreet());
                 preparedStatement.setString(3, address.getNumber());
@@ -65,9 +62,8 @@ public class AddressDao extends Dao {
 
     public void update(Address address) {
         try {
-            String queryString = "UPDATE `address` SET `city`=?, `street`=?, `number`=? WHERE `idAddress`=?";
             connection = getConnection();
-            preparedStatement = connection.prepareStatement(queryString);
+            preparedStatement = connection.prepareStatement(UPDATE_ADDRESS);
             preparedStatement.setString(1, address.getCity());
             preparedStatement.setString(2, address.getStreet());
             preparedStatement.setString(3, address.getNumber());
@@ -84,9 +80,8 @@ public class AddressDao extends Dao {
 
     public void delete(int idAddress) {
         try {
-            String queryString = "DELETE FROM `address` WHERE `idAddress`=?";
             connection = getConnection();
-            preparedStatement = connection.prepareStatement(queryString);
+            preparedStatement = connection.prepareStatement(DELETE_ADDRESS);
             preparedStatement.setInt(1, idAddress);
             preparedStatement.executeUpdate();
             System.out.println("Address deleted successfully!");
@@ -101,12 +96,11 @@ public class AddressDao extends Dao {
     public List<Address> findAll() {
         List<Address> addressList = new ArrayList<Address>();
         try {
-            String queryString = "SELECT * FROM `address` ORDER BY `city`, `street`, `number`";
             connection = getConnection();
-            preparedStatement = connection.prepareStatement(queryString);
+            preparedStatement = connection.prepareStatement(FIND_ALL);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                Address address = readFromResultSet();
+                Address address = getLineFromResultSet();
                 addressList.add(address);
             }
         } catch (SQLException e) {
@@ -121,18 +115,14 @@ public class AddressDao extends Dao {
     public Address findById(int idAddress) {
         Address address = new Address();
         try {
-            String queryString = "SELECT * FROM `address` WHERE `idAddress`=?";
             connection = getConnection();
-            preparedStatement = connection.prepareStatement(queryString);
+            preparedStatement = connection.prepareStatement(FIND_BY_ID);
             preparedStatement.setInt(1, idAddress);
 
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                address.setIdAddress(resultSet.getInt("idAddress"));
-                address.setCity(resultSet.getString("city"));
-                address.setStreet(resultSet.getString("street"));
-                address.setNumber(resultSet.getString("number"));
+                address = getLineFromResultSet();
             }
 
         } catch (SQLException e) {
@@ -147,14 +137,12 @@ public class AddressDao extends Dao {
         List<Address> addressList = new ArrayList<>();
         city = '%' + city + '%';
         try {
-            String queryString = "SELECT * FROM address WHERE city LIKE ?";
             connection = getConnection();
-            preparedStatement = connection.prepareStatement(queryString);
+            preparedStatement = connection.prepareStatement(FIND_BY_CITY);
             preparedStatement.setString(1, city);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                Address address = readFromResultSet();
-                addressList.add(address);
+                addressList.add(getLineFromResultSet());
             }
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
@@ -164,24 +152,18 @@ public class AddressDao extends Dao {
         return addressList;
     }
 
-    public Address checkIfExists(Address address) {
+    private Address checkIfExists(Address address) {
         Address result = new Address();
         try {
-            String queryStrying = "SELECT * FROM `address` " +
-                    "WHERE `city`=? AND `street`=? AND `number`=?";
             connection = getConnection();
-            preparedStatement = connection.prepareStatement(queryStrying);
+            preparedStatement = connection.prepareStatement(FIND_IF_EXISTS);
             preparedStatement.setString(1, address.getCity());
             preparedStatement.setString(2, address.getStreet());
             preparedStatement.setString(3, address.getNumber());
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                result.setIdAddress(resultSet.getInt("idAddress"));
-                result.setCity(resultSet.getString("city"));
-                result.setStreet(resultSet.getString("street"));
-                result.setNumber(resultSet.getString("number"));
-                System.out.println(address.toString());
+                result = getLineFromResultSet();
             } else {
                 result = null;
             }
@@ -194,4 +176,12 @@ public class AddressDao extends Dao {
         return result;
     }
 
+    private Address getLineFromResultSet() throws SQLException {
+        Address address = new Address();
+        address.setIdAddress(resultSet.getInt("idAddress"));
+        address.setCity(resultSet.getString("city"));
+        address.setStreet(resultSet.getString("street"));
+        address.setNumber(resultSet.getString("number"));
+        return address;
+    }
 }

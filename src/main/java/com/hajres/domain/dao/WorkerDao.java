@@ -9,13 +9,16 @@ import java.util.List;
 public class WorkerDao extends Dao {
 
 
-    private static final String SELECT_WORKER = "SELECT * FROM `worker` order by `firstName`, `lastName`";
-    private static final String SELECT_WORKER_FROM_TO = "SELECT * FROM `worker` order by `firstName`, `lastName` LIMIT ?, ?";
+    private static final String FIND_ALL = "SELECT * FROM `worker` order by `firstName`, `lastName`";
+    private static final String FIND_ALL_FROM_TO = "SELECT * FROM `worker` order by `firstName`, `lastName` LIMIT ?, ?";
     private static final String FIND_BY_ID = "SELECT * FROM `worker` WHERE `JMBG`=?";
-    private static final String FIND_BY_NAME="SELECT * FROM `worker` WHERE `firstName` LIKE ? OR `lastName` LIKE ?";
+    private static final String FIND_BY_NAME = "SELECT * FROM `worker` WHERE `firstName` LIKE ? OR `lastName` LIKE ?";
     private static final String INSERT_WORKER = "INSERT INTO `worker` " +
             "(JMBG, firstName, lastName, birthDate, idCompany, idAddress)" +
             "VALUES (?, ?, ?, ?, ?, ?)";
+    private static final String UPDATE_WORKER = "UPDATE `worker` set `JMBG`=?, `firstName`=?, `lastName`=?, `birthDate`=?," +
+            " `idAddress`=?, `idCompany`=? WHERE `JMBG`=?";
+    private static final String DELETE_WORKER = "DELETE FROM `worker` WHERE `JMBG`=?";
 
 
     public WorkerDao() {
@@ -62,11 +65,8 @@ public class WorkerDao extends Dao {
         try {
             idAddress = getAddressId(worker);
             idCompany = getCompanyId(worker);
-
-            String queryString = "UPDATE `worker` set `JMBG`=?, `firstName`=?, `lastName`=?, `birthDate`=?," +
-                    " `idAddress`=?, `idCompany`=? WHERE `JMBG`=?";
             connection = getConnection();
-            preparedStatement = connection.prepareStatement(queryString);
+            preparedStatement = connection.prepareStatement(UPDATE_WORKER);
             preparedStatement.setString(1, worker.getJmbg());
             preparedStatement.setString(2, worker.getFirstName());
             preparedStatement.setString(3, worker.getLastName());
@@ -90,9 +90,8 @@ public class WorkerDao extends Dao {
 
     public void delete(String jmbg) {
         try {
-            String queryString = "DELETE FROM `worker` WHERE `JMBG`=?";
             connection = getConnection();
-            preparedStatement = connection.prepareStatement(queryString);
+            preparedStatement = connection.prepareStatement(DELETE_WORKER);
             preparedStatement.setString(1, jmbg);
             int affectedRows = preparedStatement.executeUpdate();
             if (affectedRows == 0) {
@@ -112,9 +111,9 @@ public class WorkerDao extends Dao {
             connection = getConnection();
 
             if (from != -1 && to != -1) {
-                preparedStatement = connection.prepareStatement(SELECT_WORKER_FROM_TO);
+                preparedStatement = connection.prepareStatement(FIND_ALL_FROM_TO);
             } else {
-                preparedStatement = connection.prepareStatement(SELECT_WORKER);
+                preparedStatement = connection.prepareStatement(FIND_ALL);
             }
             if (from != -1 && to != -1) {
                 preparedStatement.setInt(1, from);
