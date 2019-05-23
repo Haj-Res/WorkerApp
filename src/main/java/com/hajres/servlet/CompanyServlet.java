@@ -24,6 +24,9 @@ public class CompanyServlet extends HttpServlet {
         String action = request.getServletPath();
         System.out.println(action);
         switch (action) {
+            case "/company":
+                listCompanies(request, response);
+                break;
             case "/company/new":
                 addCompany(request, response);
                 break;
@@ -86,22 +89,32 @@ public class CompanyServlet extends HttpServlet {
             request.getRequestDispatcher("company-add-edit.jsp").forward(request, response);
         } else {
             Company company = getCompanyData(request);
-            companyDao.update(company);
-            response.sendRedirect(request.getContextPath() + "/company");
+            if (company != null) {
+                companyDao.update(company);
+                request.setAttribute("message", "Company updated.");
+
+            } else {
+                request.setAttribute("errorMessage", "No company not updated.");
+            }
+            request.getRequestDispatcher("/company").forward(request, response);
         }
     }
 
     private void addCompany(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
         String add = request.getParameter("add");
-        String stringId = request.getParameter("id");
         if (add == null) {
             request.setAttribute("action", "new?add=true");
             request.getRequestDispatcher("company-add-edit.jsp").forward(request, response);
         } else {
             Company company = getCompanyData(request);
-            companyDao.add(company);
-            response.sendRedirect(request.getContextPath() + "/company");
+            if (company != null) {
+                companyDao.add(company);
+                request.setAttribute("message", "Company added to database.");
+            } else {
+                request.setAttribute("errorMessage", "Company not added to database.");
+            }
+            request.getRequestDispatcher("/company").forward(request, response);
         }
     }
 
@@ -121,7 +134,8 @@ public class CompanyServlet extends HttpServlet {
             request.getRequestDispatcher("company-delete.jsp").forward(request, response);
         } else {
             companyDao.delete(id);
-            response.sendRedirect(request.getContextPath() + "/company");
+            request.setAttribute("message", "Company deleted.");
+            request.getRequestDispatcher("/company").forward(request, response);
         }
     }
 
@@ -136,10 +150,18 @@ public class CompanyServlet extends HttpServlet {
         }
         company.setIdCompany(id);
         company.setName(request.getParameter("name"));
+        if (company.getName().equals("")) return null;
+
         Address address = new Address();
         address.setCity(request.getParameter("city"));
+        if (address.getCity().equals("")) return null;
+
         address.setStreet(request.getParameter("street"));
+        if (address.getStreet().equals("")) return null;
+
         address.setNumber(request.getParameter("number"));
+        if (address.getNumber().equals("")) return null;
+
         company.setAddress(address);
         System.out.println(company);
         return company;
