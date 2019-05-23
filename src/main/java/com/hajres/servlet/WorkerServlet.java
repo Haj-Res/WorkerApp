@@ -1,5 +1,6 @@
 package com.hajres.servlet;
 
+import com.hajres.domain.dao.CompanyDao;
 import com.hajres.domain.dao.WorkerDao;
 import com.hajres.domain.model.Address;
 import com.hajres.domain.model.Company;
@@ -19,9 +20,11 @@ import java.util.List;
 @WebServlet(urlPatterns = {"/worker", "/worker/new", "/worker/edit", "/worker/delete"})
 public class WorkerServlet extends HttpServlet {
     private WorkerDao workerDao;
+    private CompanyDao companyDao;
 
     public void init() {
         workerDao = new WorkerDao();
+        companyDao = new CompanyDao();
     }
 
     @Override
@@ -98,6 +101,7 @@ public class WorkerServlet extends HttpServlet {
         System.out.println(req.getContextPath());
         System.out.println(req.getServletPath());
         dispatcher.forward(req, resp);
+
     }
 
     private void addWorker(HttpServletRequest req, HttpServletResponse resp)
@@ -105,6 +109,8 @@ public class WorkerServlet extends HttpServlet {
         String add = req.getParameter("add");
         req.setAttribute("action", "new?add=true");
         if (add == null) {
+            List<Company> companyList = companyDao.findAll();
+            req.setAttribute("companyList", companyList);
             req.getRequestDispatcher("worker-add-edit.jsp").forward(req, resp);
         } else {
             Worker worker = getWorkerData(req);
@@ -123,7 +129,9 @@ public class WorkerServlet extends HttpServlet {
             System.out.println(req.getServletPath());
             if (req.getParameter("firstName") == null) {
                 Worker worker = workerDao.findById(jmbg);
+                List<Company> companyList= companyDao.findAll();
                 req.setAttribute("worker", worker);
+                req.setAttribute("companyList", companyList);
                 req.setAttribute("action", "edit?jmbg=" + worker.getJmbg());
                 RequestDispatcher dispatcher = req.getRequestDispatcher("worker-add-edit.jsp");
                 dispatcher.forward(req, resp);

@@ -40,39 +40,39 @@
                     <h5>Worker info:</h5>
                     <div class="form-group">
                         <label for="newJmbg">JMBG:</label>
-                        <input class="form-control" type="text" id="newJmbg" name="newJmbg" value="${worker.jmbg}"/>
+                        <input class="form-control" type="text" id="newJmbg" name="newJmbg" value="${worker.jmbg}" required/>
                     </div>
                     <div class="form-group">
                         <label for="firstName">First name:</label>
                         <input class="form-control" type="text" id="firstName" name="firstName"
-                               value="${worker.firstName}"/>
+                               value="${worker.firstName}" required/>
                     </div>
                     <div class="form-group">
                         <label for="lastName">Last name:</label>
                         <input class="form-control" type="text" id="lastName" name="lastName"
-                               value="${worker.lastName}"/>
+                               value="${worker.lastName}" required/>
                     </div>
                     <div class="form-group">
                         <label for="birthDate">Birthday:</label>
                         <input class="form-control" type="date" id="birthDate" name="birthDate"
-                               value="${worker.localDateBirthDate}"/>
+                               value="${worker.localDateBirthDate}" required/>
                     </div>
                 </div>
                 <div class="flex-fill m-2">
                     <h5>Address:</h5>
                     <div class="form-group border-info rounded-lg">
                         <label for="city">City:</label>
-                        <input class="form-control" type="text" id="city" name="city" value="${worker.address.city}"/>
+                        <input class="form-control" type="text" id="city" name="city" value="${worker.address.city}" required/>
                     </div>
                     <div class="form-group">
                         <label for="street">Street:</label>
                         <input class="form-control" type="text" id="street" name="street"
-                               value="${worker.address.street}"/>
+                               value="${worker.address.street}" required/>
                     </div>
                     <div class="form-group">
                         <label for="number">Number:</label>
                         <input class="form-control" type="text" id="number" name="number"
-                               value="${worker.address.number}"/>
+                               value="${worker.address.number}" required/>
                     </div>
                 </div>
             </div>
@@ -82,8 +82,13 @@
                 <div class="flex-fill m-2">
                     <div class="form-group">
                         <label for="company">Company name:</label>
-                        <input class="form-control" type="text" id="company" name="company"
-                               value="${worker.company.name}"/>
+                        <input class="form-control" list="companies" id="company" name="company" value="${worker.company.name}">
+                        <datalist id="companies">
+                            <%--@elvariable id="companyList" type="java.util.List<com.hajres.domain.model.Company>"--%>
+                            <c:forEach var="company" items="${companyList}">
+                                <option value="<c:out value="${company.name}" />"></option>
+                            </c:forEach>
+                        </datalist>
                     </div>
                     <div class="form-group rounded-lg">
                         <label for="company-street">Street:</label>
