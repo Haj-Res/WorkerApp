@@ -18,7 +18,7 @@
             Edit Worker
         </h1>
     </div>
-    <%@include file="../navigation.jsp" %>
+    <%@include file="../shared/navigation.jsp" %>
     <div class="p-2">
         <form method="post" action="${pageContext.request.contextPath}/worker/${action}">
             <div class="d-flex">

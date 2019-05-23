@@ -17,7 +17,7 @@
             Edit Company
         </h1>
     </div>
-    <%@include file="../navigation.jsp" %>
+    <%@include file="../shared/navigation.jsp" %>
     <div class="container p-2 pl-5 pr-5">
         <form method="post" action="${pageContext.request.contextPath}/company/${action}">
             <div class="form-group">

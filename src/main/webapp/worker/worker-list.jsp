@@ -13,12 +13,13 @@
 </head>
 <body>
 <div class="container d-flex flex-column bg-light h-100">
+    <%@include file="../shared/alerts.jsp"%>
     <div class="d-flex justify-content-center p-2">
         <h1>
             Edit Worker
         </h1>
     </div>
-    <%@include file="../navigation.jsp" %>
+    <%@include file="../shared/navigation.jsp" %>
     <div class="container d-flex flex-column">
         <div class="d-flex justify-content-center">
             <h2>Worker list</h2>

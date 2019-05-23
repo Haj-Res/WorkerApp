@@ -21,7 +21,7 @@
             Delete Company
         </h1>
     </div>
-    <%@include file="../navigation.jsp" %>
+    <%@include file="../shared/navigation.jsp" %>
     <div class="d-flex justify-content-center">
         <div class="container d-flex flex-column p-5 m-5">
             <div class="alert border-info bg-light p-5">
