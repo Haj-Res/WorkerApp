@@ -12,7 +12,7 @@ public class WorkerDao extends Dao {
     private static final String FIND_ALL = "SELECT * FROM `worker` order by `firstName`, `lastName`";
     private static final String FIND_ALL_FROM_TO = "SELECT * FROM `worker` order by `firstName`, `lastName` LIMIT ?, ?";
     private static final String FIND_BY_ID = "SELECT * FROM `worker` WHERE `JMBG`=?";
-    private static final String FIND_BY_NAME = "SELECT * FROM `worker` WHERE `firstName` LIKE ? OR `lastName` LIKE ?";
+    private static final String FIND_BY_STRING = "SELECT * FROM `worker` WHERE `firstName` LIKE ? OR `lastName` LIKE ? OR `JMBG` LIKE ?";
     private static final String INSERT_WORKER = "INSERT INTO `worker` " +
             "(JMBG, firstName, lastName, birthDate, idCompany, idAddress)" +
             "VALUES (?, ?, ?, ?, ?, ?)";
@@ -138,14 +138,15 @@ public class WorkerDao extends Dao {
         return findAll(-1, -1);
     }
 
-    public List<Worker> findByName(String name) {
+    public List<Worker> findByName(String filter) {
         List<Worker> workerList = new ArrayList<>();
         try {
-            name = "%" + name + "%";
+            filter = "%" + filter + "%";
             connection = getConnection();
-            preparedStatement = connection.prepareStatement(FIND_BY_NAME);
-            preparedStatement.setString(1, name);
-            preparedStatement.setString(2, name);
+            preparedStatement = connection.prepareStatement(FIND_BY_STRING);
+            preparedStatement.setString(1, filter);
+            preparedStatement.setString(2, filter);
+            preparedStatement.setString(3, filter);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 workerList.add(getLineFromResultSet());

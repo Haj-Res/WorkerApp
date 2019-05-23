@@ -95,12 +95,15 @@ public class WorkerServlet extends HttpServlet {
 
     private void listWorker(HttpServletRequest req, HttpServletResponse resp)
             throws IOException, ServletException {
-        List<Worker> workerList = workerDao.findAll();
+        String filter = req.getParameter("filter");
+        List<Worker> workerList;
+        if (filter == null) {
+            workerList = workerDao.findAll();
+        } else {
+            workerList = workerDao.findByName(filter);
+        }
         req.setAttribute("workerList", workerList);
-        RequestDispatcher dispatcher = req.getRequestDispatcher("worker/worker-list.jsp");
-        System.out.println(req.getContextPath());
-        System.out.println(req.getServletPath());
-        dispatcher.forward(req, resp);
+        req.getRequestDispatcher("worker/worker-list.jsp").forward(req, resp);
 
     }
 
@@ -129,7 +132,7 @@ public class WorkerServlet extends HttpServlet {
             System.out.println(req.getServletPath());
             if (req.getParameter("firstName") == null) {
                 Worker worker = workerDao.findById(jmbg);
-                List<Company> companyList= companyDao.findAll();
+                List<Company> companyList = companyDao.findAll();
                 req.setAttribute("worker", worker);
                 req.setAttribute("companyList", companyList);
                 req.setAttribute("action", "edit?jmbg=" + worker.getJmbg());
@@ -146,7 +149,7 @@ public class WorkerServlet extends HttpServlet {
     }
 
     private void deleteWorker(HttpServletRequest request, HttpServletResponse response)
-        throws  IOException, ServletException {
+            throws IOException, ServletException {
         String jmbg = request.getParameter("jmbg");
         String confirmed = request.getParameter("confirm");
         if (confirmed == null || !confirmed.equals("true")) {

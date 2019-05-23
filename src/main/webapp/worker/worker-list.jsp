@@ -36,8 +36,14 @@
         <div class="d-flex justify-content-center">
             <h2>Worker list</h2>
         </div>
-        <div class="p-2 d-flex justify-content-center">
-
+        <div class="d-flex justify-content-start pl-2">
+            <form class="form-inline" method="get" action="${pageContext.request.contextPath}/worker">
+                <label class="sr-only" for="filter">Name</label>
+                <input class="form-control mr-sm-2" type="text" name="filter" id="filter" placeholder="Filter"/>
+                <button type="submit" class="btn btn-secondary">Submit</button>
+            </form>
+        </div>
+        <div class="p-2 pt-0 d-flex justify-content-center">
             <table class="table">
                 <thead class="thead-light">
                 <tr>
