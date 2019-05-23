@@ -15,11 +15,11 @@ public class CompanyDao extends Dao {
     private static final String FIND_BY_ID = "SELECT * FROM `company` WHERE `idCompany`=?";
     private static final String FIND_BY_CITY = "SELECT idCompany, name, c.idAddress FROM company c LEFT JOIN address a on a.idAddress = c.idAddress WHERE a.city LIKE ?";
     private static final String FIND_BY_NAME = "SELECT * FROM `company` WHERE `name` LIKE ?";
-    private static final String FIND_BY_NAME_ADDRESS = "SELECT * FROM `company` WHERE  `name`=? AND `idAddress`=?";
     private static final String FIND_IN_ALL = "SELECT idCompany, name, c.idAddress FROM company c " +
             "LEFT JOIN address a on a.idAddress = c.idAddress " +
             "WHERE c.name LIKE ? OR a.city LIKE ? OR a.street LIKE ? OR a.number LIKE ? ORDER BY name";
-    private static final String INSERT_COMPANY = "INSERT INTO `company` (`name`, `idAddress`) VALUES (?, ?)";
+    private static final String INSERT_COMPANY = "INSERT INTO `company` (`name`, `idAddress`) VALUES (?, ?)" +
+            " ON DUPLICATE KEY UPDATE idCompany = LAST_INSERT_ID(idCompany)";
     private static final String UPDATE_COMPANY = "UPDATE `company` SET `name`=?, `idAddress`=? WHERE `idCompany`=?";
     private static final String DELETE_COMPANY = "DELETE FROM `company` WHERE company.`idCompany`=?";
 
@@ -41,32 +41,27 @@ public class CompanyDao extends Dao {
                 }
                 company.getAddress().setIdAddress(idAddress);
             }
-            // Check if company with inserted address exists
-            // Return idCompany if it exists, otherwise insert it and return new idCompany
-            Company temp = checkIfExists(company);
-            if (temp != null) {
-                idCompany = temp.getIdCompany();
-            } else {
-                connection = getConnection();
-                preparedStatement = connection.prepareStatement(INSERT_COMPANY, Statement.RETURN_GENERATED_KEYS);
-                preparedStatement.setString(1, company.getName());
-                preparedStatement.setInt(2, idAddress);
+
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(INSERT_COMPANY, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, company.getName());
+            preparedStatement.setInt(2, idAddress);
 
 
-                int affectedRows = preparedStatement.executeUpdate();
-                if (affectedRows == 0) {
-                    throw new SQLException("Creating company failed, no rows affected.");
-                }
-
-                ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-                if (generatedKeys.next()) {
-                    idCompany = generatedKeys.getInt(1);
-                } else {
-                    throw new SQLException("Creating company failed, no ID obtained.");
-
-                }
-                System.out.println("Company added successfully!");
+            int affectedRows = preparedStatement.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("Creating company failed, no rows affected.");
             }
+
+            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                idCompany = generatedKeys.getInt(1);
+            } else {
+                throw new SQLException("Creating company failed, no ID obtained.");
+
+            }
+            System.out.println("Company added successfully!");
+
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
             e.printStackTrace();
@@ -227,28 +222,6 @@ public class CompanyDao extends Dao {
             cleanUp();
         }
         return companyList;
-    }
-
-    private Company checkIfExists(Company company) {
-        Company result = new Company();
-        try {
-            connection = getConnection();
-            preparedStatement = connection.prepareStatement(FIND_BY_NAME_ADDRESS);
-            preparedStatement.setString(1, company.getName());
-            preparedStatement.setObject(2, company.getAddress().getIdAddress());
-            resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                result = getLineFromResultSet();
-            } else {
-                result = null;
-            }
-        } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
-            e.printStackTrace();
-        } finally {
-            cleanUp();
-        }
-        return result;
     }
 
     private Company getLineFromResultSet() throws SQLException {
