@@ -8,6 +8,16 @@ import java.util.List;
 
 public class WorkerDao extends Dao {
 
+
+    private static final String SELECT_WORKER = "SELECT * FROM `worker` order by `firstName`, `lastName`";
+    private static final String SELECT_WORKER_FROM_TO = "SELECT * FROM `worker` order by `firstName`, `lastName` LIMIT ?, ?";
+    private static final String FIND_BY_ID = "SELECT * FROM `worker` WHERE `JMBG`=?";
+
+    private static final String INSERT_WORKER = "INSERT INTO `worker` " +
+            "(JMBG, firstName, lastName, birthDate, idCompany, idAddress)" +
+            "VALUES (?, ?, ?, ?, ?, ?)";
+
+
     public WorkerDao() {
     }
 
@@ -19,11 +29,8 @@ public class WorkerDao extends Dao {
             idAddress = getAddressId(worker);
             idCompany = getCompanyId(worker);
 
-            String queryString = "INSERT INTO `worker` " +
-                    "(JMBG, firstName, lastName, birthDate, idCompany, idAddress)" +
-                    "VALUES (?, ?, ?, ?, ?, ?)";
             connection = getConnection();
-            preparedStatement = connection.prepareStatement(queryString);
+            preparedStatement = connection.prepareStatement(INSERT_WORKER);
             preparedStatement.setString(1, worker.getJmbg());
             preparedStatement.setString(2, worker.getFirstName());
             preparedStatement.setString(3, worker.getLastName());
@@ -102,18 +109,19 @@ public class WorkerDao extends Dao {
     public List<Worker> findAll(int from, int to) {
         List<Worker> workerList = null;
         try {
-            String queryString = "SELECT * FROM `worker` order by `firstName`, `lastName`";
-            if (from !=-1 && to != -1) {
-                queryString += " LIMIT ?, ?";
-            }
             connection = getConnection();
-            preparedStatement = connection.prepareStatement(queryString);
-            if (from !=-1 && to != -1) {
+
+            if (from != -1 && to != -1) {
+                preparedStatement = connection.prepareStatement(SELECT_WORKER_FROM_TO);
+            } else {
+                preparedStatement = connection.prepareStatement(SELECT_WORKER);
+            }
+            if (from != -1 && to != -1) {
                 preparedStatement.setInt(1, from);
                 preparedStatement.setInt(2, to);
             }
             resultSet = preparedStatement.executeQuery();
-            workerList = new ArrayList<Worker>();
+            workerList = new ArrayList<>();
             while (resultSet.next()) {
                 Worker worker;
                 worker = readFromResultSet();
@@ -134,9 +142,8 @@ public class WorkerDao extends Dao {
     public Worker findById(String jmbg) {
         Worker worker = new Worker();
         try {
-            String queryString = "SELECT * FROM `worker` WHERE `JMBG`=?";
             connection = getConnection();
-            preparedStatement = connection.prepareStatement(queryString);
+            preparedStatement = connection.prepareStatement(FIND_BY_ID);
             preparedStatement.setString(1, jmbg);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -151,31 +158,12 @@ public class WorkerDao extends Dao {
         return worker;
     }
 
-    private Worker readFromResultSet() throws SQLException {
-        Worker worker = new Worker();
-        worker.setJmbg(resultSet.getString("JMBG"));
-        worker.setFirstName(resultSet.getString("firstName"));
-        worker.setLastName(resultSet.getString("lastName"));
-        worker.setBirthDate(resultSet.getDate("birthDate").toLocalDate());
-
-        AddressDao addressDao = new AddressDao();
-        worker.setAddress(addressDao.findById(resultSet.getInt("idAddress")));
-
-        CompanyDao companyDao = new CompanyDao();
-        worker.setCompany(companyDao.findById(resultSet.getInt("idCompany")));
-        return worker;
-    }
-
     private int getAddressId(Worker worker) throws SQLException {
         int idAddress;
-        if (worker.getAddress() == null) {
-            throw new SQLException("Creating worker failed. Worker need an address.");
-        } else {
-            AddressDao addressDao = new AddressDao();
-            idAddress = addressDao.add(worker.getAddress());
-            if (idAddress == 0) {
-                throw new SQLException("Creating user failed, no address ID obtained.");
-            }
+        AddressDao addressDao = new AddressDao();
+        idAddress = addressDao.add(worker.getAddress());
+        if (idAddress == 0) {
+            throw new SQLException("Creating user failed, no address ID obtained.");
         }
         return idAddress;
     }
@@ -195,5 +183,20 @@ public class WorkerDao extends Dao {
             idCompany = worker.getCompany().getIdCompany();
         }
         return idCompany;
+    }
+
+    private Worker readFromResultSet() throws SQLException {
+        Worker worker = new Worker();
+        worker.setJmbg(resultSet.getString("JMBG"));
+        worker.setFirstName(resultSet.getString("firstName"));
+        worker.setLastName(resultSet.getString("lastName"));
+        worker.setBirthDate(resultSet.getDate("birthDate").toLocalDate());
+
+        AddressDao addressDao = new AddressDao();
+        worker.setAddress(addressDao.findById(resultSet.getInt("idAddress")));
+
+        CompanyDao companyDao = new CompanyDao();
+        worker.setCompany(companyDao.findById(resultSet.getInt("idCompany")));
+        return worker;
     }
 }

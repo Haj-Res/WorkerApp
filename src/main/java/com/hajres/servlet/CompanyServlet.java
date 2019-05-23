@@ -16,7 +16,7 @@ import java.util.List;
 
 @WebServlet(urlPatterns = {"/company", "/company/new", "/company/edit", "/company/delete"})
 public class CompanyServlet extends HttpServlet {
-    CompanyDao companyDao;
+    private CompanyDao companyDao;
 
     public void init() {
         companyDao = new CompanyDao();
