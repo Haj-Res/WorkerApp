@@ -11,14 +11,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CompanyDao extends Dao {
-    private static final String FIND_ALL ="SELECT * FROM `company` ORDER BY `name`";
-    private static final String FIND_BY_ID= "SELECT * FROM `company` WHERE `idCompany`=?";
+    private static final String FIND_ALL = "SELECT * FROM `company` ORDER BY `name`";
+    private static final String FIND_BY_ID = "SELECT * FROM `company` WHERE `idCompany`=?";
     private static final String FIND_BY_CITY = "SELECT idCompany, name, c.idAddress FROM company c LEFT JOIN address a on a.idAddress = c.idAddress WHERE a.city LIKE ?";
     private static final String FIND_BY_NAME = "SELECT * FROM `company` WHERE `name` LIKE ?";
-    private static final String FIND_BY_NAME_ADDRESS ="SELECT * FROM `company` WHERE  `name`=? AND `idAddress`=?";
-    private static final String INSERT_COMPANY ="INSERT INTO `company` (`name`, `idAddress`) VALUES (?, ?)";
-    private static final String UPDATE_COMPANY ="UPDATE `company` SET `name`=?, `idAddress`=? WHERE `idCompany`=?";
-    private static final String DELETE_COMPANY ="DELETE FROM `company` WHERE `idCompany`=?";
+    private static final String FIND_BY_NAME_ADDRESS = "SELECT * FROM `company` WHERE  `name`=? AND `idAddress`=?";
+    private static final String FIND_IN_ALL = "SELECT idCompany, name, c.idAddress FROM company c " +
+            "LEFT JOIN address a on a.idAddress = c.idAddress " +
+            "WHERE c.name LIKE ? OR a.city LIKE ? OR a.street LIKE ? OR a.number LIKE ? ORDER BY name";
+    private static final String INSERT_COMPANY = "INSERT INTO `company` (`name`, `idAddress`) VALUES (?, ?)";
+    private static final String UPDATE_COMPANY = "UPDATE `company` SET `name`=?, `idAddress`=? WHERE `idCompany`=?";
+    private static final String DELETE_COMPANY = "DELETE FROM `company` WHERE company.`idCompany`=?";
 
     public CompanyDao() {
     }
@@ -177,6 +180,31 @@ public class CompanyDao extends Dao {
             cleanUp();
         }
         return companyList;
+    }
+
+    public List<Company> findByAll(String filter) {
+        List<Company> companyList = new ArrayList<>();
+        filter = "%" + filter + "%";
+
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(FIND_IN_ALL);
+            preparedStatement.setString(1, filter);
+            preparedStatement.setString(2, filter);
+            preparedStatement.setString(3, filter);
+            preparedStatement.setString(4, filter);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                companyList.add(getLineFromResultSet());
+            }
+        } catch (SQLException e) {
+            companyList = null;
+            System.out.println("Error: " + e.getMessage());
+        } finally {
+            cleanUp();
+        }
+        return companyList;
+
     }
 
     public List<Company> findByName(String name) {
