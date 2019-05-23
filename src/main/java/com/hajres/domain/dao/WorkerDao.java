@@ -12,7 +12,7 @@ public class WorkerDao extends Dao {
     private static final String SELECT_WORKER = "SELECT * FROM `worker` order by `firstName`, `lastName`";
     private static final String SELECT_WORKER_FROM_TO = "SELECT * FROM `worker` order by `firstName`, `lastName` LIMIT ?, ?";
     private static final String FIND_BY_ID = "SELECT * FROM `worker` WHERE `JMBG`=?";
-
+    private static final String FIND_BY_NAME="SELECT * FROM `worker` WHERE `firstName` LIKE ? OR `lastName` LIKE ?";
     private static final String INSERT_WORKER = "INSERT INTO `worker` " +
             "(JMBG, firstName, lastName, birthDate, idCompany, idAddress)" +
             "VALUES (?, ?, ?, ?, ?, ?)";
@@ -124,7 +124,7 @@ public class WorkerDao extends Dao {
             workerList = new ArrayList<>();
             while (resultSet.next()) {
                 Worker worker;
-                worker = readFromResultSet();
+                worker = getLineFromResultSet();
                 workerList.add(worker);
             }
         } catch (SQLException e) {
@@ -139,6 +139,27 @@ public class WorkerDao extends Dao {
         return findAll(-1, -1);
     }
 
+    public List<Worker> findByName(String name) {
+        List<Worker> workerList = new ArrayList<>();
+        try {
+            name = "%" + name + "%";
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(FIND_BY_NAME);
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, name);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                workerList.add(getLineFromResultSet());
+            }
+        } catch (SQLException e) {
+            workerList = null;
+            e.printStackTrace();
+        } finally {
+            cleanUp();
+        }
+        return workerList;
+    }
+
     public Worker findById(String jmbg) {
         Worker worker = new Worker();
         try {
@@ -147,7 +168,7 @@ public class WorkerDao extends Dao {
             preparedStatement.setString(1, jmbg);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                worker = readFromResultSet();
+                worker = getLineFromResultSet();
             }
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
@@ -185,7 +206,7 @@ public class WorkerDao extends Dao {
         return idCompany;
     }
 
-    private Worker readFromResultSet() throws SQLException {
+    private Worker getLineFromResultSet() throws SQLException {
         Worker worker = new Worker();
         worker.setJmbg(resultSet.getString("JMBG"));
         worker.setFirstName(resultSet.getString("firstName"));

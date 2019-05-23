@@ -63,6 +63,13 @@ class WorkerDaoTest {
         assertNotNull(worker);
     }
 
+    @Test
+    public void FetchWorkerByNameFromDatabase() {
+        WorkerDao dao = new WorkerDao();
+        List<Worker> workerList = dao.findByName("hans");
+        assertNotNull(workerList);
+    }
+
     private Worker GenerateWorkerWithoutCompanyAndAddress(String jmbg) {
         Worker worker = new Worker();
         worker.setJmbg(jmbg);
