@@ -63,6 +63,7 @@ public class CompanyServlet extends HttpServlet {
             companyList = companyDao.findAll();
         } else {
             companyList = companyDao.findByAll(filter);
+            request.setAttribute("filter", filter);
         }
         request.setAttribute("companyList", companyList);
         request.getRequestDispatcher("/company/company-list.jsp").forward(request, response);

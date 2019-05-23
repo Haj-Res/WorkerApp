@@ -101,6 +101,8 @@ public class WorkerServlet extends HttpServlet {
             workerList = workerDao.findAll();
         } else {
             workerList = workerDao.findByName(filter);
+            req.setAttribute("filter", filter);
+
         }
         req.setAttribute("workerList", workerList);
         req.getRequestDispatcher("worker/worker-list.jsp").forward(req, resp);

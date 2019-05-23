@@ -25,7 +25,7 @@
         <div class="d-flex justify-content-start pl-2">
             <form class="form-inline" method="get" action="${pageContext.request.contextPath}/worker">
                 <label class="sr-only" for="filter">Name</label>
-                <input class="form-control mr-sm-2" type="text" name="filter" id="filter" placeholder="Filter"/>
+                <input class="form-control mr-sm-2" type="text" name="filter" id="filter" value="${filter}" placeholder="Filter"/>
                 <button type="submit" class="btn btn-secondary">Filter</button>
             </form>
         </div>
