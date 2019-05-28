@@ -1,14 +1,14 @@
-<%--@elvariable id="action" type="java.lang.String"--%>
-<%--@elvariable id="worker" type="com.hajres.domain.model.Worker"--%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page import="com.hajres.domain.model.Worker" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="input" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="ftm" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <html>
 <head>
     <title>Worker Management App</title>
     <style type="text/css">
-        <%@include file="../../../bootstrap/css/bootstrap.min.css"%>
+        <%@include file="/resources/bootstrap/css/bootstrap.min.css"%>
     </style>
 </head>
 <body>
@@ -18,47 +18,43 @@
             Edit Worker
         </h1>
     </div>
-    <%@include file="../../../shared/navigation.jsp" %>
+    <%@include file="../shared/navigation.jsp" %>
     <div class="p-2">
-        <form method="post" action="${pageContext.request.contextPath}/worker/${action}">
+        <form:form method="post" action="${formAction}" modelAttribute="worker">
             <div class="d-flex">
                 <div class="flex-fill m-2">
                     <h5>Worker info:</h5>
                     <div class="form-group">
-                        <label for="newJmbg">JMBG:</label>
-                        <input class="form-control" type="text" id="newJmbg" name="newJmbg" value="${worker.jmbg}" required/>
+                        <label for="jmbg">JMBG:</label>
+                        <form:input class="form-control" type="text" id="jmbg" path="jmbg" required="true"/>
                     </div>
                     <div class="form-group">
                         <label for="firstName">First name:</label>
-                        <input class="form-control" type="text" id="firstName" name="firstName"
-                               value="${worker.firstName}" required/>
+                        <form:input class="form-control" type="text" id="firstName"
+                                    path="firstName" required="true"/>
                     </div>
                     <div class="form-group">
                         <label for="lastName">Last name:</label>
-                        <input class="form-control" type="text" id="lastName" name="lastName"
-                               value="${worker.lastName}" required/>
+                        <form:input class="form-control" type="text" id="lastName" path="lastName" required="true"/>
                     </div>
                     <div class="form-group">
                         <label for="birthDate">Birthday:</label>
-                        <input class="form-control" type="date" id="birthDate" name="birthDate"
-                               value="${worker.localDateBirthDate}" required/>
+                        <form:input class="form-control" type="date" id="birthDate" path="birthDate" required="true"/>
                     </div>
                 </div>
                 <div class="flex-fill m-2">
                     <h5>Address:</h5>
                     <div class="form-group border-info rounded-lg">
                         <label for="city">City:</label>
-                        <input class="form-control" type="text" id="city" name="city" value="${worker.address.city}" required/>
+                        <form:input class="form-control" type="text" id="city" path="address.city" required="true"/>
                     </div>
                     <div class="form-group">
                         <label for="street">Street:</label>
-                        <input class="form-control" type="text" id="street" name="street"
-                               value="${worker.address.street}" required/>
+                        <form:input class="form-control" type="text" id="street" path="address.street" required="true"/>
                     </div>
                     <div class="form-group">
                         <label for="number">Number:</label>
-                        <input class="form-control" type="text" id="number" name="number"
-                               value="${worker.address.number}" required/>
+                        <form:input class="form-control" type="text" id="number" path="address.number" required="true"/>
                     </div>
                 </div>
             </div>
@@ -68,37 +64,28 @@
                 <div class="flex-fill m-2">
                     <div class="form-group">
                         <label for="company">Company name:</label>
-                        <input class="form-control" list="companies" id="company" name="company" value="${worker.company.name}">
-                        <datalist id="companies">
-                            <%--@elvariable id="companyList" type="java.util.List<com.hajres.domain.model.Company>"--%>
-                            <c:forEach var="company" items="${companyList}">
-                                <option value="<c:out value="${company.name}" />"></option>
-                            </c:forEach>
-                        </datalist>
+                        <form:input class="form-control" id="company" path="company.name"/>
                     </div>
                     <div class="form-group rounded-lg">
                         <label for="company-street">Street:</label>
-                        <input class="form-control" type="text" id="company-street" name="company-street"
-                               value="${worker.company.address.street}"/>
+                        <form:input class="form-control" type="text" id="company-street" path="company.address.street"/>
                     </div>
                 </div>
                 <div class="flex-fill m-2">
                     <div class="form-group">
                         <label for="company-city">City:</label>
-                        <input class="form-control" type="text" id="company-city" name="company-city"
-                               value="${worker.company.address.city}"/>
+                        <form:input class="form-control" type="text" id="company-city" path="company.address.city"/>
                     </div>
                     <div class="form-group">
                         <label for="company-number">Number:</label>
-                        <input class="form-control" type="text" id="company-number" name="company-number"
-                               value="${worker.company.address.number}"/>
+                        <form:input class="form-control" type="text" id="company-number" path="company.address.number"/>
                     </div>
                 </div>
             </div>
             <div class="ml-2 mt-2">
                 <button type="submit" class="btn btn-secondary">Submit</button>
             </div>
-        </form>
+        </form:form>
     </div>
 </div>
 </body>

@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--@elvariable id="worker" type="com.hajres.domain.model.Worker"--%>
 <%--
   Created by IntelliJ IDEA.
@@ -11,7 +12,7 @@
 <head>
     <title>Worker Management App</title>
     <style type="text/css">
-        <%@include file="../../../bootstrap/css/bootstrap.min.css"%>
+        <%@include file="/resources/bootstrap/css/bootstrap.min.css"%>
     </style>
 </head>
 <body>
@@ -21,7 +22,7 @@
             Delete Worker
         </h1>
     </div>
-    <%@include file="../../../shared/navigation.jsp" %>
+    <%@include file="../shared/navigation.jsp" %>
     <div class="d-flex justify-content-center">
         <div class="container d-flex flex-column p-5 m-5">
             <div class="alert border-info bg-light p-5">
@@ -32,13 +33,16 @@
                 <p>Employed
                     at: ${worker.company.name}, ${worker.company.address.street} ${worker.company.address.number}, ${worker.company.address.city}</p>
             </div>
-            <div class="alert alert-danger p-2 d-flex justify-content-around" role="alert">
+            <form:form modelAttribute="worker"
+                       action="${pageContext.request.contextPath}/worker/delete?workerJmbg=${workerJmbg}">
+                <div class="alert alert-danger p-2 d-flex justify-content-around" role="alert">
         <span class="m-2">You're about to delete this worker. This process is irreversible. Are you sure you want to delete the
         user?</span>
-                <a class="btn btn-danger m-2"
-                   href="${pageContext.request.contextPath}/worker/delete?jmbg=${worker.jmbg}&confirm=true">DELETE</a>
-                <a class="btn btn-light m-2" href="${pageContext.request.contextPath}/worker">Cancel</a>
-            </div>
+                    <button type="submit" class="btn btn-danger m-2">DELETE</button>
+
+                    <a class="btn btn-light m-2" href="${pageContext.request.contextPath}/worker/list">Cancel</a>
+                </div>
+            </form:form>
         </div>
     </div>
 </div>

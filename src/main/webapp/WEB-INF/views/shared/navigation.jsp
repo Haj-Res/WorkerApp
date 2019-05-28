@@ -5,16 +5,16 @@
                 <a href="${pageContext.request.contextPath}/">
                     <li class="list-group-item">Main Menu</li>
                 </a>
-                <a href="${pageContext.request.contextPath}/worker/new">
+                <a href="${pageContext.request.contextPath}/worker/add">
                     <li class="list-group-item">Add New Worker</li>
                 </a>
-                <a href="${pageContext.request.contextPath}/worker">
+                <a href="${pageContext.request.contextPath}/worker/list">
                     <li class="list-group-item">List All Worker</li>
                 </a>
-                <a href="${pageContext.request.contextPath}/company/new">
+                <a href="${pageContext.request.contextPath}/company/add">
                     <li class="list-group-item">Add New Company</li>
                 </a>
-                <a href="${pageContext.request.contextPath}/company">
+                <a href="${pageContext.request.contextPath}/company/list">
                     <li class="list-group-item">List All Companies</li>
                 </a>
             </ul>

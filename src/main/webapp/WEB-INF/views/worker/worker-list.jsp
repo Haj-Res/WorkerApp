@@ -11,13 +11,13 @@
 </head>
 <body>
 <div class="container d-flex flex-column bg-light h-100">
-    <%@include file="../../../shared/alerts.jsp"%>
+    <%@include file="../shared/alerts.jsp"%>
     <div class="d-flex justify-content-center p-2">
         <h1>
             Edit Worker
         </h1>
     </div>
-    <%@include file="../../../shared/navigation.jsp" %>
+    <%@include file="../shared/navigation.jsp" %>
     <div class="container d-flex flex-column">
         <div class="d-flex justify-content-center">
             <h2>Worker list</h2>
@@ -60,11 +60,11 @@
                         <td><c:out value="${worker.company.name}"/></td>
                         <td>
                             <a class="mr-4"
-                               href="${pageContext.request.contextPath}/worker/edit?jmbg=<c:out value="${worker.jmbg}"/>">
+                               href="${pageContext.request.contextPath}/worker/edit?workerJmbg=<c:out value="${worker.jmbg}"/>">
                                 Edit
                             </a>
 
-                            <a href="${pageContext.request.contextPath}/worker/delete?jmbg=<c:out value="${worker.jmbg}"/>">Delete</a>
+                            <a href="${pageContext.request.contextPath}/worker/delete?workerJmbg=<c:out value="${worker.jmbg}"/>">Delete</a>
 
                         </td>
                     </tr>
