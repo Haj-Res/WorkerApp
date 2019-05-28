@@ -1,5 +1,7 @@
 package com.hajres.domain.model;
 
+import org.springframework.cglib.core.Local;
+
 import java.sql.Date;
 import java.time.LocalDate;
 
@@ -7,7 +9,7 @@ public class Worker {
     private String jmbg;
     private String firstName;
     private String lastName;
-    private LocalDate birthDate;
+    private Date birthDate;
     private Company company;
     private Address address;
 
@@ -39,15 +41,19 @@ public class Worker {
     }
 
     public LocalDate getLocalDateBirthDate() {
-        return birthDate;
+        return birthDate.toLocalDate();
+    }
+
+    public void setLocalDateBirthDate(LocalDate birthDate) {
+        this.birthDate = Date.valueOf(birthDate);
     }
 
     public Date getBirthDate() {
-        return Date.valueOf(birthDate);
+        return birthDate;
     }
 
-    public void setBirthDate(LocalDate birthDate) {
-        this.birthDate = birthDate;
+    public void setBirthDate(Date date) {
+        this.birthDate = date;
     }
 
     public Company getCompany() {

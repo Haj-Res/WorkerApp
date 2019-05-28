@@ -284,7 +284,7 @@ public class WorkerMenu extends Menu {
             } catch (DateTimeParseException e) {
                 System.out.println("Incorrect date, try again.");
             }
-            worker.setBirthDate(birthDate);
+            worker.setLocalDateBirthDate(birthDate);
         }
     }
 }

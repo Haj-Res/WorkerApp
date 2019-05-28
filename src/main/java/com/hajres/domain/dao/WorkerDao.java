@@ -45,9 +45,8 @@ public class WorkerDao extends Dao {
             int affectedRows = preparedStatement.executeUpdate();
             if (affectedRows == 0) {
                 throw new SQLException("Creating user failed, no rows were affected.");
-            } else {
-                id = 1;
             }
+            id = 1;
             System.out.println("Worker added successfully!");
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
@@ -58,8 +57,8 @@ public class WorkerDao extends Dao {
         return id;
     }
 
-    public void update(Worker worker, String oldJmbg) {
-
+    public int update(Worker worker, String oldJmbg) {
+        int result = 0;
         int idAddress;
         Integer idCompany;
         try {
@@ -79,6 +78,7 @@ public class WorkerDao extends Dao {
             if (affectedRows == 0) {
                 throw new SQLException("Updating worker failed. No rows were affected.");
             }
+            result = 1;
             System.out.println("Updated " + affectedRows + " rows.");
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
@@ -86,9 +86,11 @@ public class WorkerDao extends Dao {
         } finally {
             cleanUp();
         }
+        return result;
     }
 
-    public void delete(String jmbg) {
+    public int delete(String jmbg) {
+        int result = 0;
         try {
             connection = getConnection();
             preparedStatement = connection.prepareStatement(DELETE_WORKER);
@@ -97,12 +99,14 @@ public class WorkerDao extends Dao {
             if (affectedRows == 0) {
                 throw new SQLException("Deleting worker failed. No rows were affected");
             }
+            result = 1;
             System.out.println("Deleted " + affectedRows + " rows.");
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         } finally {
             cleanUp();
         }
+        return result;
     }
 
     public List<Worker> findAll(int from, int to) {
@@ -211,7 +215,7 @@ public class WorkerDao extends Dao {
         worker.setJmbg(resultSet.getString("JMBG"));
         worker.setFirstName(resultSet.getString("firstName"));
         worker.setLastName(resultSet.getString("lastName"));
-        worker.setBirthDate(resultSet.getDate("birthDate").toLocalDate());
+        worker.setLocalDateBirthDate(resultSet.getDate("birthDate").toLocalDate());
 
         AddressDao addressDao = new AddressDao();
         worker.setAddress(addressDao.findById(resultSet.getInt("idAddress")));

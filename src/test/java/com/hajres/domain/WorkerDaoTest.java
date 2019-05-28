@@ -6,10 +6,6 @@ import com.hajres.domain.model.Company;
 import com.hajres.domain.model.Worker;
 import org.junit.jupiter.api.Test;
 
-import java.sql.Date;
-import java.time.LocalDate;
-import java.time.Month;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -75,7 +71,7 @@ class WorkerDaoTest {
         worker.setJmbg(jmbg);
         worker.setFirstName("Pero");
         worker.setLastName("Peric");
-        worker.setBirthDate(null);
+        worker.setLocalDateBirthDate(null);
 
         return worker;
     }
