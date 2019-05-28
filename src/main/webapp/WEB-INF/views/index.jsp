@@ -4,7 +4,7 @@
 <head>
     <title>Worker Management App</title>
     <style type="text/css">
-        <%@include file="/bootstrap/css/bootstrap.min.css"%>
+        <%@include file="/resources/bootstrap/css/bootstrap.min.css"%>
     </style>
 </head>
 <body>
