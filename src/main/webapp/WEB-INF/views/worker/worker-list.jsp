@@ -1,31 +1,29 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page import="com.hajres.domain.model.Worker" %>
-<%@ page import="java.util.List" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <html>
 <head>
     <title>Worker Management App</title>
     <style type="text/css">
-        <%@include file="../bootstrap/css/bootstrap.min.css"%>
+        <%@include file="../../../bootstrap/css/bootstrap.min.css"%>
     </style>
 
 </head>
 <body>
 <div class="container d-flex flex-column bg-light h-100">
-    <%@include file="../shared/alerts.jsp"%>
+    <%@include file="../../../shared/alerts.jsp"%>
     <div class="d-flex justify-content-center p-2">
         <h1>
             Edit Worker
         </h1>
     </div>
-    <%@include file="../shared/navigation.jsp" %>
+    <%@include file="../../../shared/navigation.jsp" %>
     <div class="container d-flex flex-column">
         <div class="d-flex justify-content-center">
             <h2>Worker list</h2>
         </div>
         <div class="d-flex justify-content-start pl-2 py-0">
-            <form class="form-inline" method="get" action="${pageContext.request.contextPath}/worker">
+            <form class="form-inline" method="get" action="list">
                 <div class="input-group">
                     <input type="text" class="form-control form-control-sm" name="filter" id="filter" value="${filter}" placeholder="Filter"
                            aria-label="Filter" aria-describedby="Filter box">
@@ -49,7 +47,6 @@
                 </tr>
                 </thead>
 
-                <%--@elvariable id="workerList" type="java.util.List<com.hajres.domain.model.Worker>"--%>
                 <c:forEach var="worker" items="${workerList}" varStatus="loop">
                     <tbody>
                     <tr>

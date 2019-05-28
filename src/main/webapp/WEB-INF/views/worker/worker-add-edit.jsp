@@ -8,7 +8,7 @@
 <head>
     <title>Worker Management App</title>
     <style type="text/css">
-        <%@include file="../bootstrap/css/bootstrap.min.css"%>
+        <%@include file="../../../bootstrap/css/bootstrap.min.css"%>
     </style>
 </head>
 <body>
@@ -18,7 +18,7 @@
             Edit Worker
         </h1>
     </div>
-    <%@include file="../shared/navigation.jsp" %>
+    <%@include file="../../../shared/navigation.jsp" %>
     <div class="p-2">
         <form method="post" action="${pageContext.request.contextPath}/worker/${action}">
             <div class="d-flex">
