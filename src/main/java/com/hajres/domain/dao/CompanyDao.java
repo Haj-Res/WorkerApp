@@ -71,7 +71,8 @@ public class CompanyDao extends Dao {
         return idCompany;
     }
 
-    public void update(Company company) {
+    public int update(Company company) {
+        int result = 0;
         try {
             if (company.getAddress() == null) {
                 throw new SQLException("Address can't be null");
@@ -92,14 +93,17 @@ public class CompanyDao extends Dao {
             if (affectedRows == 0) {
                 throw new SQLException("Updating company failed. No rows were affected.");
             }
+            result = 1;
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         } finally {
             cleanUp();
         }
+        return result;
     }
 
-    public void delete(int idCompany) {
+    public int delete(int idCompany) {
+        int result = 0;
         try {
             connection = getConnection();
             preparedStatement = connection.prepareStatement(DELETE_COMPANY);
@@ -108,12 +112,14 @@ public class CompanyDao extends Dao {
             if (affectedRows == 0) {
                 throw new SQLException("Deleting company with ID:" + idCompany + " failed. No rows were affected.");
             }
+             result = 1;
             System.out.println("Company with ID:" + idCompany + " deleted successfully.");
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         } finally {
             cleanUp();
         }
+        return result;
     }
 
     public List<Company> findAll() {
