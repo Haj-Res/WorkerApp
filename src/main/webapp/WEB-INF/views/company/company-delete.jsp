@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--@elvariable id="company" type="com.hajres.domain.model.Company"--%>
 <%--
   Created by IntelliJ IDEA.
@@ -11,7 +12,7 @@
 <head>
     <title>Worker Management App</title>
     <style type="text/css">
-        <%@include file="../bootstrap/css/bootstrap.min.css"%>
+        <%@include file="/resources/bootstrap/css/bootstrap.min.css"%>
     </style>
 </head>
 <body>
@@ -30,11 +31,13 @@
                 <p>Address: ${company.address.street} ${company.address.number}, ${company.address.city}</p>
             </div>
             <div class="alert alert-danger p-2 d-flex justify-content-around" role="alert">
+                <form:form method="post"
+                           action="${pageContext.request.contextPath}/company/delete?id=${company.idCompany}">
         <span class="m-2">You're about to delete this company. This process is irreversible. Are you sure you want to delete the
         user?</span>
-                <a class="btn btn-danger m-2"
-                   href="${pageContext.request.contextPath}/company/delete?id=${company.idCompany}&confirm=true">DELETE</a>
-                <a class="btn btn-light m-2" href="${pageContext.request.contextPath}/company">Cancel</a>
+                    <button type="submit" class="btn btn-danger m-2">DELETE</button>
+                    <a class="btn btn-light m-2" href="${pageContext.request.contextPath}/company/list">Cancel</a>
+                </form:form>
             </div>
         </div>
     </div>
