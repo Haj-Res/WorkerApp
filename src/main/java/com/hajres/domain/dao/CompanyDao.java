@@ -1,8 +1,9 @@
 package com.hajres.domain.dao;
 
-
 import com.hajres.domain.model.Address;
 import com.hajres.domain.model.Company;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,7 +11,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class CompanyDao extends Dao {
+
+    @Autowired
+    private AddressDao addressDao;
+
     private static final String FIND_ALL = "SELECT * FROM `company` ORDER BY `name`";
     private static final String FIND_BY_ID = "SELECT * FROM `company` WHERE `idCompany`=?";
     private static final String FIND_BY_CITY = "SELECT idCompany, name, c.idAddress FROM company c LEFT JOIN address a on a.idAddress = c.idAddress WHERE a.city LIKE ?";
@@ -34,7 +40,6 @@ public class CompanyDao extends Dao {
             if (company.getAddress() == null) {
                 throw new SQLException("Creating company failed. Company needs to have an address.");
             } else {
-                AddressDao addressDao = new AddressDao();
                 idAddress = addressDao.add(company.getAddress());
                 if (idAddress == 0) {
                     throw new SQLException("Creating company address failed, no address ID obtained.");
@@ -79,7 +84,6 @@ public class CompanyDao extends Dao {
             }
 
             if (company.getAddress().getIdAddress() == 0) {
-                AddressDao addressDao = new AddressDao();
                 int id = addressDao.add(company.getAddress());
                 company.getAddress().setIdAddress(id);
             }
@@ -151,7 +155,6 @@ public class CompanyDao extends Dao {
             if (resultSet.next()) {
                 company.setIdCompany(resultSet.getInt("idCompany"));
                 company.setName(resultSet.getString("name"));
-                AddressDao addressDao = new AddressDao();
                 company.setAddress(addressDao.findById(resultSet.getInt("idAddress")));
             }
         } catch (SQLException e) {
@@ -232,12 +235,9 @@ public class CompanyDao extends Dao {
 
     private Company getLineFromResultSet() throws SQLException {
         Company company = new Company();
-
         company.setIdCompany(resultSet.getInt("idCompany"));
         company.setName(resultSet.getString("name"));
-        AddressDao addressDao = new AddressDao();
         company.setAddress(addressDao.findById(resultSet.getInt("idAddress")));
-
         return company;
     }
 }

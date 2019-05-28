@@ -3,6 +3,8 @@ package com.hajres.controller;
 import com.hajres.domain.dao.WorkerDao;
 import com.hajres.domain.model.Worker;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -15,10 +17,10 @@ import java.util.List;
 @Controller
 @RequestMapping("/worker")
 public class WorkerController {
+    @Autowired
     private WorkerDao workerDao;
 
     public WorkerController() {
-        workerDao = new WorkerDao();
     }
 
     @GetMapping("/list")

@@ -1,6 +1,7 @@
 package com.hajres.domain.dao;
 
 import com.hajres.domain.model.Address;
+import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,6 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class AddressDao extends Dao {
     private static final String FIND_ALL = "SELECT * FROM `address` ORDER BY `city`, `street`, `number`";
     private static final String FIND_BY_ID = "SELECT * FROM `address` WHERE `idAddress`=?";

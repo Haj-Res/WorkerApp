@@ -3,6 +3,7 @@ package com.hajres.controller;
 import com.hajres.domain.dao.CompanyDao;
 import com.hajres.domain.model.Company;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -17,7 +18,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/company")
 public class CompanyController {
-    private CompanyDao companyDao = new CompanyDao();
+    @Autowired
+    private CompanyDao companyDao;
 
     @RequestMapping("/list")
     public String showCompanyList(@ModelAttribute("filter") String filter,

@@ -1,12 +1,19 @@
 package com.hajres.domain.dao;
 
 import com.hajres.domain.model.Worker;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class WorkerDao extends Dao {
+    @Autowired
+    private AddressDao addressDao;
+    @Autowired
+    private CompanyDao companyDao;
 
 
     private static final String FIND_ALL = "SELECT * FROM `worker` order by `firstName`, `lastName`";
@@ -185,7 +192,6 @@ public class WorkerDao extends Dao {
 
     private int getAddressId(Worker worker) throws SQLException {
         int idAddress;
-        AddressDao addressDao = new AddressDao();
         idAddress = addressDao.add(worker.getAddress());
         if (idAddress == 0) {
             throw new SQLException("Creating user failed, no address ID obtained.");
@@ -199,7 +205,6 @@ public class WorkerDao extends Dao {
         if (worker.getCompany() == null || worker.getCompany().getName() == null) {
             idCompany = null;
         } else if (worker.getCompany().getIdCompany() == 0) {
-            CompanyDao companyDao = new CompanyDao();
             idCompany = companyDao.add(worker.getCompany());
             if (idCompany == 0) {
                 throw new SQLException("Creating user failed, no company ID obtained.");
@@ -217,10 +222,8 @@ public class WorkerDao extends Dao {
         worker.setLastName(resultSet.getString("lastName"));
         worker.setLocalDateBirthDate(resultSet.getDate("birthDate").toLocalDate());
 
-        AddressDao addressDao = new AddressDao();
         worker.setAddress(addressDao.findById(resultSet.getInt("idAddress")));
 
-        CompanyDao companyDao = new CompanyDao();
         worker.setCompany(companyDao.findById(resultSet.getInt("idCompany")));
         return worker;
     }

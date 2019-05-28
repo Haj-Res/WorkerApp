@@ -1,12 +1,15 @@
 package com.hajres.domain.dao;
 
 import com.hajres.ConnectionFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+@Component
 public abstract class Dao {
     protected Connection connection = null;
     protected PreparedStatement preparedStatement = null;
