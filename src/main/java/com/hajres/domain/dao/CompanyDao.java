@@ -1,7 +1,7 @@
 package com.hajres.domain.dao;
 
-import com.hajres.domain.model.Address;
 import com.hajres.domain.model.Company;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,8 +14,7 @@ import java.util.List;
 @Component
 public class CompanyDao extends Dao {
 
-    @Autowired
-    private AddressDao addressDao;
+    private final AddressDao addressDao;
 
     private static final String FIND_ALL = "SELECT * FROM `company` ORDER BY `name`";
     private static final String FIND_BY_ID = "SELECT * FROM `company` WHERE `idCompany`=?";
@@ -29,7 +28,9 @@ public class CompanyDao extends Dao {
     private static final String UPDATE_COMPANY = "UPDATE `company` SET `name`=?, `idAddress`=? WHERE `idCompany`=?";
     private static final String DELETE_COMPANY = "DELETE FROM `company` WHERE company.`idCompany`=?";
 
-    public CompanyDao() {
+    @Autowired
+    public CompanyDao(AddressDao addressDao) {
+        this.addressDao = addressDao;
     }
 
     public int add(Company company) {

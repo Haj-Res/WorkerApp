@@ -10,10 +10,8 @@ import java.util.List;
 
 @Component
 public class WorkerDao extends Dao {
-    @Autowired
-    private AddressDao addressDao;
-    @Autowired
-    private CompanyDao companyDao;
+    private final AddressDao addressDao;
+    private final CompanyDao companyDao;
 
 
     private static final String FIND_ALL = "SELECT * FROM `worker` order by `firstName`, `lastName`";
@@ -28,7 +26,10 @@ public class WorkerDao extends Dao {
     private static final String DELETE_WORKER = "DELETE FROM `worker` WHERE `JMBG`=?";
 
 
-    public WorkerDao() {
+    @Autowired
+    public WorkerDao(AddressDao addressDao, CompanyDao companyDao) {
+        this.addressDao = addressDao;
+        this.companyDao = companyDao;
     }
 
     public int add(Worker worker) {
