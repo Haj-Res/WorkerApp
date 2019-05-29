@@ -1,8 +1,15 @@
 package com.hajres.domain.model;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class Company {
     private int idCompany = 0;
+    @NotNull(message = "is required")
+    @Size(min=1, message = "is required")
     private String name;
+    @Valid
     private Address address;
 
     public Company() {

@@ -1,8 +1,15 @@
 package com.hajres.domain.model;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class Address {
     private int idAddress = 0;
+    @NotNull(message = "is required")
+    @Size(min = 1, message = "is required")
     private String city;
+    @NotNull(message = "is required")
+    @Size(min = 1, message = "is required")
     private String street;
     private String number;
 
@@ -43,10 +50,8 @@ public class Address {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder(100);
-        sb.append("[ID:").append(idAddress).append("] ");
-        sb.append(street).append(" ").append(number);
-        sb.append(", ").append(city);
-        return  sb.toString();
+        return "[ID:" + idAddress + "] " +
+                street + " " + number +
+                ", " + city;
     }
 }
