@@ -32,18 +32,18 @@
                     </div>
                     <div class="form-group">
                         <label for="firstName">First name:</label>
-                        <form:input class="form-control" type="text" id="firstName"
-                                    path="firstName" required="true"/>
+                        <form:input class="form-control" type="text" id="firstName" path="firstName" required="true"/>
                         <form:errors path="firstName" cssClass="error"/>
-
                     </div>
                     <div class="form-group">
                         <label for="lastName">Last name:</label>
                         <form:input class="form-control" type="text" id="lastName" path="lastName" required="true"/>
+                        <form:errors path="lastName" cssClass="error"/>
                     </div>
                     <div class="form-group">
                         <label for="birthDate">Birthday:</label>
                         <form:input class="form-control" type="date" id="birthDate" path="birthDate" required="true"/>
+                        <form:errors path="birthDate" cssClass="error"/>
                     </div>
                 </div>
                 <div class="flex-fill m-2">
@@ -51,10 +51,12 @@
                     <div class="form-group border-info rounded-lg">
                         <label for="city">City:</label>
                         <form:input class="form-control" type="text" id="city" path="address.city" required="true"/>
+                        <form:errors path="address.city" cssClass="error"/>
                     </div>
                     <div class="form-group">
                         <label for="street">Street:</label>
                         <form:input class="form-control" type="text" id="street" path="address.street" required="true"/>
+                        <form:errors path="address.street" cssClass="error"/>
                     </div>
                     <div class="form-group">
                         <label for="number">Number:</label>
@@ -67,8 +69,8 @@
             <div class="d-flex">
                 <div class="flex-fill m-2">
                     <div class="form-group">
-                        <label for="company">Company name:</label>
-                        <form:input class="form-control" id="company" path="company.name"/>
+                        <label for="company-name">Company name:</label>
+                        <form:input class="form-control" id="company-name" path="company.name"/>
                     </div>
                     <div class="form-group rounded-lg">
                         <label for="company-street">Street:</label>
@@ -86,8 +88,9 @@
                     </div>
                 </div>
             </div>
-            <div class="ml-2 mt-2">
+            <div class="mx-2 mt-2">
                 <button type="submit" class="btn btn-secondary">Submit</button>
+                <a class="ml-3 btn btn-light border-secondary" href="${pageContext.request.contextPath}/worker/list">Cancle</a>
             </div>
         </form:form>
     </div>
