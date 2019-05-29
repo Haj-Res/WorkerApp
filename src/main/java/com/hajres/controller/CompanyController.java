@@ -18,8 +18,12 @@ import java.util.List;
 @Controller
 @RequestMapping("/company")
 public class CompanyController {
+    private final CompanyDao companyDao;
+
     @Autowired
-    private CompanyDao companyDao;
+    public CompanyController(CompanyDao companyDao) {
+        this.companyDao = companyDao;
+    }
 
     @RequestMapping("/list")
     public String showCompanyList(@ModelAttribute("filter") String filter,

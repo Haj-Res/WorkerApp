@@ -4,23 +4,25 @@ import com.hajres.domain.dao.WorkerDao;
 import com.hajres.domain.model.Worker;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
 
 import java.util.List;
 
 @Controller
 @RequestMapping("/worker")
 public class WorkerController {
-    @Autowired
-    private WorkerDao workerDao;
+    private final WorkerDao workerDao;
 
-    public WorkerController() {
+    @Autowired
+    public WorkerController(WorkerDao workerDao) {
+        this.workerDao = workerDao;
     }
 
     @GetMapping("/list")
@@ -54,7 +56,7 @@ public class WorkerController {
         } else {
             model.addAttribute("message", "Worker added.");
         }
-        model = prepareModel(model);
+        prepareModel(model);
         return new ModelAndView("worker/worker-list", model);
     }
 
@@ -73,7 +75,7 @@ public class WorkerController {
         } else {
             model.addAttribute("message", "Worker added.");
         }
-        model = prepareModel(model);
+        prepareModel(model);
         return new ModelAndView("worker/worker-list", model);
     }
 
@@ -94,13 +96,12 @@ public class WorkerController {
         } else {
             model.addAttribute("message", "Worker deleted");
         }
-        model = prepareModel(model);
+        prepareModel(model);
         return new ModelAndView("worker/worker-list", model);
     }
 
-    private ModelMap prepareModel(ModelMap model) {
+    private void prepareModel(ModelMap model) {
         List<Worker> workerList = workerDao.findAll();
         model.addAttribute("workerList", workerList);
-        return model;
     }
 }
