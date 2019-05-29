@@ -1,6 +1,10 @@
 package com.hajres;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -21,7 +25,7 @@ public class ConnectionFactory {
         dbUser = "root";
         dbPassword = "Dvcs01u+10ns";
         connectionUrl = "jdbc:mysql://localhost:3306/WorkersDB?autoReconnect=true&useSSL=false&" +
-                "useLegacyDatetimeCode=false&serverTimezone=Europe/Sarajevo";
+                "useLegacyDatetimeCode=false&serverTimezone=Europe/Sarajevo&characterEncoding=UTF-8";
         connectionQueue = new LinkedList<>();
         try {
             String driverClassName = "com.mysql.cj.jdbc.Driver";
