@@ -19,11 +19,12 @@
     </div>
     <%@include file="../shared/navigation.jsp" %>
     <div class="container d-flex flex-column">
-        <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-center ">
             <h2>Worker list</h2>
         </div>
-        <div class="d-flex justify-content-start pl-2 py-0">
-            <form class="form-inline" method="get" action="list">
+        </div>
+        <div class="d-flex flex-row justify-content-between px-2 py-0">
+            <form class="form-inline align-self-start" method="get" action="list">
                 <div class="input-group">
                     <input type="text" class="form-control form-control-sm" name="filter" id="filter" value="${filter}" placeholder="Filter"
                            aria-label="Filter" aria-describedby="Filter box">
@@ -32,6 +33,9 @@
                     </div>
                 </div>
             </form>
+            <div class="align-self-end">
+                <a href="${pageContext.request.contextPath}/worker/add" class="btn btn-success">New Worker</a>
+            </div>
         </div>
         <div class="p-2 pt-0 d-flex justify-content-center">
             <table class="table">
