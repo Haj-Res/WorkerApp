@@ -1,5 +1,6 @@
 package com.hajres.domain.model;
 
+import com.hajres.validation.OlderThan;
 import org.springframework.cglib.core.Local;
 
 import javax.validation.Valid;
@@ -20,6 +21,7 @@ public class Worker {
     @Size(min = 1, message = "is required")
     private String lastName;
     @NotNull(message = "is required")
+    @OlderThan
     private Date birthDate;
     private Company company;
     @Valid
