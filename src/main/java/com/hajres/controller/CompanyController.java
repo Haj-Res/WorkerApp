@@ -8,6 +8,7 @@ import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -38,7 +40,7 @@ public class CompanyController {
     public String showCompanyList(@ModelAttribute("filter") String filter,
                                   Model model) {
         List<Company> companyList;
-        if (filter.equals("")) {
+        if (filter == null) {
             companyList = companyDao.findAll();
         } else {
             companyList = companyDao.findByAll(filter);
@@ -63,9 +65,13 @@ public class CompanyController {
     }
 
     @PostMapping("/edit")
-    public ModelAndView postEdit(@ModelAttribute("company") Company company,
+    public String postEdit(@Valid @ModelAttribute("company") Company company,
+                                 BindingResult bindingResult,
                                  @ModelAttribute("id") String stringId,
-                                 ModelMap model) {
+                                 Model model) {
+        if (bindingResult.hasErrors()) {
+            return "company/company-add-edit";
+        }
         int id = 0;
         try {
             id = Integer.parseInt(stringId);
@@ -75,7 +81,7 @@ public class CompanyController {
         company.setIdCompany(id);
         int result = companyDao.update(company);
         prepareModel(model, result, "updated");
-        return new ModelAndView("company/company-list", model);
+        return "company/company-list";
     }
 
     @GetMapping("/add")
@@ -86,10 +92,15 @@ public class CompanyController {
     }
 
     @PostMapping("/add")
-    public ModelAndView postAdd(@ModelAttribute("company") Company company, ModelMap model) {
+    public String postAdd(@Valid @ModelAttribute("company") Company company,
+                                BindingResult bindingResult,
+                                Model model) {
+        if (bindingResult.hasErrors()) {
+            return "company/company-add-edit";
+        }
         int result = companyDao.add(company);
         prepareModel(model, result, "added");
-        return new ModelAndView("company/company-list", model);
+        return "company/company-list";
     }
 
     @GetMapping("/delete")
@@ -106,7 +117,7 @@ public class CompanyController {
     }
 
     @PostMapping("/delete")
-    public ModelAndView postDelete(@ModelAttribute("id") String stringId, ModelMap model) {
+    public String postDelete(@ModelAttribute("id") String stringId, Model model) {
         int id = 0;
         try {
             id = Integer.parseInt(stringId);
@@ -115,10 +126,10 @@ public class CompanyController {
         }
         int result = companyDao.delete(id);
         prepareModel(model, result, "deleted");
-        return new ModelAndView("company/company-list", model);
+        return "company/company-list";
     }
 
-    private void prepareModel(ModelMap model, int result, String action) {
+    private void prepareModel(Model model, int result, String action) {
         if (result == 0) {
             model.addAttribute("errorMessage", "No company " + action + ".");
         } else {
