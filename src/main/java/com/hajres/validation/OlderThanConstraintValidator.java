@@ -15,6 +15,7 @@ public class OlderThanConstraintValidator implements ConstraintValidator<OlderTh
     @Override
     public boolean isValid(Date date, ConstraintValidatorContext constraintValidatorContext) {
         boolean result;
+        if (date == null) return false;
         LocalDate localDate = date.toLocalDate();
 
         // if localDate comes after current date - age limit, it's younger than the age limit

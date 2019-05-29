@@ -12,12 +12,12 @@ import java.util.List;
 @Component
 public class AddressDao extends Dao {
     private static final String FIND_ALL = "SELECT * FROM `address` ORDER BY `city`, `street`, `number`";
-    private static final String FIND_BY_ID = "SELECT * FROM `address` WHERE `idAddress`=?";
+    private static final String FIND_BY_ID = "SELECT * FROM `address` WHERE `id_address`=?";
     private static final String FIND_BY_CITY = "SELECT * FROM address WHERE city LIKE ?";
     private static final String INSERT_ADDRESS = "INSERT INTO `address` (`city`, `street`, `number`) VALUES(?,?,?)" +
-            " ON DUPLICATE KEY UPDATE idAddress = LAST_INSERT_ID(`idAddress`)";
-    private static final String UPDATE_ADDRESS = "UPDATE `address` SET `city`=?, `street`=?, `number`=? WHERE `idAddress`=?";
-    private static final String DELETE_ADDRESS = "DELETE FROM `address` WHERE `idAddress`=?";
+            " ON DUPLICATE KEY UPDATE id_address = LAST_INSERT_ID(`id_address`)";
+    private static final String UPDATE_ADDRESS = "UPDATE `address` SET `city`=?, `street`=?, `number`=? WHERE `id_address`=?";
+    private static final String DELETE_ADDRESS = "DELETE FROM `address` WHERE `id_address`=?";
 
     public AddressDao() {
     }
@@ -150,7 +150,7 @@ public class AddressDao extends Dao {
 
     private Address getLineFromResultSet() throws SQLException {
         Address address = new Address();
-        address.setIdAddress(resultSet.getInt("idAddress"));
+        address.setIdAddress(resultSet.getInt("id_address"));
         address.setCity(resultSet.getString("city"));
         address.setStreet(resultSet.getString("street"));
         address.setNumber(resultSet.getString("number"));

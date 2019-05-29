@@ -17,16 +17,16 @@ public class CompanyDao extends Dao {
     private final AddressDao addressDao;
 
     private static final String FIND_ALL = "SELECT * FROM `company` ORDER BY `name`";
-    private static final String FIND_BY_ID = "SELECT * FROM `company` WHERE `idCompany`=?";
-    private static final String FIND_BY_CITY = "SELECT idCompany, name, c.idAddress FROM company c LEFT JOIN address a on a.idAddress = c.idAddress WHERE a.city LIKE ?";
+    private static final String FIND_BY_ID = "SELECT * FROM `company` WHERE `id_company`=?";
+    private static final String FIND_BY_CITY = "SELECT id_company, name, c.id_address FROM company c LEFT JOIN address a on a.id_address = c.id_address WHERE a.city LIKE ?";
     private static final String FIND_BY_NAME = "SELECT * FROM `company` WHERE `name` LIKE ?";
-    private static final String FIND_IN_ALL = "SELECT idCompany, name, c.idAddress FROM company c " +
-            "LEFT JOIN address a on a.idAddress = c.idAddress " +
+    private static final String FIND_IN_ALL = "SELECT id_company, name, c.id_address FROM company c " +
+            "LEFT JOIN address a on a.id_address = c.id_address " +
             "WHERE c.name LIKE ? OR a.city LIKE ? OR a.street LIKE ? OR a.number LIKE ? ORDER BY name";
-    private static final String INSERT_COMPANY = "INSERT INTO `company` (`name`, `idAddress`) VALUES (?, ?)" +
-            " ON DUPLICATE KEY UPDATE idCompany = LAST_INSERT_ID(idCompany)";
-    private static final String UPDATE_COMPANY = "UPDATE `company` SET `name`=?, `idAddress`=? WHERE `idCompany`=?";
-    private static final String DELETE_COMPANY = "DELETE FROM `company` WHERE company.`idCompany`=?";
+    private static final String INSERT_COMPANY = "INSERT INTO `company` (`name`, `id_address`) VALUES (?, ?)" +
+            " ON DUPLICATE KEY UPDATE id_company = LAST_INSERT_ID(id_company)";
+    private static final String UPDATE_COMPANY = "UPDATE `company` SET `name`=?, `id_address`=? WHERE `id_company`=?";
+    private static final String DELETE_COMPANY = "DELETE FROM `company` WHERE company.`id_company`=?";
 
     @Autowired
     public CompanyDao(AddressDao addressDao) {
@@ -154,9 +154,7 @@ public class CompanyDao extends Dao {
             preparedStatement.setInt(1, idCompany);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                company.setIdCompany(resultSet.getInt("idCompany"));
-                company.setName(resultSet.getString("name"));
-                company.setAddress(addressDao.findById(resultSet.getInt("idAddress")));
+                company = getLineFromResultSet();
             }
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
@@ -236,9 +234,9 @@ public class CompanyDao extends Dao {
 
     private Company getLineFromResultSet() throws SQLException {
         Company company = new Company();
-        company.setIdCompany(resultSet.getInt("idCompany"));
+        company.setIdCompany(resultSet.getInt("id_company"));
         company.setName(resultSet.getString("name"));
-        company.setAddress(addressDao.findById(resultSet.getInt("idAddress")));
+        company.setAddress(addressDao.findById(resultSet.getInt("id_address")));
         return company;
     }
 }

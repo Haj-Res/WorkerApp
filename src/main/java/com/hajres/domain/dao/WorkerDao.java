@@ -14,16 +14,16 @@ public class WorkerDao extends Dao {
     private final CompanyDao companyDao;
 
 
-    private static final String FIND_ALL = "SELECT * FROM `worker` order by `firstName`, `lastName`";
-    private static final String FIND_ALL_FROM_TO = "SELECT * FROM `worker` order by `firstName`, `lastName` LIMIT ?, ?";
-    private static final String FIND_BY_ID = "SELECT * FROM `worker` WHERE `JMBG`=?";
-    private static final String FIND_BY_STRING = "SELECT * FROM `worker` WHERE `firstName` LIKE ? OR `lastName` LIKE ? OR `JMBG` LIKE ?";
+    private static final String FIND_ALL = "SELECT * FROM `worker` order by `first_name`, `last_name`";
+    private static final String FIND_ALL_FROM_TO = "SELECT * FROM `worker` order by `first_name`, `last_name` LIMIT ?, ?";
+    private static final String FIND_BY_ID = "SELECT * FROM `worker` WHERE `jmbg`=?";
+    private static final String FIND_BY_STRING = "SELECT * FROM `worker` WHERE `first_name` LIKE ? OR `last_name` LIKE ? OR `JMBG` LIKE ?";
     private static final String INSERT_WORKER = "INSERT INTO `worker` " +
-            "(JMBG, firstName, lastName, birthDate, idCompany, idAddress)" +
+            "(JMBG, last_name, last_name, birth_date, id_company, id_address)" +
             "VALUES (?, ?, ?, ?, ?, ?)";
-    private static final String UPDATE_WORKER = "UPDATE `worker` set `JMBG`=?, `firstName`=?, `lastName`=?, `birthDate`=?," +
-            " `idAddress`=?, `idCompany`=? WHERE `JMBG`=?";
-    private static final String DELETE_WORKER = "DELETE FROM `worker` WHERE `JMBG`=?";
+    private static final String UPDATE_WORKER = "UPDATE `worker` set `jmbg`=?, `first_name`=?, `last_name`=?, `birth_date`=?," +
+            " `id_address`=?, `id_company`=? WHERE `jmbg`=?";
+    private static final String DELETE_WORKER = "DELETE FROM `worker` WHERE `jmbg`=?";
 
 
     @Autowired
@@ -218,14 +218,12 @@ public class WorkerDao extends Dao {
 
     private Worker getLineFromResultSet() throws SQLException {
         Worker worker = new Worker();
-        worker.setJmbg(resultSet.getString("JMBG"));
-        worker.setFirstName(resultSet.getString("firstName"));
-        worker.setLastName(resultSet.getString("lastName"));
-        worker.setLocalDateBirthDate(resultSet.getDate("birthDate").toLocalDate());
-
-        worker.setAddress(addressDao.findById(resultSet.getInt("idAddress")));
-
-        worker.setCompany(companyDao.findById(resultSet.getInt("idCompany")));
+        worker.setJmbg(resultSet.getString("jmbg"));
+        worker.setFirstName(resultSet.getString("first_name"));
+        worker.setLastName(resultSet.getString("last_name"));
+        worker.setLocalDateBirthDate(resultSet.getDate("birth_date").toLocalDate());
+        worker.setAddress(addressDao.findById(resultSet.getInt("id_address")));
+        worker.setCompany(companyDao.findById(resultSet.getInt("id_company")));
         return worker;
     }
 }
