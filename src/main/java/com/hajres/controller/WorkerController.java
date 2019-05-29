@@ -4,10 +4,13 @@ import com.hajres.domain.dao.WorkerDao;
 import com.hajres.domain.model.Worker;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +22,12 @@ import java.util.List;
 @RequestMapping("/worker")
 public class WorkerController {
     private final WorkerDao workerDao;
+
+    @InitBinder
+    public void InitBinder(WebDataBinder dataBinder) {
+        StringTrimmerEditor trimmerEditor = new StringTrimmerEditor(true);
+        dataBinder.registerCustomEditor(String.class, trimmerEditor);
+    }
 
     @Autowired
     public WorkerController(WorkerDao workerDao) {

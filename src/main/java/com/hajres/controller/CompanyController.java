@@ -4,10 +4,13 @@ import com.hajres.domain.dao.CompanyDao;
 import com.hajres.domain.model.Company;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +22,12 @@ import java.util.List;
 @RequestMapping("/company")
 public class CompanyController {
     private final CompanyDao companyDao;
+
+    @InitBinder
+    public void InitBinder(WebDataBinder dataBinder) {
+        StringTrimmerEditor trimmerEditor = new StringTrimmerEditor(true);
+        dataBinder.registerCustomEditor(String.class, trimmerEditor);
+    }
 
     @Autowired
     public CompanyController(CompanyDao companyDao) {
