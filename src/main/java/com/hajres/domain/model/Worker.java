@@ -4,13 +4,14 @@ import org.springframework.cglib.core.Local;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.sql.Date;
 import java.time.LocalDate;
 
 public class Worker {
     @NotNull(message = "is required")
-    @Size(min = 13, max = 13, message = "must be 13 character long")
+    @Pattern(regexp = "^[0-9]{13}", message = "Must be 13 digits long")
     private String jmbg;
     @NotNull(message = "is required")
     @Size(min = 1, message = "is required")
