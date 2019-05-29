@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -68,12 +66,7 @@ public class WorkerController {
             return "worker/worker-add-edit";
         }
         int result = workerDao.update(worker, workerJmbg);
-        if (result == 0) {
-            model.addAttribute("errorMessage", "No worker added.");
-        } else {
-            model.addAttribute("message", "Worker added.");
-        }
-        prepareModel(model);
+        prepareModel(model, result, "updated");
         return "worker/worker-list";
     }
 
@@ -92,12 +85,7 @@ public class WorkerController {
             return "worker/worker-add-edit";
         }
         int result = workerDao.add(worker);
-        if (result == 0) {
-            model.addAttribute("errorMessage", "No worker added.");
-        } else {
-            model.addAttribute("message", "Worker added.");
-        }
-        prepareModel(model);
+        prepareModel(model, result, "added");
         return "worker/worker-list";
     }
 
@@ -113,16 +101,16 @@ public class WorkerController {
     public String postDelete(@ModelAttribute("workerJmbg") String workerJmbg,
                                    Model model) {
         int result = workerDao.delete(workerJmbg);
-        if (result == 0) {
-            model.addAttribute("errorMessage", "No worker deleted.");
-        } else {
-            model.addAttribute("message", "Worker deleted");
-        }
-        prepareModel(model);
+        prepareModel(model, result, "deleted");
         return "worker/worker-list";
     }
 
-    private void prepareModel(Model model) {
+    private void prepareModel(Model model, int result, String action) {
+        if (result == 0) {
+            model.addAttribute("errorMessage", "No worker " + action + ".");
+        } else {
+            model.addAttribute("message", "Worker " + action + ".");
+        }
         List<Worker> workerList = workerDao.findAll();
         model.addAttribute("workerList", workerList);
     }
