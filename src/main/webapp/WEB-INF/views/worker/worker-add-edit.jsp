@@ -9,6 +9,7 @@
     <title>Worker Management App</title>
     <style type="text/css">
         <%@include file="/resources/bootstrap/css/bootstrap.min.css"%>
+        <%@include file="/resources/css/style.css"%>
     </style>
 </head>
 <body>
@@ -27,11 +28,14 @@
                     <div class="form-group">
                         <label for="jmbg">JMBG:</label>
                         <form:input class="form-control" type="text" id="jmbg" path="jmbg" required="true"/>
+                        <form:errors path="jmbg" cssClass="error"/>
                     </div>
                     <div class="form-group">
                         <label for="firstName">First name:</label>
                         <form:input class="form-control" type="text" id="firstName"
                                     path="firstName" required="true"/>
+                        <form:errors path="firstName" cssClass="error"/>
+
                     </div>
                     <div class="form-group">
                         <label for="lastName">Last name:</label>

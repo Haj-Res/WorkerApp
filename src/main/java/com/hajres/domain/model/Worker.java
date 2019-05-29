@@ -2,15 +2,25 @@ package com.hajres.domain.model;
 
 import org.springframework.cglib.core.Local;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.sql.Date;
 import java.time.LocalDate;
 
 public class Worker {
+    @NotNull(message = "is required")
+    @Size(min = 13, max = 13, message = "must be 13 character long")
     private String jmbg;
+    @NotNull(message = "is required")
+    @Size(min = 1, message = "is required")
     private String firstName;
+    @NotNull(message = "is required")
+    @Size(min = 1, message = "is required")
     private String lastName;
+    @NotNull(message = "is required")
     private Date birthDate;
     private Company company;
+    @NotNull
     private Address address;
 
     public Worker() {

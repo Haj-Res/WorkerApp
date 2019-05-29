@@ -8,6 +8,7 @@ import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -35,9 +37,10 @@ public class WorkerController {
     }
 
     @GetMapping("/list")
-    public String showWorkerList(@ModelAttribute("filter") String filter, Model model) {
+    public String showWorkerList(@ModelAttribute("filter") String filter,
+                                 Model model) {
         List<Worker> workerList;
-        if (filter.equals("")) {
+        if (filter == null) {
             workerList = workerDao.findAll();
         } else {
             workerList = workerDao.findByName(filter);
@@ -47,7 +50,8 @@ public class WorkerController {
     }
 
     @GetMapping("/edit")
-    public String getEdit(@ModelAttribute("workerJmbg") String workerJmbg, Model model) {
+    public String getEdit(@ModelAttribute("workerJmbg") String workerJmbg,
+                          Model model) {
         Worker worker = workerDao.findById(workerJmbg);
         model.addAttribute("worker", worker);
         String formAction = "?workerJmbg=" + workerJmbg;
@@ -56,9 +60,13 @@ public class WorkerController {
     }
 
     @PostMapping("/edit")
-    public ModelAndView postEdit(@ModelAttribute("worker") Worker worker,
-                                 @ModelAttribute("workerJmbg") String workerJmbg,
-                                 ModelMap model) {
+    public String postEdit(@Valid @ModelAttribute("worker") Worker worker,
+                           BindingResult bindingResult,
+                           @ModelAttribute("workerJmbg") String workerJmbg,
+                           Model model) {
+        if (bindingResult.hasErrors()) {
+            return "worker/worker-add-edit";
+        }
         int result = workerDao.update(worker, workerJmbg);
         if (result == 0) {
             model.addAttribute("errorMessage", "No worker added.");
@@ -66,7 +74,7 @@ public class WorkerController {
             model.addAttribute("message", "Worker added.");
         }
         prepareModel(model);
-        return new ModelAndView("worker/worker-list", model);
+        return "worker/worker-list";
     }
 
     @GetMapping("/add")
@@ -77,7 +85,12 @@ public class WorkerController {
     }
 
     @PostMapping("/add")
-    public ModelAndView postAdd(@ModelAttribute("worker") Worker worker, ModelMap model) {
+    public String postAdd(@Valid @ModelAttribute("worker") Worker worker,
+                          BindingResult bindingResult,
+                          Model model) {
+        if (bindingResult.hasErrors()) {
+            return "worker/worker-add-edit";
+        }
         int result = workerDao.add(worker);
         if (result == 0) {
             model.addAttribute("errorMessage", "No worker added.");
@@ -85,7 +98,7 @@ public class WorkerController {
             model.addAttribute("message", "Worker added.");
         }
         prepareModel(model);
-        return new ModelAndView("worker/worker-list", model);
+        return "worker/worker-list";
     }
 
     @GetMapping("/delete")
@@ -97,8 +110,8 @@ public class WorkerController {
     }
 
     @PostMapping("/delete")
-    public ModelAndView postDelete(@ModelAttribute("workerJmbg") String workerJmbg,
-                                   ModelMap model) {
+    public String postDelete(@ModelAttribute("workerJmbg") String workerJmbg,
+                                   Model model) {
         int result = workerDao.delete(workerJmbg);
         if (result == 0) {
             model.addAttribute("errorMessage", "No worker deleted.");
@@ -106,10 +119,10 @@ public class WorkerController {
             model.addAttribute("message", "Worker deleted");
         }
         prepareModel(model);
-        return new ModelAndView("worker/worker-list", model);
+        return "worker/worker-list";
     }
 
-    private void prepareModel(ModelMap model) {
+    private void prepareModel(Model model) {
         List<Worker> workerList = workerDao.findAll();
         model.addAttribute("workerList", workerList);
     }
