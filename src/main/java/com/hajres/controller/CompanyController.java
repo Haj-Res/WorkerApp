@@ -52,7 +52,7 @@ public class CompanyController {
         return "company/company-add-edit";
     }
 
-    @PostMapping("/edit")
+    @PostMapping("/save")
     public String postEdit(@Valid @ModelAttribute("company") Company company,
                                  BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -68,16 +68,6 @@ public class CompanyController {
         Company company = new Company();
         model.addAttribute("company", company);
         return "company/company-add-edit";
-    }
-
-    @PostMapping("/add")
-    public String postAdd(@Valid @ModelAttribute("company") Company company,
-                                BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "company/company-add-edit";
-        }
-        companyService.saveCompany(company);
-        return "redirect:/company/list";
     }
 
     @GetMapping("/delete")
