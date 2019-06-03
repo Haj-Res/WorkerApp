@@ -1,4 +1,5 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--@elvariable id="company" type="com.hajres.domain.model.Company"--%>
 <%--
   Created by IntelliJ IDEA.
@@ -31,8 +32,12 @@
                 <p>Address: ${company.address.street} ${company.address.number}, ${company.address.city}</p>
             </div>
             <div class="alert alert-danger p-2 d-flex justify-content-around" role="alert">
+
+                <c:url value="/company/delete" var="formAction">
+                    <c:param name="companyId" value="${company.idCompany}"/>
+                </c:url>
                 <form:form method="post"
-                           action="${pageContext.request.contextPath}/company/delete?id=${company.idCompany}">
+                           action="${formAction}">
         <span class="m-2">You're about to delete this company. This process is irreversible. Are you sure you want to delete the
         user?</span>
                     <button type="submit" class="btn btn-danger m-2">DELETE</button>
