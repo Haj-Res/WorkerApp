@@ -25,8 +25,9 @@ public class WorkerDAOImpl implements WorkerDAO {
 
     @Override
     public List<Worker> getWorkerList(String filter) {
+        filter = "%" + filter + "%";
         Session session = factory.getCurrentSession();
-        Query<Worker> query = session.createQuery("from Worker where firstName like :filter or lastName like :filter order by lastName", Worker.class);
+        Query<Worker> query = session.createQuery("from Worker where firstName like :filter or lastName like :filter or company.name like :filter order by lastName", Worker.class);
         query.setParameter("filter", filter);
         return query.getResultList();
     }
