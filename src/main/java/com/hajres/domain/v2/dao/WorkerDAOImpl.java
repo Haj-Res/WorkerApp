@@ -18,7 +18,8 @@ public class WorkerDAOImpl implements WorkerDAO {
     @Override
     public List<Worker> getWorkerList() {
         Session session = factory.getCurrentSession();
-        return session.createQuery("from Worker ", Worker.class).getResultList();
+        Query<Worker> query = session.createQuery("from Worker order by lastName", Worker.class);
+        return query.getResultList();
     }
 
     @Override
