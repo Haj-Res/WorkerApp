@@ -52,6 +52,7 @@ public class CompanyDAOImpl implements CompanyDAO {
 
     @Override
     public List<Company> getCompanyList(String filter) {
+        filter = "%" + filter + "%";
         Session session = factory.getCurrentSession();
         Query<Company> query = session.createQuery("from Company where name like :filter or address.city like :filter or address.street like :filter", Company.class);
         query.setParameter("filter", filter);
