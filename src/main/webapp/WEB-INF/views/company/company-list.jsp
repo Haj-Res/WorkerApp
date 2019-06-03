@@ -23,7 +23,8 @@
             <h2>Company List</h2>
         </div>
         <div class="d-flex flex-row justify-content-between px-2 py-0">
-            <form class="align-self-start form-inline" method="get" action="${pageContext.request.contextPath}/company/list">
+            <form class="align-self-start form-inline" method="get"
+                  action="${pageContext.request.contextPath}/company/list">
                 <div class="input-group">
                     <input type="text" class="form-control form-control-sm" name="filter" id="filter" value="${filter}"
                            placeholder="Filter"

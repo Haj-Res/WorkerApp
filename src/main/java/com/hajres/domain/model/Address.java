@@ -32,6 +32,7 @@ public class Address {
     @Column(name = "street")
     private String street;
 
+    @Size(max = 10, message = "maximum 10 character long")
     @Column(name = "number")
     private String number;
 
@@ -93,7 +94,7 @@ public class Address {
     }
 
     public void addWorker(Worker worker) {
-        if(workers == null) {
+        if (workers == null) {
             workers = new ArrayList<>();
         }
         workers.add(worker);

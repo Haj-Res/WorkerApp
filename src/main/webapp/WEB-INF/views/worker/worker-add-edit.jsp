@@ -34,22 +34,22 @@
 
                     <div class="form-group">
                         <label for="jmbg">JMBG:</label>
-                        <form:input class="form-control" type="text" id="jmbg" path="jmbg" />
+                        <form:input class="form-control" type="text" id="jmbg" path="jmbg"/>
                         <form:errors path="jmbg" cssClass="error"/>
                     </div>
                     <div class="form-group">
                         <label for="firstName">First name:</label>
-                        <form:input class="form-control" type="text" id="firstName" path="firstName" />
+                        <form:input class="form-control" type="text" id="firstName" path="firstName"/>
                         <form:errors path="firstName" cssClass="error"/>
                     </div>
                     <div class="form-group">
                         <label for="lastName">Last name:</label>
-                        <form:input class="form-control" type="text" id="lastName" path="lastName" />
+                        <form:input class="form-control" type="text" id="lastName" path="lastName"/>
                         <form:errors path="lastName" cssClass="error"/>
                     </div>
                     <div class="form-group">
                         <label for="birthDate">Birthday:</label>
-                        <form:input class="form-control" type="date" id="birthDate" path="birthDate" />
+                        <form:input class="form-control" type="date" id="birthDate" path="birthDate"/>
                         <form:errors path="birthDate" cssClass="error"/>
                     </div>
                 </div>
@@ -57,17 +57,18 @@
                     <h5>Address:</h5>
                     <div class="form-group border-info rounded-lg">
                         <label for="city">City:</label>
-                        <form:input class="form-control" type="text" id="city" path="address.city" />
+                        <form:input class="form-control" type="text" id="city" path="address.city"/>
                         <form:errors path="address.city" cssClass="error"/>
                     </div>
                     <div class="form-group">
                         <label for="street">Street:</label>
-                        <form:input class="form-control" type="text" id="street" path="address.street" />
+                        <form:input class="form-control" type="text" id="street" path="address.street"/>
                         <form:errors path="address.street" cssClass="error"/>
                     </div>
                     <div class="form-group">
                         <label for="number">Number:</label>
-                        <form:input class="form-control" type="text" id="number" path="address.number" />
+                        <form:input class="form-control" type="text" id="number" path="address.number"/>
+                        <form:errors path="address.number" cssClass="error"/>
                     </div>
                 </div>
             </div>

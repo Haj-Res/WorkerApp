@@ -54,7 +54,7 @@ public class CompanyController {
 
     @PostMapping("/save")
     public String postEdit(@Valid @ModelAttribute("company") Company company,
-                                 BindingResult bindingResult) {
+                           BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "company/company-add-edit";
         }
