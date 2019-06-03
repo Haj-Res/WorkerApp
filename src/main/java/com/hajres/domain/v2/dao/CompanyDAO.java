@@ -14,5 +14,7 @@ public interface CompanyDAO {
 
     void saveCompany(Company company);
 
-    void deleteCompany(Company company);
+    void deleteCompany(int id);
+
+    List<Company> getCompanyList(String filter);
 }

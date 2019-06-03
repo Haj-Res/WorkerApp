@@ -43,7 +43,18 @@ public class CompanyDAOImpl implements CompanyDAO {
     }
 
     @Override
-    public void deleteCompany(Company company) {
+    public void deleteCompany(int id) {
+        Session session = factory.getCurrentSession();
+        Query query = session.createQuery("delete from Company where idCompany = :id");
+        query.setParameter("id", id);
+        query.executeUpdate();
+    }
 
+    @Override
+    public List<Company> getCompanyList(String filter) {
+        Session session = factory.getCurrentSession();
+        Query<Company> query = session.createQuery("from Company where name like :filter or address.city like :filter or address.street like :filter", Company.class);
+        query.setParameter("filter", filter);
+        return query.getResultList();
     }
 }

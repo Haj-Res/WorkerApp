@@ -1,32 +1,59 @@
 package com.hajres.service;
 
+import com.hajres.domain.dao.CompanyDao;
+import com.hajres.domain.model.Address;
 import com.hajres.domain.model.Company;
+import com.hajres.domain.v2.dao.AddressDAO;
+import com.hajres.domain.v2.dao.CompanyDAO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Service
 public class CompanyServiceImpl implements CompanyService {
+
+    @Autowired
+    CompanyDAO companyDAO;
+    @Autowired
+    AddressDAO addressDAO;
+
     @Override
+    @Transactional
     public List<Company> getCompanyList() {
-        return null;
+        return companyDAO.getCompanyList();
     }
 
     @Override
+    @Transactional
     public Company getCompany(int id) {
-        return null;
+        return companyDAO.getCompany(id);
     }
 
     @Override
+    @Transactional
     public void saveCompany(Company company) {
+        List<Address> addressList = addressDAO.getAddress(company.getAddress());
+        if (addressList.size() == 0) {
+            addressDAO.saveAddress(company.getAddress());
+        } else {
+            company.setAddress(addressList.get(0));
+        }
+        companyDAO.saveCompany(company);
 
     }
 
     @Override
+    @Transactional
     public void deleteCompany(int id) {
+        companyDAO.deleteCompany(id);
 
     }
 
     @Override
+    @Transactional
     public List<Company> getCompanyList(String filter) {
-        return null;
+        return companyDAO.getCompanyList(filter);
     }
 }
