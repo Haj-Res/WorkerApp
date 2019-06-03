@@ -46,7 +46,7 @@ public class WorkerDAOImpl implements WorkerDAO {
     @Override
     public void deleteWorker(int id) {
         Session session = factory.getCurrentSession();
-        Query query = session.createQuery("delete from Worker where id =:workerId", Worker.class);
+        Query query = session.createQuery("delete from Worker where id =:workerId");
         query.setParameter("workerId", id);
         query.executeUpdate();
     }
