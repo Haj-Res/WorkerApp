@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Queue;
 
 @Repository
 public class WorkerDAOImpl implements WorkerDAO {
@@ -19,6 +20,14 @@ public class WorkerDAOImpl implements WorkerDAO {
     public List<Worker> getWorkerList() {
         Session session = factory.getCurrentSession();
         Query<Worker> query = session.createQuery("from Worker order by lastName", Worker.class);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Worker> getWorkerList(String filter) {
+        Session session = factory.getCurrentSession();
+        Query<Worker> query = session.createQuery("from Worker where firstName like :filter or lastName like :filter order by lastName", Worker.class);
+        query.setParameter("filter", filter);
         return query.getResultList();
     }
 
@@ -37,7 +46,7 @@ public class WorkerDAOImpl implements WorkerDAO {
     @Override
     public void deleteWorker(int id) {
         Session session = factory.getCurrentSession();
-        Query query =session.createQuery("delete from Worker where id =:workerId", Worker.class);
+        Query query = session.createQuery("delete from Worker where id =:workerId", Worker.class);
         query.setParameter("workerId", id);
         query.executeUpdate();
     }

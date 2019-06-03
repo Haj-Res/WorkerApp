@@ -13,4 +13,6 @@ public interface WorkerDAO {
     void saveWorker(Worker worker);
 
     void deleteWorker(int id);
+
+    List<Worker> getWorkerList(String filter);
 }

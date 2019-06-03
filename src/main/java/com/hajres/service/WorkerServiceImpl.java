@@ -36,4 +36,10 @@ public class WorkerServiceImpl implements WorkerService {
     public void deleteWorker(int id) {
         workerDAO.deleteWorker(id);
     }
+
+    @Override
+    @Transactional
+    public List<Worker> getWorkerList(String filter) {
+        return workerDAO.getWorkerList(filter);
+    }
 }
