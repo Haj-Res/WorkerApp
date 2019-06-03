@@ -18,6 +18,7 @@ import javax.validation.constraints.Size;
 public class Company {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_company")
     private int idCompany;
 
     @NotNull(message = "is required")
