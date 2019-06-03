@@ -1,4 +1,4 @@
-package com.hajres.domain.dao2;
+package com.hajres.domain.v2.dao;
 
 import com.hajres.domain.model.Worker;
 
