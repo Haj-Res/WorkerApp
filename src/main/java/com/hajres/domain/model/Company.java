@@ -8,10 +8,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "company")
@@ -30,6 +33,9 @@ public class Company {
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "id_address")
     private Address address;
+
+    @OneToMany(mappedBy = "company" ,cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    private List<Worker> workers;
 
     public Company() {
     }
@@ -56,6 +62,22 @@ public class Company {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public List<Worker> getWorkers() {
+        return workers;
+    }
+
+    public void setWorkers(List<Worker> workers) {
+        this.workers = workers;
+    }
+
+    public void addWorker(Worker worker) {
+        if (workers == null) {
+            workers = new ArrayList<>();
+        }
+        workers.add(worker);
+        worker.setCompany(this);
     }
 
     @Override

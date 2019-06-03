@@ -1,4 +1,18 @@
 package com.hajres.domain.v2.dao;
 
-public class CompanyDAO {
+import com.hajres.domain.model.Company;
+
+import java.util.List;
+
+public interface CompanyDAO {
+
+    List<Company> getCompanyList();
+
+    Company getCompany(int id);
+
+    List<Company> getCompany(Company company);
+
+    void saveCompany(Company company);
+
+    void deleteCompany(Company company);
 }
