@@ -1,4 +1,5 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--@elvariable id="worker" type="com.hajres.domain.model.Worker"--%>
 <%--
   Created by IntelliJ IDEA.
@@ -30,11 +31,19 @@
                 <h4>${worker.firstName} ${worker.lastName}</h4><h5>Jmbg: ${worker.jmbg}</h5>
                 <p>Born on: ${worker.birthDate}</p>
                 <p>Address: ${worker.address.street} ${worker.address.number}, ${worker.address.city}</p>
+                <c:if test="${worker.company != null}">
                 <p>Employed
-                    at: ${worker.company.name}, ${worker.company.address.street} ${worker.company.address.number}, ${worker.company.address.city}</p>
+                    at: ${worker.company.name}, ${worker.company.address.street} ${worker.company.address.number}, ${worker.company.address.city}
+                </p>
+                </c:if>
             </div>
-            <form:form modelAttribute="worker"
-                       action="${pageContext.request.contextPath}/worker/delete?workerJmbg=${workerJmbg}">
+
+            <c:url var="formAction" value="/worker/delete">
+                <c:param name="workerId" value="${worker.id}"/>
+            </c:url>
+
+            <form:form modelAttribute="worker" action="${formAction}">
+                <form:hidden path="id"/>
                 <div class="alert alert-danger p-2 d-flex justify-content-around" role="alert">
         <span class="m-2">You're about to delete this worker. This process is irreversible. Are you sure you want to delete the
         user?</span>

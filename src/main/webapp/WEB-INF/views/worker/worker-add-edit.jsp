@@ -21,10 +21,17 @@
     </div>
     <%@include file="../shared/navigation.jsp" %>
     <div class="p-2">
-        <form:form method="post" action="${formAction}" modelAttribute="worker">
+        <form:form method="post" action="save" modelAttribute="worker">
             <div class="d-flex">
                 <div class="flex-fill m-2">
                     <h5>Worker info:</h5>
+
+                    <!-- Object IDs -->
+                    <form:hidden path="id"/>
+                    <form:hidden path="address.idAddress"/>
+                    <form:hidden path="company.idCompany"/>
+                    <form:hidden path="company.address.idAddress"/>
+
                     <div class="form-group">
                         <label for="jmbg">JMBG:</label>
                         <form:input class="form-control" type="text" id="jmbg" path="jmbg" />

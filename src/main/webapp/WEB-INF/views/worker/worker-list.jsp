@@ -11,7 +11,7 @@
 </head>
 <body>
 <div class="container d-flex flex-column bg-light h-100">
-    <%@include file="../shared/alerts.jsp"%>
+    <%@include file="../shared/alerts.jsp" %>
     <div class="d-flex justify-content-center p-2">
         <h1>
             Edit Worker
@@ -22,61 +22,70 @@
         <div class="d-flex justify-content-center ">
             <h2>Worker list</h2>
         </div>
-        </div>
-        <div class="d-flex flex-row justify-content-between px-2 py-0">
-            <form class="form-inline align-self-start" method="get" action="list">
-                <div class="input-group">
-                    <input type="text" class="form-control form-control-sm" name="filter" id="filter" value="${filter}" placeholder="Filter"
-                           aria-label="Filter" aria-describedby="Filter box">
-                    <div class="input-group-append">
-                        <button class="btn btn-sm btn-secondary" type="submit">Go!</button>
-                    </div>
+    </div>
+    <div class="d-flex flex-row justify-content-between px-2 py-0">
+        <form class="form-inline align-self-start" method="get" action="list">
+            <div class="input-group">
+                <input type="text" class="form-control form-control-sm" name="filter" id="filter" value="${filter}"
+                       placeholder="Filter"
+                       aria-label="Filter" aria-describedby="Filter box">
+                <div class="input-group-append">
+                    <button class="btn btn-sm btn-secondary" type="submit">Go!</button>
                 </div>
-            </form>
-            <div class="align-self-end">
-                <a href="${pageContext.request.contextPath}/worker/add" class="btn btn-success">New Worker</a>
             </div>
-        </div>
-        <div class="p-2 pt-0 d-flex justify-content-center">
-            <table class="table">
-                <thead class="thead-light">
-                <tr>
-                    <th>#</th>
-                    <th>JMBG</th>
-                    <th>Name</th>
-                    <th>Birthday</th>
-                    <th>Address</th>
-                    <th>Company</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-
-                <c:forEach var="worker" items="${workerList}" varStatus="loop">
-                    <tbody>
-                    <tr>
-                        <td><c:out value="${loop.index + 1}." /></td>
-
-                        <td><c:out value="${worker.jmbg}"/></td>
-                        <td><c:out value="${worker.firstName} ${worker.lastName}"/></td>
-                        <td><c:out value="${worker.birthDate}"/></td>
-                        <td><c:out
-                                value="${worker.address.street} ${worker.address.number}, ${worker.address.city}"/></td>
-                        <td><c:out value="${worker.company.name}"/></td>
-                        <td>
-                            <a class="mr-4"
-                               href="${pageContext.request.contextPath}/worker/edit?workerJmbg=<c:out value="${worker.jmbg}"/>">
-                                Edit
-                            </a>
-
-                            <a href="${pageContext.request.contextPath}/worker/delete?workerJmbg=<c:out value="${worker.jmbg}"/>">Delete</a>
-
-                        </td>
-                    </tr>
-                    </tbody>
-                </c:forEach>
-            </table>
+        </form>
+        <div class="align-self-end">
+            <a href="${pageContext.request.contextPath}/worker/add" class="btn btn-success">New Worker</a>
         </div>
     </div>
+    <div class="p-2 pt-0 d-flex justify-content-center">
+        <table class="table">
+            <thead class="thead-light">
+            <tr>
+                <th>#</th>
+                <th>JMBG</th>
+                <th>Name</th>
+                <th>Birthday</th>
+                <th>Address</th>
+                <th>Company</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+
+            <c:forEach var="worker" items="${workerList}" varStatus="loop">
+                <tbody>
+                <tr>
+
+                    <!-- Defining edit worker URL -->
+                    <c:url var="editWorker" value="/worker/edit">
+                        <c:param name="workerId" value="${worker.id}"/>
+                    </c:url>
+
+                    <!-- Defining delete worker URL -->
+                    <c:url var="deleteWorker" value="/worker/delete">
+                        <c:param name="workerId" value="${worker.id}"/>
+                    </c:url>
+
+                    <td><c:out value="${loop.index + 1}."/></td>
+
+                    <td><c:out value="${worker.jmbg}"/></td>
+                    <td><c:out value="${worker.firstName} ${worker.lastName}"/></td>
+                    <td><c:out value="${worker.birthDate}"/></td>
+                    <td><c:out
+                            value="${worker.address.street} ${worker.address.number}, ${worker.address.city}"/></td>
+                    <td><c:out value="${worker.company.name}"/></td>
+                    <td>
+                        <a class="mr-4" href="${editWorker}">Edit</a>
+
+                        <a href="${deleteWorker}">Delete</a>
+
+                    </td>
+                </tr>
+                </tbody>
+            </c:forEach>
+        </table>
+    </div>
+</div>
 </div>
 </body>
 </html>
