@@ -1,15 +1,33 @@
 package com.hajres.domain.model;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+@Entity
+@Table(name = "company")
 public class Company {
-    private int idCompany = 0;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int idCompany;
+
     @NotNull(message = "is required")
-    @Size(min=1, message = "is required")
+    @Size(min = 1, message = "is required")
+    @Column(name = "name")
     private String name;
+
     @Valid
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinColumn(name = "id_address")
     private Address address;
 
     public Company() {
