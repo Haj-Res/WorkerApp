@@ -1,4 +1,4 @@
-<hibernate-configuration xmlns="http://www.hibernate.org/xsd/hibernate-configuration">
+<hibernate-configuration>
     <session-factory>
         <!-- JDBC Database connection settings -->
         <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
@@ -14,15 +14,12 @@
         <!-- Set the current session context -->
         <property name="current_session_context_class">thread</property>
         <!-- Drop and re-create the database schema on startup -->
-        <property name="hibernate.hbm2ddl.auto">create-drop</property>
+<!--        <property name="hibernate.hbm2ddl.auto">create-drop</property>-->
         <!-- dbcp connection pool configuration -->
         <property name="hibernate.dbcp.initialSize">5</property>
         <property name="hibernate.dbcp.maxTotal">20</property>
         <property name="hibernate.dbcp.maxIdle">10</property>
         <property name="hibernate.dbcp.minIdle">5</property>
         <property name="hibernate.dbcp.maxWaitMillis">-1</property>
-        <mapping class="com.hajres.domain.model.Address"/>
-        <mapping class="com.hajres.domain.model.Worker"/>
-        <mapping class="com.hajres.domain.model.Company"/>
     </session-factory>
 </hibernate-configuration>
