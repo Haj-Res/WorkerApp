@@ -50,6 +50,12 @@
                 <tbody>
                 <%--@elvariable id="companyList" type="java.util.List<com.hajres.domain.model.Company>"--%>
                 <c:forEach var="company" items="${companyList}" varStatus="loop">
+                    <c:url value="/company/edit" var="editCompany">
+                        <c:param name="companyId" value="${company.idCompany}"/>
+                    </c:url>
+                    <c:url value="/company/delete" var="deleteCompany">
+                        <c:param name="companyId" value="${company.idCompany}"/>
+                    </c:url>
                     <tr>
                         <td><c:out value="${loop.index + 1}."/></td>
                         <td><c:out value="${company.name}"/></td>
@@ -57,8 +63,8 @@
                                 value="${company.address.street} ${company.address.number}, ${company.address.city}"/></td>
                         <td>
                             <a class="mr-4"
-                               href="${pageContext.request.contextPath}/company/edit?id=${company.idCompany}">Edit</a>
-                            <a href="${pageContext.request.contextPath}/company/delete?id=${company.idCompany}">Delete</a>
+                               href="${editCompany}">Edit</a>
+                            <a href="${deleteCompany}">Delete</a>
                         </td>
                     </tr>
                 </c:forEach>
