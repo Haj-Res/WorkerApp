@@ -19,7 +19,9 @@
     </div>
     <%@include file="../shared/navigation.jsp" %>
     <div class="container p-2 pl-5 pr-5">
-        <form:form cssClass="mx-2" method="post" action="${formAction}" modelAttribute="company">
+        <form:form cssClass="mx-2" method="post" action="save" modelAttribute="company">
+            <form:hidden path="idCompany"/>
+            <form:hidden path="address.idAddress"/>
             <div class="form-group">
                 <label for="name">Company name</label>
                 <form:input type="text" class="form-control" id="name" path="name" placeholder="Company name"
@@ -49,7 +51,7 @@
             </div>
             <div class="mt-4">
                 <button type="submit" class="btn btn-secondary">Submit</button>
-                <a class="ml-3 btn btn-light border-secondary" href="${pageContext.request.contextPath}/company/list">Cancle</a>
+                <a class="ml-3 btn btn-light border-secondary" href="${pageContext.request.contextPath}/company/list">Cancel</a>
 
             </div>
         </form:form>
