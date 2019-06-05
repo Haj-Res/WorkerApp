@@ -5,10 +5,10 @@
                 <a href="${pageContext.request.contextPath}/">
                     <li class="list-group-item">Main Menu</li>
                 </a>
-                <a href="${pageContext.request.contextPath}/worker/list">
+                <a href="${pageContext.request.contextPath}/worker/list?page=1">
                     <li class="list-group-item">List All Worker</li>
                 </a>
-                <a href="${pageContext.request.contextPath}/company/list">
+                <a href="${pageContext.request.contextPath}/company/list?page=1">
                     <li class="list-group-item">List All Companies</li>
                 </a>
             </ul>
