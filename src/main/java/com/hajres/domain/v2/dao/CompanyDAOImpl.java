@@ -1,6 +1,8 @@
 package com.hajres.domain.v2.dao;
 
+import com.hajres.PaginatedResult;
 import com.hajres.domain.model.Company;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -60,18 +62,40 @@ public class CompanyDAOImpl implements CompanyDAO {
     }
 
     @Override
-    public List<Company> getPaginatedCompanyList(int firstResult, int maxResults) {
+    public PaginatedResult<Company> getPaginatedCompanyList(int firstResult, int maxResults) {
+        PaginatedResult<Company> paginatedResult = new PaginatedResult<>();
         Session session = factory.getCurrentSession();
+
+        Long rowCount = session.createQuery("select count(idCompany) from Company ", Long.class).getSingleResult();
+        long pageCount = (rowCount - 1) / maxResults + 1;
+        paginatedResult.setPageCount(pageCount);
+
         Query<Company> query = session.createQuery("from Company", Company.class);
         query.setFirstResult(firstResult);
         query.setMaxResults(maxResults);
-
         List<Company> companyList = query.getResultList();
-        return companyList;
+        paginatedResult.setResultList(companyList);
+
+        return paginatedResult;
     }
 
     @Override
-    public List<Company> getPaginatedCompanyList(String filter, int firstResult, int maxResults) {
-        return null;
+    public PaginatedResult<Company> getPaginatedCompanyList(String filter, int firstResult, int maxResults) {
+        PaginatedResult<Company> paginatedResult = new PaginatedResult<>();
+        Session session = factory.getCurrentSession();
+
+        Query<Long> countQuery = session.createQuery("select count(idCompany) from Company where name like :filter or address.city like :filter or address.street like :filter", Long.class);
+        countQuery.setParameter("filter", filter);
+        long rowCount = countQuery.getSingleResult();
+        long pageCount = (rowCount - 1) / maxResults + 1;
+        paginatedResult.setPageCount(pageCount);
+
+        Query<Company> query = session.createQuery("from Company where name like :filter or address.city like :filter or address.street like :filter", Company.class);
+        query.setFirstResult(firstResult);
+        query.setMaxResults(maxResults);
+        List<Company> companyList = query.getResultList();
+        paginatedResult.setResultList(companyList);
+
+        return paginatedResult;
     }
 }

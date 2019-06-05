@@ -1,5 +1,6 @@
 package com.hajres.domain.v2.dao;
 
+import com.hajres.PaginatedResult;
 import com.hajres.domain.model.Company;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public interface CompanyDAO {
 
     List<Company> getCompanyList(String filter);
 
-    List<Company> getPaginatedCompanyList(int firstResult, int maxResults);
-    
-    List<Company> getPaginatedCompanyList(String filter, int firstResult, int maxResults);
+    PaginatedResult<Company> getPaginatedCompanyList(int firstResult, int maxResults);
+
+    PaginatedResult<Company> getPaginatedCompanyList(String filter, int firstResult, int maxResults);
 }

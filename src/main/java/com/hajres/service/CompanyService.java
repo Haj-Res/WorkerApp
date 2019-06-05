@@ -1,5 +1,6 @@
 package com.hajres.service;
 
+import com.hajres.PaginatedResult;
 import com.hajres.domain.model.Company;
 
 import java.util.List;
@@ -8,7 +9,7 @@ public interface CompanyService {
 
     List<Company> getCompanyList();
 
-    List<Company> getPaginatedCompanyList(int page);
+    PaginatedResult<Company> getPaginatedCompanyList(int page);
 
     Company getCompany(int id);
 
@@ -18,5 +19,5 @@ public interface CompanyService {
 
     List<Company> getCompanyList(String filter);
 
-    List<Company> getPaginatedCompanyList(int page, String filter);
+    PaginatedResult<Company> getPaginatedCompanyList(int page, String filter);
 }

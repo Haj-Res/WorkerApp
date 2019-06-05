@@ -1,6 +1,6 @@
 package com.hajres.service;
 
-import com.hajres.domain.dao.CompanyDao;
+import com.hajres.PaginatedResult;
 import com.hajres.domain.model.Address;
 import com.hajres.domain.model.Company;
 import com.hajres.domain.v2.dao.AddressDAO;
@@ -28,7 +28,7 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     @Transactional
-    public List<Company> getPaginatedCompanyList(int page) {
+    public PaginatedResult<Company> getPaginatedCompanyList(int page) {
         int firstResult = (page - 1) * MAX_RESULTS;
         return companyDAO.getPaginatedCompanyList(firstResult, MAX_RESULTS);
     }
@@ -67,7 +67,7 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     @Transactional
-    public List<Company> getPaginatedCompanyList(int page, String filter) {
+    public PaginatedResult<Company> getPaginatedCompanyList(int page, String filter) {
         int firstResult = (page - 1) * MAX_RESULTS;
         return  companyDAO.getPaginatedCompanyList(filter, firstResult, MAX_RESULTS);
     }
