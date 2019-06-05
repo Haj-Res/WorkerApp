@@ -17,4 +17,8 @@ public interface CompanyDAO {
     void deleteCompany(int id);
 
     List<Company> getCompanyList(String filter);
+
+    List<Company> getPaginatedCompanyList(int firstResult, int maxResults);
+    
+    List<Company> getPaginatedCompanyList(String filter, int firstResult, int maxResults);
 }

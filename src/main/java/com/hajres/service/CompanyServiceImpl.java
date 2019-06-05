@@ -13,6 +13,7 @@ import java.util.List;
 
 @Service
 public class CompanyServiceImpl implements CompanyService {
+    private static final int MAX_RESULTS = 10;
 
     @Autowired
     CompanyDAO companyDAO;
@@ -23,6 +24,13 @@ public class CompanyServiceImpl implements CompanyService {
     @Transactional
     public List<Company> getCompanyList() {
         return companyDAO.getCompanyList();
+    }
+
+    @Override
+    @Transactional
+    public List<Company> getPaginatedCompanyList(int page) {
+        int firstResult = (page - 1) * MAX_RESULTS;
+        return companyDAO.getPaginatedCompanyList(firstResult, MAX_RESULTS);
     }
 
     @Override
@@ -55,5 +63,12 @@ public class CompanyServiceImpl implements CompanyService {
     @Transactional
     public List<Company> getCompanyList(String filter) {
         return companyDAO.getCompanyList(filter);
+    }
+
+    @Override
+    @Transactional
+    public List<Company> getPaginatedCompanyList(int page, String filter) {
+        int firstResult = (page - 1) * MAX_RESULTS;
+        return  companyDAO.getPaginatedCompanyList(filter, firstResult, MAX_RESULTS);
     }
 }

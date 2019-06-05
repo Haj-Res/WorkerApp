@@ -58,4 +58,20 @@ public class CompanyDAOImpl implements CompanyDAO {
         query.setParameter("filter", filter);
         return query.getResultList();
     }
+
+    @Override
+    public List<Company> getPaginatedCompanyList(int firstResult, int maxResults) {
+        Session session = factory.getCurrentSession();
+        Query<Company> query = session.createQuery("from Company", Company.class);
+        query.setFirstResult(firstResult);
+        query.setMaxResults(maxResults);
+
+        List<Company> companyList = query.getResultList();
+        return companyList;
+    }
+
+    @Override
+    public List<Company> getPaginatedCompanyList(String filter, int firstResult, int maxResults) {
+        return null;
+    }
 }

@@ -8,6 +8,8 @@ public interface CompanyService {
 
     List<Company> getCompanyList();
 
+    List<Company> getPaginatedCompanyList(int page);
+
     Company getCompany(int id);
 
     void saveCompany(Company company);
@@ -15,4 +17,6 @@ public interface CompanyService {
     void deleteCompany(int id);
 
     List<Company> getCompanyList(String filter);
+
+    List<Company> getPaginatedCompanyList(int page, String filter);
 }
