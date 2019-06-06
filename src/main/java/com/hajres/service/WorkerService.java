@@ -1,5 +1,6 @@
 package com.hajres.service;
 
+import com.hajres.PaginatedResult;
 import com.hajres.domain.model.Worker;
 
 import java.util.List;
@@ -15,4 +16,8 @@ public interface WorkerService {
     void deleteWorker(int id);
 
     List<Worker> getWorkerList(String filter);
+
+    PaginatedResult<Worker> getPaginatedWorkerList(int page);
+
+    PaginatedResult<Worker> getPaginatedWorkerList(int page, String filter);
 }

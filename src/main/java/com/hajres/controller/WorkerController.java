@@ -1,5 +1,6 @@
 package com.hajres.controller;
 
+import com.hajres.PaginatedResult;
 import com.hajres.domain.dao.WorkerDao;
 import com.hajres.domain.model.Worker;
 
@@ -34,14 +35,17 @@ public class WorkerController {
 
     @GetMapping("/list")
     public String showWorkerList(@ModelAttribute("filter") String filter,
+                                 @RequestParam("page") int page,
                                  Model model) {
-        List<Worker> workerList;
+        PaginatedResult<Worker> paginatedResult;
         if (filter == null) {
-            workerList = workerService.getWorkerList();
+            paginatedResult = workerService.getPaginatedWorkerList(page);
         } else {
-            workerList = workerService.getWorkerList(filter);
+            paginatedResult = workerService.getPaginatedWorkerList(page, filter);
         }
-        model.addAttribute("workerList", workerList);
+        model.addAttribute("workerList", paginatedResult.getResultList());
+        model.addAttribute("pageCount", paginatedResult.getPageCount());
+        model.addAttribute("page", page);
         return "worker/worker-list";
     }
 
