@@ -81,16 +81,20 @@ public class CompanyDAOImpl implements CompanyDAO {
 
     @Override
     public PaginatedResult<Company> getPaginatedCompanyList(String filter, int firstResult, int maxResults) {
+        filter = "%" + filter + "%";
         PaginatedResult<Company> paginatedResult = new PaginatedResult<>();
         Session session = factory.getCurrentSession();
 
-        Query<Long> countQuery = session.createQuery("select count(idCompany) from Company where name like :filter or address.city like :filter or address.street like :filter", Long.class);
+        Query<Long> countQuery = session.createQuery("select count(idCompany) from Company " +
+                "where name like :filter or address.city like :filter or address.street like :filter", Long.class);
         countQuery.setParameter("filter", filter);
         long rowCount = countQuery.getSingleResult();
         long pageCount = (rowCount - 1) / maxResults + 1;
         paginatedResult.setPageCount(pageCount);
 
-        Query<Company> query = session.createQuery("from Company where name like :filter or address.city like :filter or address.street like :filter", Company.class);
+        Query<Company> query = session.createQuery("from Company " +
+                "where name like :filter or address.city like :filter or address.street like :filter", Company.class);
+        query.setParameter("filter", filter);
         query.setFirstResult(firstResult);
         query.setMaxResults(maxResults);
         List<Company> companyList = query.getResultList();
