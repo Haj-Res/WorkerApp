@@ -35,7 +35,7 @@ public class WorkerController {
 
     @GetMapping("/list")
     public String showWorkerList(@ModelAttribute("filter") String filter,
-                                 @RequestParam("page") int page,
+                                 @RequestParam(value = "page", required = false, defaultValue = "1") int page,
                                  Model model) {
         PaginatedResult<Worker> paginatedResult;
         if (filter == null) {

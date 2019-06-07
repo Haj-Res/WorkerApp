@@ -35,7 +35,7 @@ public class CompanyController {
 
     @RequestMapping("/list")
     public String showCompanyList(@ModelAttribute("filter") String filter,
-                                  @RequestParam("page") int page,
+                                      @RequestParam(value = "page", required = false, defaultValue = "1") int page,
                                   Model model) {
         PaginatedResult<Company> paginatedResults;
         if (filter == null) {

@@ -23,7 +23,7 @@ public class AddressDAOImpl implements AddressDAO {
     @Override
     public List<Address> getAddress(Address address) {
         Session session = factory.getCurrentSession();
-        Query<Address> query = session.createQuery("from Address  where city = :city and street = :street and number = :number");
+        Query<Address> query = session.createQuery("from Address  where city = :city and street = :street and number = :number", Address.class);
         query.setParameter("city", address.getCity());
         query.setParameter("street", address.getStreet());
         query.setParameter("number", address.getNumber());
