@@ -54,6 +54,14 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
+    <bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+    </bean>
+
+    <bean id="authenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+        <property name="userDetailsService" ref="userServiceImpl" />
+        <property name="passwordEncoder" ref="passwordEncoder" />
+    </bean>
+
     <!-- Enabling configuration of transactional annotation -->
     <tx:annotation-driven transaction-manager="transactionManager"/>
 </beans>
