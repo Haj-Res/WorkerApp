@@ -15,6 +15,10 @@
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="Maven: mysql:mysql-connector-java:6.0.6" />
+          <element id="library" level="project" name="Maven: com.mchange:c3p0:0.9.5.4" />
+          <element id="library" level="project" name="Maven: com.mchange:mchange-commons-java:0.2.15" />
+          <element id="library" level="project" name="Maven: javax.servlet:javax.servlet-api:4.0.1" />
+          <element id="library" level="project" name="Maven: javax.servlet.jsp:javax.servlet.jsp-api:2.3.3" />
           <element id="library" level="project" name="Maven: javax.servlet:jstl:1.2" />
           <element id="library" level="project" name="Maven: org.hibernate.validator:hibernate-validator:6.0.16.Final" />
           <element id="library" level="project" name="Maven: javax.validation:validation-api:2.0.1.Final" />
@@ -36,16 +40,27 @@
           <element id="library" level="project" name="Maven: com.sun.istack:istack-commons-runtime:3.0.7" />
           <element id="library" level="project" name="Maven: org.jvnet.staxex:stax-ex:1.8" />
           <element id="library" level="project" name="Maven: com.sun.xml.fastinfoset:FastInfoset:1.2.15" />
-          <element id="library" level="project" name="Maven: com.mchange:c3p0:0.9.5.4" />
-          <element id="library" level="project" name="Maven: com.mchange:mchange-commons-java:0.2.15" />
           <element id="library" level="project" name="Maven: org.hibernate:hibernate-c3p0:5.4.3.Final" />
           <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-slf4j-impl:2.9.0" />
           <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.25" />
           <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-api:2.9.0" />
           <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-core:2.9.0" />
-          <element id="library" level="project" name="Hibernate 5.4.2-5.4.2" />
-          <element id="library" level="project" name="Spring-4.3.18.RELEASE" />
-          <element id="library" level="project" name="Spring MVC-4.3.18.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-webmvc:5.1.6.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-aop:5.1.6.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-beans:5.1.6.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-context:5.1.6.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-core:5.1.6.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-jcl:5.1.6.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-expression:5.1.6.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-web:5.1.6.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-orm:5.1.6.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-jdbc:5.1.6.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-web:5.1.5.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-core:5.1.5.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-config:5.1.5.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-taglibs:5.1.5.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-acl:5.1.5.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-tx:5.1.6.RELEASE" />
         </element>
       </element>
       <element id="directory" name="META-INF">
