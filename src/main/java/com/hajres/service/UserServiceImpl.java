@@ -5,6 +5,8 @@ import com.hajres.domain.model.User;
 import com.hajres.domain.v2.dao.RoleDAO;
 import com.hajres.domain.v2.dao.UserDAO;
 import com.hajres.user.CrmUser;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -30,9 +32,12 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
+    private Logger logger = LogManager.getLogger(getClass().getName());
+
     @Override
     @Transactional
     public User findByUserName(String name) {
+        logger.info("Finding user \"" + name +"\".");
         return userDAO.findByUserName(name);
     }
 
@@ -48,6 +53,7 @@ public class UserServiceImpl implements UserService {
         user.setEmail(crmUser.getEmail());
 
         user.setRoles(Arrays.asList(roleDAO.findRoleByName("ROLE_EMPLOYEE")));
+        logger.info("Saving user: " + user.toString());
 
         userDAO.save(user);
     }
@@ -57,12 +63,13 @@ public class UserServiceImpl implements UserService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userDAO.findByUserName(username);
         if (user == null) {
+            logger.warn("Failed loggin attempt.");
             throw new UsernameNotFoundException("Invalid username or password.");
         }
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), mapRolesToAuthorityies(user.getRoles()));
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
     }
 
-    private Collection<? extends GrantedAuthority> mapRolesToAuthorityies(Collection<Role> roles) {
+    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
     }
 }

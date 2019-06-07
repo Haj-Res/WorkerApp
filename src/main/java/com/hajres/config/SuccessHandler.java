@@ -2,6 +2,8 @@ package com.hajres.config;
 
 import com.hajres.domain.model.User;
 import com.hajres.service.UserService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -19,10 +21,13 @@ public class SuccessHandler implements AuthenticationSuccessHandler {
     @Autowired
     UserService userService;
 
+    private Logger logger = LogManager.getLogger(getClass().getName());
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication auth)
             throws IOException, ServletException {
         String username = auth.getName();
+        logger.info(username + " successfully authenticated.");
         User user = userService.findByUserName(username);
 
         HttpSession session = request.getSession();
