@@ -18,13 +18,12 @@
 <div class="container d-flex flex-column bg-light h-100">
     <%@include file="../shared/navigation.jsp" %>
     <div class="d-flex justify-content-center p-2">
-        <h2>
-            Delete Worker
-        </h2>
+        <h3>
+            Deleting Worker
+        </h3>
     </div>
-    <%@include file="../shared/navigation.jsp" %>
     <div class="d-flex justify-content-center">
-        <div class="container d-flex flex-column p-5 m-5">
+        <div class="container d-flex flex-column p-5">
             <div class="alert border-info bg-light p-5">
                 <h2>Worker info:</h2>
                 <h4>${worker.firstName} ${worker.lastName}</h4><h5>Jmbg: ${worker.jmbg}</h5>
@@ -41,7 +40,7 @@
                 <c:param name="workerId" value="${worker.id}"/>
             </c:url>
 
-            <form:form modelAttribute="worker" action="${formAction}">
+            <form:form modelAttribute="worker" action="${formAction}" cssClass="mb-0">
                 <form:hidden path="id"/>
                 <div class="alert alert-danger p-2 d-flex justify-content-around" role="alert">
         <span class="m-2">You're about to delete this worker. This process is irreversible. Are you sure you want to delete the

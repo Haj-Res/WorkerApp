@@ -14,9 +14,9 @@
 <div class="container d-flex flex-column bg-light h-100">
     <%@include file="../shared/navigation.jsp" %>
     <div class="d-flex justify-content-center p-2">
-        <h2>
-            Edit Worker
-        </h2>
+        <h3>
+            Worker Management
+        </h3>
     </div>
     <%@include file="../shared/navigation.jsp" %>
     <div class="p-2">

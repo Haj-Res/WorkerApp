@@ -12,9 +12,9 @@
 <div class="container d-flex flex-column bg-light h-100">
     <%@include file="../shared/navigation.jsp" %>
     <div class="d-flex justify-content-center p-2">
-        <h2>
-            Add Company
-        </h2>
+        <h3>
+            Company Management
+        </h3>
     </div>
     <div class="container p-2 pl-5 pr-5">
         <form:form cssClass="mx-2" method="post" action="save" modelAttribute="company">

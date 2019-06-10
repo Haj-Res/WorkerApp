@@ -18,10 +18,10 @@
 <div class="container d-flex flex-column bg-light h-100">
     <%@include file="../shared/navigation.jsp" %>
     <div class="d-flex justify-content-center">
-        <h2>Delete Company</h2>
+        <h3>Deleting Company</h3>
     </div>
     <div class="d-flex justify-content-center">
-        <div class="container d-flex flex-column p-5 m-5">
+        <div class="container d-flex flex-column p-5">
             <div class="alert border-info bg-light p-5">
                 <h2>Company info:</h2>
                 <h4>${company.name}</h4>
@@ -32,8 +32,7 @@
                 <c:url value="/company/delete" var="formAction">
                     <c:param name="companyId" value="${company.idCompany}"/>
                 </c:url>
-                <form:form method="post"
-                           action="${formAction}">
+                <form:form method="post" action="${formAction}" cssClass="mb-0">
         <span class="m-2">You're about to delete this company. This process is irreversible. Are you sure you want to delete the
         user?</span>
                     <button type="submit" class="btn btn-danger m-2">DELETE</button>
