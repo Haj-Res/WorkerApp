@@ -11,6 +11,7 @@
     <sec:http>
         <sec:form-login login-page="/login" login-processing-url="/authenticateUser" authentication-success-handler-ref="successHandler"/>
         <sec:logout logout-url="/logout" />
+        <sec:access-denied-handler error-page="/access-denied"/>
         <sec:intercept-url pattern="/*/list" access="hasRole('${roles.employee}')"/>
         <sec:intercept-url pattern="/*/add" access="hasRole('${roles.admin}')"/>
         <sec:intercept-url pattern="/*/edit" access="hasRole('${roles.admin}')"/>
