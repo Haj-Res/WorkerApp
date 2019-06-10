@@ -5,6 +5,7 @@ import com.hajres.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -18,8 +19,9 @@ import java.io.IOException;
 @Component
 public class SuccessHandler implements AuthenticationSuccessHandler {
 
+    @Qualifier("userServiceImpl")
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     private Logger logger = LogManager.getLogger(getClass().getName());
 

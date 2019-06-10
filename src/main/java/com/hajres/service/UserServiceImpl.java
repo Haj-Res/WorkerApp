@@ -61,6 +61,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        logger.info("Finding user \"" + username +"\".");
         User user = userDAO.findByUserName(username);
         if (user == null) {
             logger.warn("Failed loggin attempt.");
