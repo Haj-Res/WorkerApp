@@ -12,16 +12,15 @@
 <html>
 <head>
     <title>Worker Management App</title>
-    <style type="text/css">
-        <%@include file="/resources/bootstrap/css/bootstrap.min.css"%>
-    </style>
+    <link href="<c:url value="/resources/bootstrap/css/bootstrap.min.css" />" rel="stylesheet">
 </head>
 <body>
 <div class="container d-flex flex-column bg-light h-100">
+    <%@include file="../shared/navigation.jsp" %>
     <div class="d-flex justify-content-center p-2">
-        <h1>
+        <h2>
             Delete Worker
-        </h1>
+        </h2>
     </div>
     <%@include file="../shared/navigation.jsp" %>
     <div class="d-flex justify-content-center">
@@ -32,9 +31,9 @@
                 <p>Born on: ${worker.birthDate}</p>
                 <p>Address: ${worker.address.street} ${worker.address.number}, ${worker.address.city}</p>
                 <c:if test="${worker.company != null}">
-                <p>Employed
-                    at: ${worker.company.name}, ${worker.company.address.street} ${worker.company.address.number}, ${worker.company.address.city}
-                </p>
+                    <p>Employed
+                        at: ${worker.company.name}, ${worker.company.address.street} ${worker.company.address.number}, ${worker.company.address.city}
+                    </p>
                 </c:if>
             </div>
 
@@ -55,5 +54,6 @@
         </div>
     </div>
 </div>
+<script src="<c:url value="/resources/bootstrap/js/bootstrap.min.js" />" rel="script"></script>
 </body>
 </html>

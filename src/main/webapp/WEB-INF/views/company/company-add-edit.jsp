@@ -5,19 +5,17 @@
 <html>
 <head>
     <title>Worker Management App</title>
-    <style type="text/css">
-        <%@include file="/resources/bootstrap/css/bootstrap.min.css"%>
-        <%@include file="/resources/css/style.css"%>
-    </style>
+    <link href="<c:url value="/resources/bootstrap/css/bootstrap.min.css" />" rel="stylesheet">
+    <link href="<c:url value="/resources/css/style.css"/>" rel="stylesheet">
 </head>
 <body>
 <div class="container d-flex flex-column bg-light h-100">
-    <div class="d-flex justify-content-center p-2">
-        <h1>
-            Edit Company
-        </h1>
-    </div>
     <%@include file="../shared/navigation.jsp" %>
+    <div class="d-flex justify-content-center p-2">
+        <h2>
+            Add Company
+        </h2>
+    </div>
     <div class="container p-2 pl-5 pr-5">
         <form:form cssClass="mx-2" method="post" action="save" modelAttribute="company">
             <form:hidden path="idCompany"/>
@@ -55,5 +53,6 @@
         </form:form>
     </div>
 </div>
+<script src="<c:url value="/resources/bootstrap/js/bootstrap.min.js" />" rel="script"></script>
 </body>
 </html>

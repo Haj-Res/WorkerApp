@@ -5,20 +5,12 @@
 <html>
 <head>
     <title>Worker Management App</title>
-    <style type="text/css">
-        <%@include file="/resources/bootstrap/css/bootstrap.min.css"%>
-    </style>
-
+    <link href="<c:url value="/resources/bootstrap/css/bootstrap.min.css" />" rel="stylesheet">
 </head>
 <body>
 <div class="container d-flex flex-column bg-light h-100">
-    <%@include file="../shared/alerts.jsp" %>
-    <div class="d-flex justify-content-center p-2">
-        <h1>
-            Edit Worker
-        </h1>
-    </div>
     <%@include file="../shared/navigation.jsp" %>
+    <%@include file="../shared/alerts.jsp" %>
     <div class="container d-flex flex-column">
         <div class="d-flex justify-content-center ">
             <h2>Worker list</h2>
@@ -136,5 +128,6 @@
     </div>
 </div>
 </div>
+<script src="<c:url value="/resources/bootstrap/js/bootstrap.min.js" />" rel="script"></script>
 </body>
 </html>

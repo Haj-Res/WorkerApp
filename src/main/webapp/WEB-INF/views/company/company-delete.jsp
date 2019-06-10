@@ -12,18 +12,14 @@
 <html>
 <head>
     <title>Worker Management App</title>
-    <style type="text/css">
-        <%@include file="/resources/bootstrap/css/bootstrap.min.css"%>
-    </style>
+    <link href="<c:url value="/resources/bootstrap/css/bootstrap.min.css" />" rel="stylesheet">
 </head>
 <body>
 <div class="container d-flex flex-column bg-light h-100">
-    <div class="d-flex justify-content-center p-2">
-        <h1>
-            Delete Company
-        </h1>
-    </div>
     <%@include file="../shared/navigation.jsp" %>
+    <div class="d-flex justify-content-center">
+        <h2>Delete Company</h2>
+    </div>
     <div class="d-flex justify-content-center">
         <div class="container d-flex flex-column p-5 m-5">
             <div class="alert border-info bg-light p-5">
@@ -47,4 +43,6 @@
         </div>
     </div>
 </div>
+<script src="<c:url value="/resources/bootstrap/js/bootstrap.min.js" />" rel="script"></script>
 </body>
+</html>

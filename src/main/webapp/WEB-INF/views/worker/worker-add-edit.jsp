@@ -7,17 +7,16 @@
 <html>
 <head>
     <title>Worker Management App</title>
-    <style type="text/css">
-        <%@include file="/resources/bootstrap/css/bootstrap.min.css"%>
-        <%@include file="/resources/css/style.css"%>
-    </style>
+    <link href="<c:url value="/resources/bootstrap/css/bootstrap.min.css" />" rel="stylesheet">
+    <link href="<c:url value="/resources/css/style.css"/>" rel="stylesheet">
 </head>
 <body>
 <div class="container d-flex flex-column bg-light h-100">
+    <%@include file="../shared/navigation.jsp" %>
     <div class="d-flex justify-content-center p-2">
-        <h1>
+        <h2>
             Edit Worker
-        </h1>
+        </h2>
     </div>
     <%@include file="../shared/navigation.jsp" %>
     <div class="p-2">
@@ -103,5 +102,6 @@
         </form:form>
     </div>
 </div>
+<script src="<c:url value="/resources/bootstrap/js/bootstrap.min.js" />" rel="script"></script>
 </body>
 </html>
