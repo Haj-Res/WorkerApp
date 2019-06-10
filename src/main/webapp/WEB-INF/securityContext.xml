@@ -11,14 +11,11 @@
     <sec:http>
         <sec:form-login login-page="/login" login-processing-url="/authenticateUser" authentication-success-handler-ref="successHandler"/>
         <sec:logout logout-url="/logout" />
-        <sec:intercept-url pattern="/worker/list" access="hasRole('${roles.employee}')"/>
-        <sec:intercept-url pattern="/company/list" access="hasRole('${roles.employee}')"/>
-        <sec:intercept-url pattern="/worker/add" access="hasRole('${roles.admin}')"/>
-        <sec:intercept-url pattern="/worker/edit" access="hasRole('${roles.admin}')"/>
-        <sec:intercept-url pattern="/worker/delete" access="hasRole('${roles.admin}')"/>
-        <sec:intercept-url pattern="/company/add" access="hasRole('${roles.admin}')"/>
-        <sec:intercept-url pattern="/company/edit" access="hasRole('${roles.admin}')"/>
-        <sec:intercept-url pattern="/company/delete" access="hasRole('${roles.admin}')"/>
+        <sec:intercept-url pattern="/*/list" access="hasRole('${roles.employee}')"/>
+        <sec:intercept-url pattern="/*/add" access="hasRole('${roles.admin}')"/>
+        <sec:intercept-url pattern="/*/edit" access="hasRole('${roles.admin}')"/>
+        <sec:intercept-url pattern="/*/delete" access="hasRole('${roles.admin}')"/>
+
     </sec:http>
 
     <sec:authentication-manager>

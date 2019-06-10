@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <html>
@@ -34,9 +35,11 @@
                 </div>
             </div>
         </form>
-        <div class="align-self-end">
-            <a href="${pageContext.request.contextPath}/worker/add" class="btn btn-success">New Worker</a>
-        </div>
+        <security:authorize access="hasRole('ROLE_ADMIN')">
+            <div class="align-self-end">
+                <a href="${pageContext.request.contextPath}/worker/add" class="btn btn-success">New Worker</a>
+            </div>
+        </security:authorize>
     </div>
     <div class="p-2 pt-0 d-flex justify-content-center">
         <table class="table">
@@ -48,7 +51,9 @@
                 <th>Birthday</th>
                 <th>Address</th>
                 <th>Company</th>
-                <th>Actions</th>
+                <security:authorize access="hasRole('ROLE_ADMIN')">
+                    <th>Actions</th>
+                </security:authorize>
             </tr>
             </thead>
 
@@ -74,12 +79,13 @@
                     <td><c:out
                             value="${worker.address.street} ${worker.address.number}, ${worker.address.city}"/></td>
                     <td><c:out value="${worker.company.name}"/></td>
-                    <td>
-                        <a class="mr-4" href="${editWorker}">Edit</a>
-
-                        <a href="${deleteWorker}">Delete</a>
-
-                    </td>
+                    <security:authorize access="hasRole('ROLE_ADMIN')">
+                        <td>
+                            <a class="mr-2" href="${editWorker}">Edit</a>
+                            |
+                            <a class="ml-2" href="${deleteWorker}">Delete</a>
+                        </td>
+                    </security:authorize>
                 </tr>
                 </tbody>
             </c:forEach>
