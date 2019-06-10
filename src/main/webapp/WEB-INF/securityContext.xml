@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sec="http://www.springframework.org/schema/security"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <context:property-placeholder location="classpath:roles.properties"/>
+
+    <sec:http pattern="/" security="none"/>
+    <sec:http pattern="/resources" security="none"/>
+    <sec:http>
+        <sec:form-login login-page="/login" login-processing-url="/authenticateUser" authentication-success-handler-ref="successHandler"/>
+        <sec:logout logout-url="/logout" />
+        <sec:intercept-url pattern="/worker/list" access="hasRole('${roles.employee}')"/>
+        <sec:intercept-url pattern="/company/list" access="hasRole('${roles.employee}')"/>
+        <sec:intercept-url pattern="/worker/add" access="hasRole('${roles.admin}')"/>
+        <sec:intercept-url pattern="/worker/edit" access="hasRole('${roles.admin}')"/>
+        <sec:intercept-url pattern="/worker/delete" access="hasRole('${roles.admin}')"/>
+        <sec:intercept-url pattern="/company/add" access="hasRole('${roles.admin}')"/>
+        <sec:intercept-url pattern="/company/edit" access="hasRole('${roles.admin}')"/>
+        <sec:intercept-url pattern="/company/delete" access="hasRole('${roles.admin}')"/>
+    </sec:http>
+
+    <sec:authentication-manager>
+        <sec:authentication-provider user-service-ref="userDetailsService">
+            <sec:password-encoder ref="passwordEncoder"/>
+        </sec:authentication-provider>
+    </sec:authentication-manager>
+    <bean id="userDetailsService" class="com.hajres.service.UserServiceImpl">
+    </bean>
+
+    <bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+
+</beans>

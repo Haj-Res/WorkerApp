@@ -8,11 +8,14 @@
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd
        http://www.springframework.org/schema/mvc
-       http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd ">
 
     <mvc:annotation-driven/>
     <context:component-scan base-package="com.hajres"/>
-    <mvc:resources mapping="/resources/**" location="resources"/>
+    <mvc:resources mapping="/css/**" location="resources/css"/>
+    <mvc:resources mapping="/bootstrap/**" location="resources/bootstrap"/>
+    <mvc:resources mapping="/img/**" location="resources/img"/>
+
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/views/"/>
@@ -52,14 +55,6 @@
     <!-- Hibernate transaction manager -->
     <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>
-
-    <bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
-    </bean>
-
-    <bean id="authenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
-        <property name="userDetailsService" ref="userServiceImpl" />
-        <property name="passwordEncoder" ref="passwordEncoder" />
     </bean>
 
     <!-- Enabling configuration of transactional annotation -->
