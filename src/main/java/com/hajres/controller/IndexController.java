@@ -10,6 +10,6 @@ public class IndexController {
     @RequestMapping("/")
     public String index(Model m) {
         m.addAttribute("location", "index");
-        return "index";
+        return "redirect:/worker/list";
     }
 }
