@@ -57,12 +57,12 @@
                         <c:param name="companyId" value="${company.idCompany}"/>
                     </c:url>
                     <tr>
-                        <td><c:out value="${loop.index + 1}."/></td>
+                        <td><c:out value="${loop.index + 1 + ( page -1 )* 10}."/></td>
                         <td><c:out value="${company.name}"/></td>
                         <td><c:out
                                 value="${company.address.street} ${company.address.number}, ${company.address.city}"/></td>
                         <security:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')">
-                            <td>
+                            <td class="d-flex justify-content-around">
                                 <a class="mr-2" href="${editCompany}"><span class="fas fa-pen"></span></a>
                                 <security:authorize access="hasAnyRole('ROLE_ADMIN')">
                                     |
