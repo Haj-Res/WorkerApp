@@ -26,7 +26,7 @@
             <div style="padding-top: 30px" class="panel-body">
                 <!-- Registration Form -->
                 <form:form action="${pageContext.request.contextPath}/administration/processRegistration"
-                           modelAttribute="crmUser"
+                           modelAttribute="regHelperUser"
                            class="form-horizontal">
                     <!-- Place for messages: error, alert etc ... -->
                     <div class="form-group">
@@ -104,6 +104,7 @@
                     <div style="margin-top: 10px" class="form-group">
                         <div class="col-sm-6 controls">
                             <button type="submit" class="btn btn-primary">Register</button>
+                            <a href="${pageContext.request.contextPath}/worker/list" class="btn btn-danger ml-3">Cancel</a>
                         </div>
                     </div>
                 </form:form>

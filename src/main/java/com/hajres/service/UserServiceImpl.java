@@ -4,7 +4,7 @@ import com.hajres.domain.model.Role;
 import com.hajres.domain.model.User;
 import com.hajres.domain.v2.dao.RoleDAO;
 import com.hajres.domain.v2.dao.UserDAO;
-import com.hajres.user.CrmUser;
+import com.hajres.domain.model.RegHelperUser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -43,19 +42,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void save(CrmUser crmUser) {
-        logger.info("Saving user: " + crmUser);
+    public void save(RegHelperUser regHelperUser) {
+        logger.info("Saving user: " + regHelperUser);
         User user = new User();
 
-        user.setUsername(crmUser.getUsername());
-        user.setPassword(passwordEncoder.encode(crmUser.getPassword()));
-        user.setFirstName(crmUser.getFirstName());
-        user.setLastName(crmUser.getLastName());
-        user.setEmail(crmUser.getEmail());
+        user.setUsername(regHelperUser.getUsername());
+        user.setPassword(passwordEncoder.encode(regHelperUser.getPassword()));
+        user.setFirstName(regHelperUser.getFirstName());
+        user.setLastName(regHelperUser.getLastName());
+        user.setEmail(regHelperUser.getEmail());
 
         user.addRole(roleDAO.findRoleByName("ROLE_EMPLOYEE"));
 
-        crmUser.getRoles().forEach(role -> user.addRole(roleDAO.findRoleByName(role)));
+        regHelperUser.getRoles().forEach(role -> user.addRole(roleDAO.findRoleByName(role)));
         logger.info("Saving user: " + user.toString());
 
         userDAO.save(user);

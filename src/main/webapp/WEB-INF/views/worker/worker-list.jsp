@@ -74,11 +74,11 @@
                             value="${worker.address.street} ${worker.address.number}, ${worker.address.city}"/></td>
                     <td><c:out value="${worker.company.name}"/></td>
                     <security:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')">
-                        <td>
-                            <a class="mr-2" href="${editWorker}"><span class="fas fa-pen"></span></a>
+                        <td class="d-flex justify-content-around">
+                             <a href="${editWorker}"><span class="fas fa-pen"></span></a>
                             <security:authorize access="hasAnyRole('ROLE_ADMIN')">
                                 |
-                                <a class="ml-2" href="${deleteWorker}"><span class="fas fa-trash"></span></a>
+                                <a href="${deleteWorker}"><span class="fas fa-trash"></span></a>
                             </security:authorize>
                         </td>
                     </security:authorize>

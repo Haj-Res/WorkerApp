@@ -10,7 +10,7 @@
     <sec:http pattern="/resources" security="none"/>
     <sec:http>
         <sec:form-login login-page="/login" login-processing-url="/authenticateUser"
-                        authentication-success-handler-ref="successHandler"/>
+                        authentication-success-handler-ref="customAuthenticationSuccessHandler"/>
         <sec:logout logout-url="/logout"/>
         <sec:access-denied-handler error-page="/access-denied"/>
         <sec:intercept-url pattern="/" access="permitAll()"/>

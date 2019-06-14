@@ -4,9 +4,9 @@ import java.util.logging.Logger;
 
 import javax.validation.Valid;
 
+import com.hajres.domain.model.RegHelperUser;
 import com.hajres.domain.model.User;
 import com.hajres.service.UserService;
-import com.hajres.user.CrmUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -41,18 +41,18 @@ public class RegistrationController {
 	@GetMapping("/registration")
 	public String showMyLoginPage(Model model) {
 		
-		model.addAttribute("crmUser", new CrmUser());
+		model.addAttribute("regHelperUser", new RegHelperUser());
 		
 		return "registration-form";
 	}
 
 	@PostMapping("/processRegistration")
 	public String processRegistrationForm(
-				@Valid @ModelAttribute("crmUser") CrmUser crmUser,
+				@Valid @ModelAttribute("regHelperUser") RegHelperUser regHelperUser,
 				BindingResult theBindingResult, 
 				Model theModel) {
 		
-		String userName = crmUser.getUsername();
+		String userName = regHelperUser.getUsername();
 		logger.info("Processing registration form for: " + userName);
 		
 		// form validation
@@ -63,14 +63,14 @@ public class RegistrationController {
 		// check the database if user already exists
         User existing = userService.findByUserName(userName);
         if (existing != null){
-        	theModel.addAttribute("crmUser", new CrmUser());
+        	theModel.addAttribute("regHelperUser", new RegHelperUser());
 			theModel.addAttribute("registrationError", "User name already exists.");
 
 			logger.warning("User name already exists.");
         	return "registration-form";
         }
      // create user account        						
-        userService.save(crmUser);
+        userService.save(regHelperUser);
         
         logger.info("Successfully created user: " + userName);
         

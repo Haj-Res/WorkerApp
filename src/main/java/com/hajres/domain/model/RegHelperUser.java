@@ -1,13 +1,10 @@
-package com.hajres.user;
-
-import com.hajres.domain.model.Role;
+package com.hajres.domain.model;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Collection;
 import java.util.List;
 
-public class CrmUser {
+public class RegHelperUser {
 
     @NotNull(message = "is required")
     @Size(min = 1, message = "is required")
@@ -35,7 +32,7 @@ public class CrmUser {
 
     private List<String> roles;
 
-    public CrmUser() {
+    public RegHelperUser() {
     }
 
     public String getUsername() {
@@ -96,7 +93,7 @@ public class CrmUser {
 
     @Override
     public String toString() {
-        return "CrmUser{" +
+        return "RegHelperUser{" +
                 "username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", matchingPassword='" + matchingPassword + '\'' +
