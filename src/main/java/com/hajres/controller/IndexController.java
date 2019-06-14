@@ -9,7 +9,8 @@ public class IndexController {
 
     @RequestMapping("/")
     public String index(Model m) {
-        m.addAttribute("location", "index");
+        m.addAttribute("page", 1);
+        m.addAttribute("size", 10);
         return "redirect:/worker/list";
     }
 }

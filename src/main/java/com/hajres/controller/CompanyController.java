@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/comapny")
+@RequestMapping("/company")
 public class CompanyController {
     @Autowired
     private CompanyService companyService;
