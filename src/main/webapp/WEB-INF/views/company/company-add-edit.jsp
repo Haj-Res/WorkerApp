@@ -8,10 +8,10 @@
     <link href="<c:url value="/resources/bootstrap/css/bootstrap.min.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/css/style.css"/>" rel="stylesheet">
 </head>
-<body>
+<body class="bg-dark">
 <div class="container d-flex flex-column bg-light h-100">
     <%@include file="../shared/navigation.jsp" %>
-    <div class="d-flex justify-content-center p-2">
+    <div class="d-flex justify-content-center p-2 mt-5">
         <h3>
             Company Management
         </h3>

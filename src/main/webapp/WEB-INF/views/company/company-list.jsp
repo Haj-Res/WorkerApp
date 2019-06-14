@@ -8,11 +8,11 @@
     <link href="<c:url value="/resources/bootstrap/css/bootstrap.min.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/fontawesome/css/all.css" />" rel="stylesheet">
 </head>
-<body>
+<body class="bg-dark">
 <div class="container d-flex flex-column bg-light h-100">
     <%@include file="../shared/navigation.jsp" %>
     <%@include file="../shared/alerts.jsp" %>
-    <div class="container d-flex flex-column">
+    <div class="container d-flex flex-column mt-5">
         <div class="d-flex justify-content-center">
             <h3>Company List</h3>
         </div>

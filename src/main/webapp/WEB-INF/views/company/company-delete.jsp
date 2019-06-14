@@ -14,10 +14,10 @@
     <title>Worker Management App</title>
     <link href="<c:url value="/resources/bootstrap/css/bootstrap.min.css" />" rel="stylesheet">
 </head>
-<body>
+<body class="bg-dark">
 <div class="container d-flex flex-column bg-light h-100">
     <%@include file="../shared/navigation.jsp" %>
-    <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center mt-5">
         <h3>Deleting Company</h3>
     </div>
     <div class="d-flex justify-content-center">
