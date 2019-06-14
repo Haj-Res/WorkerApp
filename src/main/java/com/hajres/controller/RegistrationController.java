@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/register")
+@RequestMapping("/administration")
 public class RegistrationController {
 
 	@Qualifier("userServiceImpl")
@@ -74,6 +74,6 @@ public class RegistrationController {
         
         logger.info("Successfully created user: " + userName);
         
-        return "registration-confirmation";		
+        return "redirect:../worker/list";
 	}
 }
