@@ -1,10 +1,11 @@
 package com.hajres.controller;
 
 import com.hajres.PaginatedResult;
-import com.hajres.domain.dao.WorkerDao;
+import com.hajres.config.Constant;
 import com.hajres.domain.model.Worker;
 
 import com.hajres.service.WorkerService;
+import com.hajres.service.WorkerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 @RequestMapping("/worker")
@@ -36,16 +36,21 @@ public class WorkerController {
     @GetMapping("/list")
     public String showWorkerList(@ModelAttribute("filter") String filter,
                                  @RequestParam(value = "page", required = false, defaultValue = "1") int page,
+                                 @RequestParam(value = "size", required = false, defaultValue = Constant.DEFAULT_PAGE_SIZE + "") int pageSize,
                                  Model model) {
         PaginatedResult<Worker> paginatedResult;
+        if (pageSize > Constant.MAX_PAGE_SIZE) {
+            pageSize = Constant.DEFAULT_PAGE_SIZE;
+        }
         if (filter == null) {
-            paginatedResult = workerService.getPaginatedWorkerList(page);
+            paginatedResult = workerService.getPaginatedWorkerList(page, pageSize);
         } else {
-            paginatedResult = workerService.getPaginatedWorkerList(page, filter);
+            paginatedResult = workerService.getPaginatedWorkerList(page, pageSize, filter);
         }
         model.addAttribute("workerList", paginatedResult.getResultList());
         model.addAttribute("pageCount", paginatedResult.getPageCount());
         model.addAttribute("page", page);
+        model.addAttribute("size", pageSize);
         return "worker/worker-list";
     }
 

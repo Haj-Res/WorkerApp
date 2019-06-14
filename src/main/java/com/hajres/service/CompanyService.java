@@ -9,7 +9,7 @@ public interface CompanyService {
 
     List<Company> getCompanyList();
 
-    PaginatedResult<Company> getPaginatedCompanyList(int page);
+    PaginatedResult<Company> getPaginatedCompanyList(int page, int pageSize);
 
     Company getCompany(int id);
 
@@ -19,5 +19,5 @@ public interface CompanyService {
 
     List<Company> getCompanyList(String filter);
 
-    PaginatedResult<Company> getPaginatedCompanyList(int page, String filter);
+    PaginatedResult<Company> getPaginatedCompanyList(int page, int pageSize, String filter);
 }

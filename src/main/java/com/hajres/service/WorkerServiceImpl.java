@@ -15,7 +15,6 @@ import java.util.List;
 
 @Service
 public class WorkerServiceImpl implements WorkerService {
-    private static final int MAX_RESULT = 10;
     @Autowired
     WorkerDAO workerDAO;
     @Autowired
@@ -31,9 +30,9 @@ public class WorkerServiceImpl implements WorkerService {
 
     @Override
     @Transactional
-    public PaginatedResult<Worker> getPaginatedWorkerList(int page) {
-        int firstResult = (page - 1) * MAX_RESULT;
-        return workerDAO.getPaginatedWorkerList(firstResult, MAX_RESULT);
+    public PaginatedResult<Worker> getPaginatedWorkerList(int page, int pageSize) {
+        int firstResult = (page - 1) * pageSize;
+        return workerDAO.getPaginatedWorkerList(firstResult, pageSize);
     }
 
     @Override
@@ -89,8 +88,8 @@ public class WorkerServiceImpl implements WorkerService {
 
     @Override
     @Transactional
-    public PaginatedResult<Worker> getPaginatedWorkerList(int page, String filter) {
-        int firstResult = (page-1) * MAX_RESULT;
-        return workerDAO.getPaginatedWorkerList(filter, firstResult, MAX_RESULT);
+    public PaginatedResult<Worker> getPaginatedWorkerList(int page, int pageSize, String filter) {
+        int firstResult = (page-1) * pageSize;
+        return workerDAO.getPaginatedWorkerList(filter, firstResult, pageSize);
     }
 }

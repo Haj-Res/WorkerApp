@@ -17,7 +17,7 @@ public interface WorkerService {
 
     List<Worker> getWorkerList(String filter);
 
-    PaginatedResult<Worker> getPaginatedWorkerList(int page);
+    PaginatedResult<Worker> getPaginatedWorkerList(int page, int pageSize);
 
-    PaginatedResult<Worker> getPaginatedWorkerList(int page, String filter);
+    PaginatedResult<Worker> getPaginatedWorkerList(int page, int pageSize, String filter);
 }

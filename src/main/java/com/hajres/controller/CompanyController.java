@@ -1,6 +1,7 @@
 package com.hajres.controller;
 
 import com.hajres.PaginatedResult;
+import com.hajres.config.Constant;
 import com.hajres.domain.dao.CompanyDao;
 import com.hajres.domain.model.Company;
 
@@ -36,16 +37,21 @@ public class CompanyController {
     @RequestMapping("/list")
     public String showCompanyList(@ModelAttribute("filter") String filter,
                                       @RequestParam(value = "page", required = false, defaultValue = "1") int page,
+                                      @RequestParam(value = "size", required = false, defaultValue = Constant.DEFAULT_PAGE_SIZE + "") int pageSize,
                                   Model model) {
         PaginatedResult<Company> paginatedResults;
+        if (pageSize > Constant.MAX_PAGE_SIZE) {
+            pageSize = Constant.DEFAULT_PAGE_SIZE;
+        }
         if (filter == null) {
-            paginatedResults = companyService.getPaginatedCompanyList(page);
+            paginatedResults = companyService.getPaginatedCompanyList(page, pageSize);
         } else {
-            paginatedResults = companyService.getPaginatedCompanyList(page, filter);
+            paginatedResults = companyService.getPaginatedCompanyList(page, pageSize, filter);
         }
         model.addAttribute("companyList", paginatedResults.getResultList());
         model.addAttribute("pageCount", paginatedResults.getPageCount());
         model.addAttribute("page", page);
+        model.addAttribute("size", pageSize);
         return "company/company-list";
     }
 
