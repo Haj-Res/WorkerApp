@@ -67,10 +67,6 @@
                 </form:form>
             </div>
         </div>
-        <div>
-            <a href="${pageContext.request.contextPath}/register/registration" class="btn btn-primary" role="button"
-               aria-pressed="true">Register New User</a>
-        </div>
     </div>
 </div>
 </body>

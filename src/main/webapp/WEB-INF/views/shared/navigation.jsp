@@ -1,3 +1,4 @@
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="${pageContext.request.contextPath}/">WorkerApp</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -14,6 +15,12 @@
                 <a class="nav-link" href="${pageContext.request.contextPath}/company/list">Company list</a>
             </li>
         </ul>
+        <sec:authorize access="hasRole('ROLE_ADMIN')">
+            <div class="nav-item mx-4">
+                <a class="btn btn-dark" href="${pageContext.request.contextPath}/administration/registration">Register
+                    new Employee</a>
+            </div>
+        </sec:authorize>
         <div class="nav-item">
             <a class="btn btn-dark" href="#" onclick="document.getElementById('logout').submit();">Logout</a>
         </div>
