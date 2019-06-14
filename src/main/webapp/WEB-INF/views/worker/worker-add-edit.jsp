@@ -18,7 +18,6 @@
             Worker Management
         </h3>
     </div>
-    <%@include file="../shared/navigation.jsp" %>
     <div class="p-2">
         <form:form method="post" action="save" modelAttribute="worker">
             <div class="d-flex">
