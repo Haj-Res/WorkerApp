@@ -17,8 +17,8 @@
         </ul>
         <sec:authorize access="hasRole('ROLE_ADMIN')">
             <div class="nav-item mx-4">
-                <a class="btn btn-dark" href="${pageContext.request.contextPath}/administration/registration">Register
-                    new Employee</a>
+                <a class="btn btn-success" href="${pageContext.request.contextPath}/administration/registration"><span
+                        class="fas fa-plus"></span> Register New Employee</a>
             </div>
         </sec:authorize>
         <div class="nav-item">

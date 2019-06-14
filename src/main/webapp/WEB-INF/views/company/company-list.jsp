@@ -28,7 +28,7 @@
                     </div>
                 </div>
             </form>
-            <security:authorize access="hasRole('ROLE_ADMIN')">
+            <security:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')">
                 <div class="align-self-end">
                     <a href="${pageContext.request.contextPath}/company/add" class="btn btn-success"><span
                             class="fas fa-plus"></span> Add Company</a>
@@ -42,7 +42,7 @@
                     <th>#</th>
                     <th>Company name</th>
                     <th>Address</th>
-                    <security:authorize access="hasRole('ROLE_ADMIN')">
+                    <security:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')">
                         <th>Action</th>
                     </security:authorize>
                 </tr>
@@ -61,11 +61,13 @@
                         <td><c:out value="${company.name}"/></td>
                         <td><c:out
                                 value="${company.address.street} ${company.address.number}, ${company.address.city}"/></td>
-                        <security:authorize access="hasRole('ROLE_ADMIN')">
+                        <security:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')">
                             <td>
                                 <a class="mr-2" href="${editCompany}"><span class="fas fa-pen"></span></a>
-                                |
-                                <a class="ml-2" href="${deleteCompany}"><span class="fas fa-trash"></span></a>
+                                <security:authorize access="hasAnyRole('ROLE_ADMIN')">
+                                    |
+                                    <a class="ml-2" href="${deleteCompany}"><span class="fas fa-trash"></span></a>
+                                </security:authorize>
                             </td>
                         </security:authorize>
                     </tr>
