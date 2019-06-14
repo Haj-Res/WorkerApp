@@ -1,7 +1,11 @@
 package com.hajres.user;
 
+import com.hajres.domain.model.Role;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Collection;
+import java.util.List;
 
 public class CrmUser {
 
@@ -28,6 +32,8 @@ public class CrmUser {
     @NotNull(message = "is required")
     @Size(min = 1, message = "is required")
     private String email;
+
+    private List<String> roles;
 
     public CrmUser() {
     }
@@ -78,5 +84,26 @@ public class CrmUser {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
+    }
+
+    @Override
+    public String toString() {
+        return "CrmUser{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", matchingPassword='" + matchingPassword + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", roles=" + roles +
+                '}';
     }
 }

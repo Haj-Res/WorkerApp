@@ -12,6 +12,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.lang.annotation.Target;
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
@@ -117,6 +118,13 @@ public class User {
 
     public void setRoles(Collection<Role> roles) {
         this.roles = roles;
+    }
+
+    public void addRole(Role role) {
+        if (this.roles == null) {
+            this.roles = new ArrayList<>();
+        }
+        this.roles.add(role);
     }
 
     @Override

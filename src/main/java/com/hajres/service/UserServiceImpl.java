@@ -44,6 +44,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void save(CrmUser crmUser) {
+        logger.info("Saving user: " + crmUser);
         User user = new User();
 
         user.setUsername(crmUser.getUsername());
@@ -52,7 +53,9 @@ public class UserServiceImpl implements UserService {
         user.setLastName(crmUser.getLastName());
         user.setEmail(crmUser.getEmail());
 
-        user.setRoles(Arrays.asList(roleDAO.findRoleByName("ROLE_EMPLOYEE")));
+        user.addRole(roleDAO.findRoleByName("ROLE_EMPLOYEE"));
+
+        crmUser.getRoles().forEach(role -> user.addRole(roleDAO.findRoleByName(role)));
         logger.info("Saving user: " + user.toString());
 
         userDAO.save(user);
