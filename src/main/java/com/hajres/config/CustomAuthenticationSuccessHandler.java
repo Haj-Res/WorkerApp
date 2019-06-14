@@ -22,7 +22,6 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     @Qualifier("userServiceImpl")
     @Autowired
     private UserService userService;
-
     private Logger logger = LogManager.getLogger(getClass().getName());
 
     @Override

@@ -1,8 +1,7 @@
 package com.hajres.controller;
 
 import com.hajres.PaginatedResult;
-import com.hajres.config.Constant;
-import com.hajres.domain.dao.CompanyDao;
+import com.hajres.config.Const;
 import com.hajres.domain.model.Company;
 
 import com.hajres.service.CompanyService;
@@ -20,10 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
-@RequestMapping("/company")
+@RequestMapping("/comapny")
 public class CompanyController {
     @Autowired
     private CompanyService companyService;
@@ -35,13 +33,13 @@ public class CompanyController {
     }
 
     @RequestMapping("/list")
-    public String showCompanyList(@ModelAttribute("filter") String filter,
-                                      @RequestParam(value = "page", required = false, defaultValue = "1") int page,
-                                      @RequestParam(value = "size", required = false, defaultValue = Constant.DEFAULT_PAGE_SIZE + "") int pageSize,
+    public String showCompanyList(@ModelAttribute(Const.FILTER_PARAM_NAME) String filter,
+                                  @RequestParam(value = Const.PAGE_PARAM_NAME, required = false, defaultValue = Const.DEFAULT_FIRST_PAGE_STRING) int page,
+                                  @RequestParam(value = Const.PAGE_SIZE_PARAM_NAME, required = false, defaultValue = Const.DEFAULT_PAGE_SIZE_STRING) int pageSize,
                                   Model model) {
         PaginatedResult<Company> paginatedResults;
-        if (pageSize > Constant.MAX_PAGE_SIZE) {
-            pageSize = Constant.DEFAULT_PAGE_SIZE;
+        if (pageSize > Const.MAX_PAGE_SIZE) {
+            pageSize = Const.DEFAULT_PAGE_SIZE;
         }
         if (filter == null) {
             paginatedResults = companyService.getPaginatedCompanyList(page, pageSize);
@@ -49,9 +47,9 @@ public class CompanyController {
             paginatedResults = companyService.getPaginatedCompanyList(page, pageSize, filter);
         }
         model.addAttribute("companyList", paginatedResults.getResultList());
-        model.addAttribute("pageCount", paginatedResults.getPageCount());
-        model.addAttribute("page", page);
-        model.addAttribute("size", pageSize);
+        model.addAttribute(Const.PAGE_COUNT_PARAM_NAME, paginatedResults.getPageCount());
+        model.addAttribute(Const.PAGE_PARAM_NAME, page);
+        model.addAttribute(Const.PAGE_SIZE_PARAM_NAME, pageSize);
         return "company/company-list";
     }
 

@@ -1,11 +1,10 @@
 package com.hajres.controller;
 
 import com.hajres.PaginatedResult;
-import com.hajres.config.Constant;
+import com.hajres.config.Const;
 import com.hajres.domain.model.Worker;
 
 import com.hajres.service.WorkerService;
-import com.hajres.service.WorkerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
@@ -34,13 +33,13 @@ public class WorkerController {
     }
 
     @GetMapping("/list")
-    public String showWorkerList(@ModelAttribute("filter") String filter,
-                                 @RequestParam(value = "page", required = false, defaultValue = "1") int page,
-                                 @RequestParam(value = "size", required = false, defaultValue = Constant.DEFAULT_PAGE_SIZE + "") int pageSize,
+    public String showWorkerList(@ModelAttribute(Const.FILTER_PARAM_NAME) String filter,
+                                 @RequestParam(value = Const.PAGE_PARAM_NAME, required = false, defaultValue = Const.DEFAULT_FIRST_PAGE_STRING) int page,
+                                 @RequestParam(value = Const.PAGE_SIZE_PARAM_NAME, required = false, defaultValue = Const.DEFAULT_PAGE_SIZE_STRING) int pageSize,
                                  Model model) {
         PaginatedResult<Worker> paginatedResult;
-        if (pageSize > Constant.MAX_PAGE_SIZE) {
-            pageSize = Constant.DEFAULT_PAGE_SIZE;
+        if (pageSize > Const.MAX_PAGE_SIZE) {
+            pageSize = Const.DEFAULT_PAGE_SIZE;
         }
         if (filter == null) {
             paginatedResult = workerService.getPaginatedWorkerList(page, pageSize);
@@ -48,9 +47,9 @@ public class WorkerController {
             paginatedResult = workerService.getPaginatedWorkerList(page, pageSize, filter);
         }
         model.addAttribute("workerList", paginatedResult.getResultList());
-        model.addAttribute("pageCount", paginatedResult.getPageCount());
-        model.addAttribute("page", page);
-        model.addAttribute("size", pageSize);
+        model.addAttribute(Const.PAGE_COUNT_PARAM_NAME, paginatedResult.getPageCount());
+        model.addAttribute(Const.PAGE_PARAM_NAME, page);
+        model.addAttribute(Const.PAGE_SIZE_PARAM_NAME, pageSize);
         return "worker/worker-list";
     }
 
@@ -78,16 +77,6 @@ public class WorkerController {
         Worker worker = new Worker();
         model.addAttribute("worker", worker);
         return "worker/worker-add-edit";
-    }
-
-    @PostMapping("/add")
-    public String postAdd(@Valid @ModelAttribute("worker") Worker worker,
-                          BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "worker/worker-add-edit";
-        }
-        workerService.saveWorker(worker);
-        return "redirect:/worker/list";
     }
 
     @GetMapping("/delete")
