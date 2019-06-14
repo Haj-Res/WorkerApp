@@ -64,7 +64,7 @@
                     <c:url var="deleteWorker" value="/worker/delete">
                         <c:param name="workerId" value="${worker.id}"/>
                     </c:url>
-                    <td><c:out value="${loop.index + 1 + ( page -1 )* 10}."/></td>
+                    <td><c:out value="${loop.index + 1 + ( page - 1 ) * size}."/></td>
                     <td><c:out value="${worker.jmbg}"/></td>
                     <td><c:out value="${worker.firstName} ${worker.lastName}"/></td>
                     <td><c:out value="${worker.birthDate}"/></td>
@@ -73,7 +73,7 @@
                     <td><c:out value="${worker.company.name}"/></td>
                     <security:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')">
                         <td class="d-flex justify-content-around">
-                             <a href="${editWorker}"><span class="fas fa-pen"></span></a>
+                            <a href="${editWorker}"><span class="fas fa-pen"></span></a>
                             <security:authorize access="hasAnyRole('ROLE_ADMIN')">
                                 |
                                 <a href="${deleteWorker}"><span class="fas fa-trash"></span></a>

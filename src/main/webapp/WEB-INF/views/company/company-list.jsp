@@ -57,7 +57,7 @@
                         <c:param name="companyId" value="${company.idCompany}"/>
                     </c:url>
                     <tr>
-                        <td><c:out value="${loop.index + 1 + ( page -1 )* 10}."/></td>
+                        <td><c:out value="${loop.index + 1 + ( page - 1 ) * size}."/></td>
                         <td><c:out value="${company.name}"/></td>
                         <td><c:out
                                 value="${company.address.street} ${company.address.number}, ${company.address.city}"/></td>
