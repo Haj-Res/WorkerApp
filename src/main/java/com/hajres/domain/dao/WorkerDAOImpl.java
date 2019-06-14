@@ -1,17 +1,14 @@
-package com.hajres.domain.v2.dao;
+package com.hajres.domain.dao;
 
 import com.hajres.PaginatedResult;
 import com.hajres.domain.model.Worker;
-import com.sun.xml.internal.messaging.saaj.packaging.mime.util.QEncoderStream;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.jdbc.Work;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Queue;
 
 @Repository
 public class WorkerDAOImpl implements WorkerDAO {

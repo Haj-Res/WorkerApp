@@ -1,8 +1,7 @@
-package com.hajres.domain.v2.dao;
+package com.hajres.domain.dao;
 
 import com.hajres.PaginatedResult;
 import com.hajres.domain.model.Company;
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;

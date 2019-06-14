@@ -2,8 +2,8 @@ package com.hajres.service;
 
 import com.hajres.domain.model.Role;
 import com.hajres.domain.model.User;
-import com.hajres.domain.v2.dao.RoleDAO;
-import com.hajres.domain.v2.dao.UserDAO;
+import com.hajres.domain.dao.RoleDAO;
+import com.hajres.domain.dao.UserDAO;
 import com.hajres.domain.model.RegHelperUser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

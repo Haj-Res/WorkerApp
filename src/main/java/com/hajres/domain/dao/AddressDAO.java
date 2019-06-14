@@ -1,4 +1,4 @@
-package com.hajres.domain.v2.dao;
+package com.hajres.domain.dao;
 
 import com.hajres.domain.model.Address;
 
