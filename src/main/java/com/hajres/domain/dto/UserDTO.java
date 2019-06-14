@@ -4,7 +4,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
 
-public class RegHelperUser {
+public class UserDTO {
 
     @NotNull(message = "is required")
     @Size(min = 1, message = "is required")
@@ -32,7 +32,7 @@ public class RegHelperUser {
 
     private List<String> roles;
 
-    public RegHelperUser() {
+    public UserDTO() {
     }
 
     public String getUsername() {
@@ -93,7 +93,7 @@ public class RegHelperUser {
 
     @Override
     public String toString() {
-        return "RegHelperUser{" +
+        return "UserDTO{" +
                 "username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", matchingPassword='" + matchingPassword + '\'' +

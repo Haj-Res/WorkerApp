@@ -4,7 +4,7 @@ import com.hajres.domain.entity.Role;
 import com.hajres.domain.entity.User;
 import com.hajres.domain.dao.RoleDAO;
 import com.hajres.domain.dao.UserDAO;
-import com.hajres.domain.dto.RegHelperUser;
+import com.hajres.domain.dto.UserDTO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,19 +42,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void save(RegHelperUser regHelperUser) {
-        logger.info("Saving user: " + regHelperUser);
+    public void save(UserDTO userDTO) {
+        logger.info("Saving user: " + userDTO);
         User user = new User();
 
-        user.setUsername(regHelperUser.getUsername());
-        user.setPassword(passwordEncoder.encode(regHelperUser.getPassword()));
-        user.setFirstName(regHelperUser.getFirstName());
-        user.setLastName(regHelperUser.getLastName());
-        user.setEmail(regHelperUser.getEmail());
+        user.setUsername(userDTO.getUsername());
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        user.setFirstName(userDTO.getFirstName());
+        user.setLastName(userDTO.getLastName());
+        user.setEmail(userDTO.getEmail());
 
         user.addRole(roleDAO.findRoleByName("ROLE_EMPLOYEE"));
 
-        regHelperUser.getRoles().forEach(role -> user.addRole(roleDAO.findRoleByName(role)));
+        userDTO.getRoles().forEach(role -> user.addRole(roleDAO.findRoleByName(role)));
         logger.info("Saving user: " + user.toString());
 
         userDAO.save(user);
