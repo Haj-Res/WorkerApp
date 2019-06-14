@@ -1,7 +1,7 @@
 package com.hajres.domain.dao;
 
 import com.hajres.PaginatedResult;
-import com.hajres.domain.model.Worker;
+import com.hajres.domain.entity.Worker;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;

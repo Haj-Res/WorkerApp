@@ -1,6 +1,6 @@
 package com.hajres.config;
 
-import com.hajres.domain.model.User;
+import com.hajres.domain.entity.User;
 import com.hajres.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

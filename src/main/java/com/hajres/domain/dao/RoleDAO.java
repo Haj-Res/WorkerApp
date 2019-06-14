@@ -1,6 +1,6 @@
 package com.hajres.domain.dao;
 
-import com.hajres.domain.model.Role;
+import com.hajres.domain.entity.Role;
 
 public interface RoleDAO {
 

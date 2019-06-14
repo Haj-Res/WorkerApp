@@ -1,6 +1,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--@elvariable id="worker" type="com.hajres.domain.model.Worker"--%>
+<%--@elvariable id="worker" type="com.hajres.domain.entity.Worker"--%>
 <%--
   Created by IntelliJ IDEA.
   User: resad

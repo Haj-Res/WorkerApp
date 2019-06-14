@@ -1,7 +1,7 @@
 package com.hajres.service;
 
 import com.hajres.PaginatedResult;
-import com.hajres.domain.model.Company;
+import com.hajres.domain.entity.Company;
 
 import java.util.List;
 

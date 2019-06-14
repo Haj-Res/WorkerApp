@@ -1,6 +1,6 @@
 package com.hajres.domain.dao;
 
-import com.hajres.domain.model.Role;
+import com.hajres.domain.entity.Role;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;

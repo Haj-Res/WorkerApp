@@ -1,8 +1,8 @@
 package com.hajres.service;
 
 import com.hajres.PaginatedResult;
-import com.hajres.domain.model.Address;
-import com.hajres.domain.model.Company;
+import com.hajres.domain.entity.Address;
+import com.hajres.domain.entity.Company;
 import com.hajres.domain.dao.AddressDAO;
 import com.hajres.domain.dao.CompanyDAO;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,10 +1,10 @@
 package com.hajres.service;
 
-import com.hajres.domain.model.Role;
-import com.hajres.domain.model.User;
+import com.hajres.domain.entity.Role;
+import com.hajres.domain.entity.User;
 import com.hajres.domain.dao.RoleDAO;
 import com.hajres.domain.dao.UserDAO;
-import com.hajres.domain.model.RegHelperUser;
+import com.hajres.domain.dto.RegHelperUser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -7,7 +7,7 @@ public abstract class Const {
     public static final int DEFAULT_PAGE_SIZE = 10;
     public static final int MAX_PAGE_SIZE = 20;
 
-    // Parameter and model attribute names used by the controllers
+    // Parameter and entity attribute names used by the controllers
     public static final String PAGE_PARAM_NAME = "page";
     public static final String PAGE_SIZE_PARAM_NAME = "size";
     public static final String PAGE_COUNT_PARAM_NAME = "pageCount";

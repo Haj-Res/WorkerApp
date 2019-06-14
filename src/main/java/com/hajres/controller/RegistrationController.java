@@ -4,8 +4,8 @@ import java.util.logging.Logger;
 
 import javax.validation.Valid;
 
-import com.hajres.domain.model.RegHelperUser;
-import com.hajres.domain.model.User;
+import com.hajres.domain.dto.RegHelperUser;
+import com.hajres.domain.entity.User;
 import com.hajres.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

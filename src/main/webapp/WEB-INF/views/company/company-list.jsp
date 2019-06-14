@@ -48,7 +48,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <%--@elvariable id="companyList" type="java.util.List<com.hajres.domain.model.Company>"--%>
+                <%--@elvariable id="companyList" type="java.util.List<com.hajres.domain.entity.Company>"--%>
                 <c:forEach var="company" items="${companyList}" varStatus="loop">
                     <c:url value="/company/edit" var="editCompany">
                         <c:param name="companyId" value="${company.idCompany}"/>

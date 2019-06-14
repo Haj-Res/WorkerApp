@@ -1,6 +1,6 @@
 package com.hajres.domain.dao;
 
-import com.hajres.domain.model.User;
+import com.hajres.domain.entity.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;

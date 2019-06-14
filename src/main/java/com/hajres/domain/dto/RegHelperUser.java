@@ -1,4 +1,4 @@
-package com.hajres.domain.entity;
+package com.hajres.domain.dto;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;

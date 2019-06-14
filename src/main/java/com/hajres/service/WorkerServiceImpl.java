@@ -1,12 +1,12 @@
 package com.hajres.service;
 
 import com.hajres.PaginatedResult;
-import com.hajres.domain.model.Address;
-import com.hajres.domain.model.Company;
+import com.hajres.domain.entity.Address;
+import com.hajres.domain.entity.Company;
 import com.hajres.domain.dao.AddressDAO;
 import com.hajres.domain.dao.CompanyDAO;
 import com.hajres.domain.dao.WorkerDAO;
-import com.hajres.domain.model.Worker;
+import com.hajres.domain.entity.Worker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -2,7 +2,7 @@ package com.hajres.controller;
 
 import com.hajres.PaginatedResult;
 import com.hajres.config.Const;
-import com.hajres.domain.model.Company;
+import com.hajres.domain.entity.Company;
 
 import com.hajres.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
