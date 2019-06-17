@@ -46,20 +46,21 @@ CREATE TABLE `WorkersDB`.`worker`
   DEFAULT CHARSET = utf8
   COLLATE = utf8_unicode_ci;
 
-CREATE TABLE `WorkersDB`.`user`
+CREATE TABLE `user`
 (
     `id`         int(11)                             NOT NULL AUTO_INCREMENT,
     `username`   varchar(50) COLLATE utf8_unicode_ci NOT NULL,
     `password`   char(80) COLLATE utf8_unicode_ci    NOT NULL,
-    `first_name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-    `last_name`  varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-    `email`      varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+    `first_name` varchar(50) CHARACTER SET utf8 DEFAULT NULL,
+    `last_name`  varchar(50) CHARACTER SET utf8 DEFAULT NULL,
+    `email`      varchar(50) CHARACTER SET utf8 DEFAULT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `username_UNIQUE` (`username`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8
   COLLATE = utf8_unicode_ci;
+
 
 
 CREATE TABLE `WorkersDB`.`role`
@@ -83,3 +84,17 @@ CREATE TABLE `WorkersDB`.`users_roles`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
   COLLATE = utf8_unicode_ci;
+
+INSERT INTO `WorkersDB`.`user` (`username`, `password`, `first_name`, `last_name`, `email`)
+VALUES ('admin', '$2a$10$XwZRn9DtMInduOggFV4vL.3rLjjk.MTIF8bvrRZiu1KeN96W9vaJi', null, null,
+        null);
+
+INSERT INTO `WorkersDB`.`role` (`name`)
+VALUES ('ROLE_EMPLOYEE'),
+       ('ROLE_MANAGER'),
+       ('ROLE_ADMIN');
+
+INSERT INTO `WorkersDB`.`users_roles` (`user_id`, `role_id`)
+VALUES (1, 1),
+       (1, 2),
+       (1, 3)
