@@ -1,9 +1,14 @@
 package com.hajres.domain.dto;
 
+import com.hajres.validation.FieldMatch;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
 
+@FieldMatch.List({
+        @FieldMatch(first = "password", second = "matchingPassword", message = "Password fields must match.")
+})
 public class RegHelperUser {
 
     @NotNull(message = "is required")
