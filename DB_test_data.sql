@@ -1,20 +1,10 @@
 INSERT INTO `WorkersDB`.`user` (`username`, `password`, `first_name`, `last_name`, `email`)
-VALUES ('admin', '$2a$10$XwZRn9DtMInduOggFV4vL.3rLjjk.MTIF8bvrRZiu1KeN96W9vaJi', 'John', 'Wick',
-        'j.wick@workerapp.com'),
-       ('john', '$2a$10$XwZRn9DtMInduOggFV4vL.3rLjjk.MTIF8bvrRZiu1KeN96W9vaJi', 'John', 'Johnsons',
+VALUES ('john', '$2a$10$XwZRn9DtMInduOggFV4vL.3rLjjk.MTIF8bvrRZiu1KeN96W9vaJi', 'John', 'Johnsons',
         'j.j@workerapp.com'),
        ('mary', '$2a$10$XwZRn9DtMInduOggFV4vL.3rLjjk.MTIF8bvrRZiu1KeN96W9vaJi', 'Mary', 'Sue', 'j.s@workerapp.com');
 
-INSERT INTO `WorkersDB`.`role` (`name`)
-VALUES ('ROLE_EMPLOYEE'),
-       ('ROLE_MANAGER'),
-       ('ROLE_ADMIN');
-
 INSERT INTO `WorkersDB`.`users_roles` (`user_id`, `role_id`)
-VALUES (1, 1),
-       (1, 2),
-       (1, 3),
-       (2, 1),
+VALUES (2, 1),
        (2, 2),
        (3, 1);
 
