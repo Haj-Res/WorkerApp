@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public User findByUserName(String name) {
-        logger.info("Finding user \"" + name +"\".");
+        logger.info("Finding User by username \"" + name +"\".");
         return userDAO.findByUserName(name);
     }
 
@@ -62,10 +62,10 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        logger.info("Finding user \"" + username +"\".");
+        logger.info( "Loading UserDetails by username \"" + username +"\".");
         User user = userDAO.findByUserName(username);
         if (user == null) {
-            logger.warn("Failed loggin attempt.");
+            logger.warn("Failed log in attempt for username \"" + username +"\".");
             throw new UsernameNotFoundException("Invalid username or password.");
         }
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
