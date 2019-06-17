@@ -43,7 +43,6 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void save(RegHelperUser regHelperUser) {
-        logger.info("Saving user: " + regHelperUser);
         User user = new User();
 
         user.setUsername(regHelperUser.getUsername());
