@@ -1,6 +1,7 @@
 package com.hajres.domain.dto;
 
 import com.hajres.validation.FieldMatch;
+import com.hajres.validation.ValidEmail;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -33,6 +34,7 @@ public class RegHelperUser {
 
     @NotNull(message = "is required")
     @Size(min = 1, message = "is required")
+    @ValidEmail
     private String email;
 
     private List<String> roles;
