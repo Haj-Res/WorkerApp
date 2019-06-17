@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/administration")
-public class RegistrationController {
+public class AdministrationController {
 
 	@Qualifier("userServiceImpl")
 	@Autowired
