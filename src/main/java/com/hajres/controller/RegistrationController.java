@@ -4,7 +4,7 @@ import java.util.logging.Logger;
 
 import javax.validation.Valid;
 
-import com.hajres.domain.dto.UserDTO;
+import com.hajres.domain.dto.RegHelperUser;
 import com.hajres.domain.entity.User;
 import com.hajres.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,19 +41,19 @@ public class RegistrationController {
 	@GetMapping("/registration")
 	public String showMyLoginPage(Model model) {
 		
-		model.addAttribute("userDTO", new UserDTO());
+		model.addAttribute("regHelperUser", new RegHelperUser());
 		
 		return "registration-form";
 	}
 
 	@PostMapping("/processRegistration")
 	public String processRegistrationForm(
-				@Valid @ModelAttribute("userDTO") UserDTO userDTO,
+				@Valid @ModelAttribute("regHelperUser") RegHelperUser regHelperUser,
 				BindingResult theBindingResult, 
 				Model theModel) {
 		
-		String username = userDTO.getUsername();
-		logger.info("Processing registration form for: " + username);
+		String userName = regHelperUser.getUsername();
+		logger.info("Processing registration form for: " + userName);
 		
 		// form validation
 		 if (theBindingResult.hasErrors()){
@@ -61,18 +61,18 @@ public class RegistrationController {
 	        }
 
 		// check the database if user already exists
-        User existing = userService.findByUserName(username);
+        User existing = userService.findByUserName(userName);
         if (existing != null){
-        	theModel.addAttribute("userDTO", new UserDTO());
+        	theModel.addAttribute("regHelperUser", new RegHelperUser());
 			theModel.addAttribute("registrationError", "User name already exists.");
 
 			logger.warning("User name already exists.");
         	return "registration-form";
         }
      // create user account        						
-        userService.save(userDTO);
+        userService.save(regHelperUser);
         
-        logger.info("Successfully created user: " + username);
+        logger.info("Successfully created user: " + userName);
         
         return "redirect:../worker/list";
 	}

@@ -26,7 +26,7 @@
             <div style="padding-top: 30px" class="panel-body">
                 <!-- Registration Form -->
                 <form:form action="${pageContext.request.contextPath}/administration/processRegistration"
-                           modelAttribute="userDTO"
+                           modelAttribute="regHelperUser"
                            class="form-horizontal">
                     <!-- Place for messages: error, alert etc ... -->
                     <div class="form-group">
