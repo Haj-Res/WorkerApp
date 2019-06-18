@@ -5,8 +5,8 @@
          pageEncoding="UTF-8" %>
 
 <t:genericpage pageName="Worker List"
-               message="${pageContext.request.getAttribute('message')}"
-               errorMessage="${pageContext.request.getAttribute('errorMessage')}">
+               message="${message}"
+               errorMessage="${errorMessage}">
 
     <jsp:attribute name="footer">
             <%@include file="../shared/pagination.jsp" %>
@@ -31,7 +31,7 @@
                 </div>
             </security:authorize>
         </div>
-        <div class="p-2 pt-0 d-flex justify-content-center">
+        <div class="d-flex justify-content-center p-2 pt-0 mt-0">
             <table class="table">
                 <thead class="thead-light">
                 <tr>
