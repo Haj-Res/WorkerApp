@@ -1,10 +1,12 @@
 package com.hajres.domain.dto;
 
+import com.hajres.domain.entity.User;
 import com.hajres.validation.FieldMatch;
 import com.hajres.validation.ValidEmail;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 
 @FieldMatch.List({
@@ -98,6 +100,13 @@ public class RegHelperUser {
         this.roles = roles;
     }
 
+    public void addRole(String role) {
+        if (this.roles == null) {
+            this.roles = new ArrayList<>();
+        }
+        this.roles.add(role);
+    }
+
     @Override
     public String toString() {
         return "RegHelperUser{" +
@@ -109,5 +118,15 @@ public class RegHelperUser {
                 ", email='" + email + '\'' +
                 ", roles=" + roles +
                 '}';
+    }
+
+    public static RegHelperUser map(User user) {
+        RegHelperUser result = new RegHelperUser();
+        result.username = user.getUsername();
+        result.firstName = user.getFirstName();
+        result.lastName = user.getLastName();
+        result.email = user.getEmail();
+
+        return result;
     }
 }
