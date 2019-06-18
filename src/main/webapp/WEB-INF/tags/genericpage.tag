@@ -13,6 +13,7 @@
     <title>Worker Management App</title>
     <link href="<c:url value="/resources/bootstrap/css/bootstrap.min.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/fontawesome/css/all.css" />" rel="stylesheet">
+    <link href="<c:url value="/resources/css/style.css" />" rel="stylesheet">
 </head>
 <body class="bg-dark">
 <div class="container d-flex flex-column bg-light h-100">

@@ -3,7 +3,9 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<t:genericpage pageName="User profile">
+<t:genericpage pageName="User profile"
+               message="${message}"
+               errorMessage="${errorMessage}">
     <jsp:body>
         <form:form action="save" method="post" modelAttribute="user"
                    cssClass="d-flex flex-column mt-5 px-5 py-2">
@@ -13,25 +15,30 @@
                 </div>
                 <form:input path="username" type="text" class="form-control" readonly="true"/>
             </div>
+
             <div class="form-group mt-2">
                 <label for="firstName">First Name</label>
+                <form:errors path="firstName" cssClass="error"/>
                 <form:input path="firstName" type="text" class="form-control" id="firstName"/>
             </div>
 
             <div class="form-group mt-2">
                 <label for="lastName">Last Name</label>
+                <form:errors path="lastName" cssClass="error"/>
                 <form:input path="lastName" type="text" class="form-control" id="lastName"/>
             </div>
 
             <div class="form-group mt-2">
                 <label for="email">Email</label>
-                <form:input path="email" type="text" class="form-control" id="email" />
+                <form:errors path="email" cssClass="error"/>
+                <form:input path="email" type="text" class="form-control" id="email"/>
             </div>
+
             <div class="mt-2">
                 <a class="btn btn-danger" href="${pageContext.request.contextPath}/user/password">Change password</a>
             </div>
             <div class="d-flex flex-row mt-4">
-            <input class="btn btn-secondary mr-3" type="submit" value="Save"/>
+                <input class="btn btn-secondary mr-3" type="submit" value="Save"/>
                 <a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/">Cancel</a>
             </div>
         </form:form>
