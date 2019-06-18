@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: resad
-  Date: 6/10/19
-  Time: 1:15 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%--@elvariable id="page" type="int"--%>
 <%--@elvariable id="pageCount" type="int"--%>
 <%--@elvariable id="size" type="int"--%>
