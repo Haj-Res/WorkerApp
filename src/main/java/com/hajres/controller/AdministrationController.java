@@ -24,56 +24,56 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/administration")
 public class AdministrationController {
 
-	@Qualifier("userServiceImpl")
-	@Autowired
+    @Qualifier("userServiceImpl")
+    @Autowired
     private UserService userService;
-	
+
     private Logger logger = Logger.getLogger(getClass().getName());
-    
-	@InitBinder
-	public void initBinder(WebDataBinder dataBinder) {
-		
-		StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
-		
-		dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
-	}	
-	
-	@GetMapping("/registration")
-	public String showMyLoginPage(Model model) {
-		
-		model.addAttribute("regHelperUser", new RegHelperUser());
-		
-		return "administration/registration-form";
-	}
 
-	@PostMapping("/processRegistration")
-	public String processRegistrationForm(
-				@Valid @ModelAttribute("regHelperUser") RegHelperUser regHelperUser,
-				BindingResult theBindingResult, 
-				Model theModel) {
-		
-		String userName = regHelperUser.getUsername();
-		logger.info("Processing registration form for: " + userName);
-		
-		// form validation
-		 if (theBindingResult.hasErrors()){
-			 return "administration/registration-form";
-	        }
+    @InitBinder
+    public void initBinder(WebDataBinder dataBinder) {
 
-		// check the database if user already exists
-        User existing = userService.findByUserName(userName);
-        if (existing != null){
-        	theModel.addAttribute("regHelperUser", new RegHelperUser());
-			theModel.addAttribute("registrationError", "User name already exists.");
+        StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
 
-			logger.warning("User name already exists.");
-        	return "administration/registration-form";
+        dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
+    }
+
+    @GetMapping("/registration")
+    public String showMyLoginPage(Model model) {
+
+        model.addAttribute("regHelperUser", new RegHelperUser());
+
+        return "administration/registration-form";
+    }
+
+    @PostMapping("/processRegistration")
+    public String processRegistrationForm(
+            @Valid @ModelAttribute("regHelperUser") RegHelperUser regHelperUser,
+            BindingResult theBindingResult,
+            Model theModel) {
+
+        // form validation
+        if (theBindingResult.hasErrors()) {
+            return "administration/registration-form";
         }
-     // create user account        						
+
+        String userName = regHelperUser.getUsername();
+        logger.info("Processing registration form for: " + userName);
+
+        // check the database if user already exists
+        User existing = userService.findByUserName(userName);
+        if (existing != null) {
+            theModel.addAttribute("regHelperUser", new RegHelperUser());
+            theModel.addAttribute("registrationError", "User name already exists.");
+
+            logger.warning("User name already exists.");
+            return "administration/registration-form";
+        }
+        // create user account
         userService.save(regHelperUser);
-        
+
         logger.info("Successfully created user: " + userName);
-        
+
         return "redirect:../worker/list";
-	}
+    }
 }
