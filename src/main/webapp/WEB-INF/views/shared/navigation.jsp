@@ -5,7 +5,7 @@
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-<c:set var="active" value="${pageContext.request.servletPath.split('/')[3]}"/>
+    <c:set var="active" value="${pageContext.request.servletPath.split('/')[3]}"/>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto d-flex">
             <li class="nav-item <c:if test="${active == 'worker'}">active</c:if>">
@@ -21,10 +21,22 @@
                         class="fas fa-plus"></span> Register New Employee</a>
             </div>
         </sec:authorize>
-        <div class="nav-item">
-            <a class="btn btn-dark" href="#" onclick="document.getElementById('logout').submit();">Logout</a>
-        </div>
+        <div class="dropdown nav-item">
+            <button class="btn btn-dark dropdown-toggle"
+                    type="button" id="dropDownMenu" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                <span class="fa fa-cog"></span>
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropDownMenu">
 
+                <c:set var="user" value="${pageContext.session.getAttribute('user')}"
+                       target="com.hajres.domain.entity.User"/>
+                <h3 class="dropdown-header">${user.firstName} ${user.lastName} (${user.username})</h3>
+                <a class="dropdown-item" href="${pageContext.request.contextPath}/user/profile">Profile </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#" onclick="document.getElementById('logout').submit();">Logout</a>
+            </div>
+        </div>
 
         <form id="logout" action="${pageContext.request.contextPath}/logout" method="post">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
