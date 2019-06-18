@@ -1,6 +1,7 @@
 package com.hajres.service;
 
 import com.hajres.domain.dto.EditUserDto;
+import com.hajres.domain.dto.PasswordDto;
 import com.hajres.domain.entity.Role;
 import com.hajres.domain.entity.User;
 import com.hajres.domain.dao.RoleDAO;
@@ -64,6 +65,18 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void update(EditUserDto userDto, User user) {
         userDAO.update(userDto, user);
+    }
+
+    @Override
+    @Transactional
+    public User updatePassword(PasswordDto passwordDto, User user) {
+        if (passwordEncoder.matches(passwordDto.getOldPassword(), user.getPassword())) {
+            user.setPassword(passwordEncoder.encode(passwordDto.getNewPassword()));
+            userDAO.save(user);
+            return user;
+        } else {
+            return null;
+        }
     }
 
     @Override

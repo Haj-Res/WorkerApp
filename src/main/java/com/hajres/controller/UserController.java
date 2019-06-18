@@ -1,6 +1,7 @@
 package com.hajres.controller;
 
 import com.hajres.domain.dto.EditUserDto;
+import com.hajres.domain.dto.PasswordDto;
 import com.hajres.domain.entity.User;
 import com.hajres.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,5 +49,31 @@ public class UserController {
         model.addAttribute("message", "Profile updated.");
 
         return "redirect:../worker/list";
+    }
+
+    @GetMapping("/password")
+    public String showPasswordForm(Model model) {
+        PasswordDto passwordDto = new PasswordDto();
+        model.addAttribute("password", passwordDto);
+        return "user/password";
+    }
+
+    @PostMapping("/process-password")
+    public String savePassword(@Valid @ModelAttribute("password") PasswordDto passwordDto,
+                                BindingResult bindingResult,
+                                HttpServletRequest request,
+                                Model model) {
+        if (bindingResult.hasErrors()) {
+            return "user/password";
+        }
+        User user = (User) request.getSession().getAttribute("user");
+        User result = userService.updatePassword(passwordDto, user);
+        if (result == null) {
+            model.addAttribute("errorMessage", "Wrong password.");
+            return "user/password";
+        }
+        request.getSession().setAttribute("user", result);
+        model.addAttribute("message", "Password updated");
+        return "redirect:../user/profile";
     }
 }
