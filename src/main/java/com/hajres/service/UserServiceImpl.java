@@ -1,5 +1,6 @@
 package com.hajres.service;
 
+import com.hajres.domain.dto.EditUserDto;
 import com.hajres.domain.entity.Role;
 import com.hajres.domain.entity.User;
 import com.hajres.domain.dao.RoleDAO;
@@ -57,6 +58,12 @@ public class UserServiceImpl implements UserService {
         logger.info("Saving user: " + user.toString());
 
         userDAO.save(user);
+    }
+
+    @Override
+    @Transactional
+    public void update(EditUserDto userDto, User user) {
+        userDAO.update(userDto, user);
     }
 
     @Override
