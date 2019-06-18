@@ -30,7 +30,6 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         String username = auth.getName();
         logger.info(username + " successfully authenticated.");
         User user = userService.findByUserName(username);
-        user.setPassword("");
         HttpSession session = request.getSession();
         session.setAttribute("user", user);
 
