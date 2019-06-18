@@ -1,28 +1,19 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="input" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="ftm" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
-<html>
-<head>
-    <title>Worker Management App</title>
-    <link href="<c:url value="/resources/bootstrap/css/bootstrap.min.css" />" rel="stylesheet">
-    <link href="<c:url value="/resources/css/style.css"/>" rel="stylesheet">
-</head>
-<body class="bg-dark">
-<div class="container d-flex flex-column bg-light h-100">
-    <%@include file="../shared/navigation.jsp" %>
-    <div class="d-flex justify-content-center p-2 mt-5">
-        <h3>
-            Worker Management
-        </h3>
-    </div>
-    <div class="p-2">
+
+<t:genericpage pageName="Worker Management">
+    <div class="px-5 py-2">
         <form:form method="post" action="save" modelAttribute="worker">
             <div class="d-flex">
                 <div class="flex-fill m-2">
                     <h5>Worker info:</h5>
+                    <hr class="mt-0">
 
                     <!-- Object IDs -->
                     <form:hidden path="id"/>
@@ -53,6 +44,7 @@
                 </div>
                 <div class="flex-fill m-2">
                     <h5>Address:</h5>
+                    <hr class="mt-0">
                     <div class="form-group border-info rounded-lg">
                         <label for="city">City:</label>
                         <form:input class="form-control" type="text" id="city" path="address.city"/>
@@ -72,6 +64,7 @@
             </div>
             <div class="d-flex ml-2 mt-2"><h5>Company:</h5>
             </div>
+            <hr class="mt-0">
             <div class="d-flex">
                 <div class="flex-fill m-2">
                     <div class="form-group">
@@ -100,7 +93,4 @@
             </div>
         </form:form>
     </div>
-</div>
-<script src="<c:url value="/resources/bootstrap/js/bootstrap.min.js" />" rel="script"></script>
-</body>
-</html>
+</t:genericpage>

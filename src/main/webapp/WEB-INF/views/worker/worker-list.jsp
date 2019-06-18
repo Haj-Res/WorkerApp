@@ -14,7 +14,7 @@
 
     <jsp:body>
         <div class="d-flex flex-row justify-content-between px-2 py-0">
-            <form class="form-inline align-self-start" method="get" action="list">
+            <form class="form-inline align-self-start mb-0" method="get" action="list">
                 <div class="input-group">
                     <input type="text" class="form-control form-control-sm" name="filter" id="filter" value="${filter}"
                            placeholder="Filter"
