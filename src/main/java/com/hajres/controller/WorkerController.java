@@ -34,6 +34,8 @@ public class WorkerController {
 
     @GetMapping("/list")
     public String showWorkerList(@ModelAttribute(Const.FILTER_PARAM_NAME) String filter,
+                                 @ModelAttribute("message") String message,
+                                 @ModelAttribute("errorMessage") String errorMessage,
                                  @RequestParam(value = Const.PAGE_PARAM_NAME, required = false, defaultValue = Const.DEFAULT_FIRST_PAGE_STRING) int page,
                                  @RequestParam(value = Const.PAGE_SIZE_PARAM_NAME, required = false, defaultValue = Const.DEFAULT_PAGE_SIZE_STRING) int pageSize,
                                  Model model) {
@@ -50,6 +52,8 @@ public class WorkerController {
         model.addAttribute(Const.PAGE_COUNT_PARAM_NAME, paginatedResult.getPageCount());
         model.addAttribute(Const.PAGE_PARAM_NAME, page);
         model.addAttribute(Const.PAGE_SIZE_PARAM_NAME, pageSize);
+        model.addAttribute("message", message);
+        model.addAttribute("errorMessage", errorMessage);
         return "worker/worker-list";
     }
 
@@ -63,12 +67,14 @@ public class WorkerController {
 
     @PostMapping("/save")
     public String postEdit(@Valid @ModelAttribute("worker") Worker worker,
-                           BindingResult bindingResult) {
+                           BindingResult bindingResult,
+                           Model model) {
         if (bindingResult.hasErrors()) {
             return "worker/worker-add-edit";
         }
         System.out.println(worker);
         workerService.saveWorker(worker);
+        model.addAttribute("message", "Worker saved.");
         return "redirect:/worker/list";
     }
 
@@ -88,8 +94,10 @@ public class WorkerController {
     }
 
     @PostMapping("/delete")
-    public String postDelete(@RequestParam("workerId") int workerId) {
+    public String postDelete(@RequestParam("workerId") int workerId,
+                             Model model) {
         workerService.deleteWorker(workerId);
+        model.addAttribute("message", "Worker deleted.");
         return "redirect:/worker/list";
     }
 }

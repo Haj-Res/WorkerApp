@@ -43,7 +43,7 @@ public class AdministrationController {
 		
 		model.addAttribute("regHelperUser", new RegHelperUser());
 		
-		return "registration-form";
+		return "administration/registration-form";
 	}
 
 	@PostMapping("/processRegistration")
@@ -57,7 +57,7 @@ public class AdministrationController {
 		
 		// form validation
 		 if (theBindingResult.hasErrors()){
-			 return "registration-form";
+			 return "administration/registration-form";
 	        }
 
 		// check the database if user already exists
@@ -67,7 +67,7 @@ public class AdministrationController {
 			theModel.addAttribute("registrationError", "User name already exists.");
 
 			logger.warning("User name already exists.");
-        	return "registration-form";
+        	return "administration/registration-form";
         }
      // create user account        						
         userService.save(regHelperUser);
