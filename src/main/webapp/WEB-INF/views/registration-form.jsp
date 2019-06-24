@@ -25,7 +25,7 @@
             </div>
             <div style="padding-top: 30px" class="panel-body">
                 <!-- Registration Form -->
-                <form:form action="${pageContext.request.contextPath}/administration/processRegistration"
+                <form:form action="${pageContext.request.contextPath}/processRegistration"
                            modelAttribute="regHelperUser"
                            class="form-horizontal">
                     <!-- Place for messages: error, alert etc ... -->
@@ -77,34 +77,12 @@
                         <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
                         <form:input path="email" placeholder="Email*" class="form-control"/>
                     </div>
-                    <div class="my-1">
-                        <b>Employee roles:</b>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" value="ROLE_EMPLOYEE" id="ROLE_EMPLOYEE"
-                               checked disabled/>
-                        <label class="form-check-label" for="ROLE_EMPLOYEE">
-                            Employee
-                        </label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <form:checkbox path="roles" class="form-check-input" value="ROLE_MANAGER"
-                                       id="ROLE_MANAGER"/>
-                        <label class="form-check-label" for="ROLE_MANAGER">
-                            Manager
-                        </label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <form:checkbox path="roles" class="form-check-input" value="ROLE_ADMIN" id="ROLE_ADMIN"/>
-                        <label class="form-check-label" for="ROLE_ADMIN">
-                            Administrator
-                        </label>
-                    </div>
                     <!-- Register Button -->
                     <div style="margin-top: 10px" class="form-group">
                         <div class="col-sm-6 controls">
                             <button type="submit" class="btn btn-primary">Register</button>
-                            <a href="${pageContext.request.contextPath}/worker/list" class="btn btn-danger ml-3">Cancel</a>
+                            <a href="${pageContext.request.contextPath}/worker/list"
+                               class="btn btn-danger ml-3">Cancel</a>
                         </div>
                     </div>
                 </form:form>

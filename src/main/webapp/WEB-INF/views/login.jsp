@@ -59,9 +59,13 @@
                         <input type="password" name="password" placeholder="password" class="form-control">
                     </div>
                     <!-- Login/Submit Button -->
-                    <div style="margin-top: 10px" class="form-group">
-                        <div class="col-sm-6 controls">
+                    <div style="margin-top: 10px" class="d-flex flex-row justify-content-between">
+                        <div>
                             <button type="submit" class="btn btn-success">Login</button>
+                        </div>
+
+                        <div>
+                            <a href="${pageContext.request.contextPath}/registration" class="btn btn-primary">Registration</a>
                         </div>
                     </div>
                 </form:form>

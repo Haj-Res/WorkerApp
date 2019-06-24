@@ -55,7 +55,9 @@ public class UserServiceImpl implements UserService {
 
         user.addRole(roleDAO.findRoleByName("ROLE_EMPLOYEE"));
 
-        regHelperUser.getRoles().forEach(role -> user.addRole(roleDAO.findRoleByName(role)));
+        if (regHelperUser.getRoles() != null) {
+            regHelperUser.getRoles().forEach(role -> user.addRole(roleDAO.findRoleByName(role)));
+        }
         logger.info("Saving user: " + user.toString());
 
         userDAO.save(user);

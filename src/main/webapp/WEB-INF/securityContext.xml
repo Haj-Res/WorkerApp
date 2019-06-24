@@ -13,7 +13,9 @@
                         authentication-success-handler-ref="customAuthenticationSuccessHandler"/>
         <sec:logout logout-url="/logout"/>
         <sec:access-denied-handler error-page="/access-denied"/>
-        <sec:intercept-url pattern="/" access="permitAll()"/>
+        <sec:intercept-url pattern="/ " access="permitAll()"/>
+        <sec:intercept-url pattern="/registration" access="permitAll()"/>
+        <sec:intercept-url pattern="/processRegistration" access="permitAll()"/>
         <sec:intercept-url pattern="/resources/**" access="permitAll()"/>
         <sec:intercept-url pattern="/*/list/**" access="hasRole('${roles.employee}')"/>
         <sec:intercept-url pattern="/administration/**" access="hasRole('${roles.admin}')"/>
