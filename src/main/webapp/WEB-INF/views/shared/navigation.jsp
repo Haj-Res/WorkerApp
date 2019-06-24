@@ -8,6 +8,9 @@
     <c:set var="active" value="${pageContext.request.servletPath.split('/')[3]}"/>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto d-flex">
+            <li class="nav-item <c:if test="${active == 'news'}">active</c:if>">
+                <a class="nav-link" href="${pageContext.request.contextPath}/news">News</a>
+            </li>
             <li class="nav-item <c:if test="${active == 'worker'}">active</c:if>">
                 <a class="nav-link" href="${pageContext.request.contextPath}/worker/list">Worker list</a>
             </li>
@@ -15,12 +18,7 @@
                 <a class="nav-link" href="${pageContext.request.contextPath}/company/list">Company list</a>
             </li>
         </ul>
-        <sec:authorize access="hasRole('ROLE_ADMIN')">
-            <div class="nav-item mx-4">
-                <a class="btn btn-success" href="${pageContext.request.contextPath}/administration/registration"><span
-                        class="fas fa-plus"></span> Register New Employee</a>
-            </div>
-        </sec:authorize>
+
         <div class="dropdown nav-item">
             <button class="btn btn-dark dropdown-toggle"
                     type="button" id="dropDownMenu" data-toggle="dropdown"

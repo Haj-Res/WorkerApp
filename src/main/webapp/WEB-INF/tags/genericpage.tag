@@ -22,7 +22,7 @@
         <%@include file="../views/shared/alerts.jsp" %>
         <div class="container d-flex flex-column mt-4">
             <div class="d-flex justify-content-center ">
-                <h3>${pageName}</h3>
+                <h2>${pageName}</h2>
             </div>
         </div>
     </div>
