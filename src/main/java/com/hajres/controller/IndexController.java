@@ -11,6 +11,6 @@ public class IndexController {
     public String index(Model m) {
         m.addAttribute("page", 1);
         m.addAttribute("size", 10);
-        return "redirect:/worker/list";
+        return "redirect:/news";
     }
 }
