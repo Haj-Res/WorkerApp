@@ -59,7 +59,7 @@ public class UserController {
         request.getSession().setAttribute("user", user);
         model.addAttribute("message", "Profile updated.");
 
-        return "redirect:../worker/list";
+        return "redirect:../news";
     }
 
     @GetMapping("/password")
