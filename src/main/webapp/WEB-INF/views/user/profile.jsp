@@ -36,7 +36,7 @@
             <div class="form-group mt-2">
                 <label for="country">Country News Preference</label>
                 <form:errors path="country" cssClass="error"/>
-                <form:select path="country" name="country">
+                <form:select cssClass="custom-select" path="country" name="country">
                     <form:options items="${countries}" />
                 </form:select>
             </div>
