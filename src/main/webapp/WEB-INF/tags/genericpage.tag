@@ -16,7 +16,7 @@
     <link href="<c:url value="/resources/css/style.css" />" rel="stylesheet">
 </head>
 <body class="bg-dark">
-<div class="container d-flex flex-column bg-light h-100">
+<div class="container d-flex flex-column bg-light body-container">
     <div id="pageheader">
         <%@include file="../views/shared/navigation.jsp" %>
         <%@include file="../views/shared/alerts.jsp" %>
