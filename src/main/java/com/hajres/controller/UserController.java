@@ -2,6 +2,7 @@ package com.hajres.controller;
 
 import com.hajres.domain.dto.EditUserDto;
 import com.hajres.domain.dto.PasswordDto;
+import com.hajres.domain.entity.Country;
 import com.hajres.domain.entity.User;
 import com.hajres.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 @Controller
 @RequestMapping("/user")
@@ -29,7 +33,14 @@ public class UserController {
     public String showProfile(Model model, HttpServletRequest request) {
         User sessionUser = (User) request.getSession().getAttribute("user");
         EditUserDto user = EditUserDto.map(sessionUser);
+        List<Country> countryList = userService.findAllCountries();
+        HashMap<String, String> countries = new LinkedHashMap<>();
+        countryList.forEach(c -> {
+            String name = c.getInternationalName() + " (" + c.getLocalName() + ")";
+            countries.put(c.getCountryId(), name);
+        });
         model.addAttribute("user", user);
+        model.addAttribute("countries", countries);
         return "user/profile";
     }
 

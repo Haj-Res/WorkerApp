@@ -1,5 +1,6 @@
 package com.hajres.controller;
 
+import com.hajres.domain.entity.User;
 import com.hajres.news.model.Article;
 import com.hajres.news.service.RestNewsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.io.IOException;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -19,8 +20,10 @@ public class NewsController {
     RestNewsService restNewsService;
 
     @GetMapping("")
-    public String getBreakingNews(Model model) {
-        List<Article> articles = restNewsService.getBreakingNews();
+    public String getBreakingNews(Model model, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        String countryCode  = user.getCountryPreference() == null ? "us" : user.getCountryPreference().getCountryId();
+        List<Article> articles = restNewsService.getBreakingNewsByCountry(user.getCountryPreference().getCountryId());
         model.addAttribute("articles", articles);
         return "news/article-list";
     }
