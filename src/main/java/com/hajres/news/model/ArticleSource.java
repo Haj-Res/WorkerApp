@@ -1,5 +1,8 @@
 package com.hajres.news.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ArticleSource {
     private String id;
     private String name;
