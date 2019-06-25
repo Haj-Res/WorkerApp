@@ -33,6 +33,13 @@
                 <form:errors path="email" cssClass="error"/>
                 <form:input path="email" type="text" class="form-control" id="email"/>
             </div>
+            <div class="form-group mt-2">
+                <label for="country">Country News Preference</label>
+                <form:errors path="country" cssClass="error"/>
+                <form:select path="country" name="country">
+                    <form:options items="${countries}" />
+                </form:select>
+            </div>
 
             <div class="mt-2">
                 <a class="btn btn-danger" href="${pageContext.request.contextPath}/user/password">Change password</a>

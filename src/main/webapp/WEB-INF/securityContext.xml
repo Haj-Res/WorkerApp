@@ -17,7 +17,7 @@
         <sec:intercept-url pattern="/registration" access="permitAll()"/>
         <sec:intercept-url pattern="/processRegistration" access="permitAll()"/>
         <sec:intercept-url pattern="/resources/**" access="permitAll()"/>
-        <sec:intercept-url pattern="/news/**" access="permitAll()"/>
+        <sec:intercept-url pattern="/news/**" access="isAuthenticated()"/>
         <sec:intercept-url pattern="/*/list/**" access="hasRole('${roles.employee}')"/>
         <sec:intercept-url pattern="/administration/**" access="hasRole('${roles.admin}')"/>
         <sec:intercept-url pattern="/*/add/**" access="hasAnyRole('${roles.admin}', '${roles.manager}')"/>
