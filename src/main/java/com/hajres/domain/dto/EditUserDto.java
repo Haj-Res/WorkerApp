@@ -1,10 +1,12 @@
 package com.hajres.domain.dto;
 
+import com.hajres.domain.entity.Country;
 import com.hajres.domain.entity.User;
 import com.hajres.validation.ValidEmail;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.HashMap;
 
 public class EditUserDto {
     @NotNull
@@ -20,6 +22,8 @@ public class EditUserDto {
     @Size(min = 1, message = "is required")
     @ValidEmail
     private String email;
+    @NotNull
+    private String country;
 
     public EditUserDto() {
     }
@@ -56,13 +60,21 @@ public class EditUserDto {
         this.email = email;
     }
 
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
     public static EditUserDto map(User user) {
         EditUserDto editUser = new EditUserDto();
         editUser.username = user.getUsername();
         editUser.firstName = user.getFirstName();
         editUser.lastName = user.getLastName();
         editUser.email = user.getEmail();
-
+        editUser.country = user.getCountryPreference() == null ? "" : user.getCountryPreference().getCountryId();
         return editUser;
     }
 }

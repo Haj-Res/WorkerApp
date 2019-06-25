@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -37,10 +39,14 @@ public class User {
     @Column(name = "email")
     private String email;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "country_preference")
+    private Country countryPreference;
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "users_roles",
-    joinColumns = @JoinColumn(name = "user_id"),
-    inverseJoinColumns = @JoinColumn(name = "role_id"))
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Collection<Role> roles;
 
     public User() {
@@ -119,6 +125,14 @@ public class User {
         this.roles = roles;
     }
 
+    public Country getCountryPreference() {
+        return countryPreference;
+    }
+
+    public void setCountryPreference(Country countryPreference) {
+        this.countryPreference = countryPreference;
+    }
+
     public void addRole(Role role) {
         if (this.roles == null) {
             this.roles = new ArrayList<>();
@@ -136,6 +150,7 @@ public class User {
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", roles=" + roles +
+                ", countryPreference=" + countryPreference +
                 '}';
     }
 }
