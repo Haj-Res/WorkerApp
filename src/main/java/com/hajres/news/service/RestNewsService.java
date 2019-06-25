@@ -5,5 +5,5 @@ import com.hajres.news.model.Article;
 import java.util.List;
 
 public interface RestNewsService {
-    List<Article> getBreakingNews();
+    List<Article> getBreakingNewsByCountry(String countryCode);
 }
