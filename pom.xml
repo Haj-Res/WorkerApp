@@ -133,6 +133,13 @@
             <version>5.1.6.RELEASE</version>
         </dependency>
 
+        <!-- Jackson Support -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.9</version>
+        </dependency>
+
         <!-- jUnit Testing Support -->
         <dependency>
             <groupId>junit</groupId>
