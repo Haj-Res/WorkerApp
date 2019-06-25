@@ -4,8 +4,8 @@
 }
 
 img.thumbnail {
-    max-width: 100px;
-    max-height: 100px;
+    max-width: 200px;
+    max-height: 200px;
 }
 .body-container {
     min-height: 100%;
