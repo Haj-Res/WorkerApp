@@ -1,7 +1,9 @@
 package com.hajres.service;
 
+import com.hajres.domain.dao.CountryDAO;
 import com.hajres.domain.dto.EditUserDto;
 import com.hajres.domain.dto.PasswordDto;
+import com.hajres.domain.entity.Country;
 import com.hajres.domain.entity.Role;
 import com.hajres.domain.entity.User;
 import com.hajres.domain.dao.RoleDAO;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,6 +32,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private RoleDAO roleDAO;
+
+    @Autowired
+    private CountryDAO countryDAO;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -66,7 +72,8 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void update(EditUserDto userDto, User user) {
-        userDAO.update(userDto, user);
+        Country country = countryDAO.findById((userDto.getCountry()));
+        userDAO.update(userDto, user, country);
     }
 
     @Override
@@ -79,6 +86,21 @@ public class UserServiceImpl implements UserService {
         } else {
             return null;
         }
+    }
+
+    @Override
+    @Transactional
+    public List<Country> findAllCountries() {
+        return countryDAO.findAll();
+    }
+
+    @Override
+    @Transactional
+    public User updateCountryPreference(User user, String countryCode) {
+        Country country = countryDAO.findById(countryCode);
+        user.setCountryPreference(country);
+        userDAO.save(user);
+        return user;
     }
 
     @Override
