@@ -1,6 +1,7 @@
 package com.hajres.domain.dao;
 
 import com.hajres.domain.dto.EditUserDto;
+import com.hajres.domain.entity.Country;
 import com.hajres.domain.entity.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -36,11 +37,12 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void update(EditUserDto userDto, User user) {
+    public void update(EditUserDto userDto, User user, Country country) {
         Session session = factory.getCurrentSession();
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         user.setEmail(userDto.getEmail());
+        user.setCountryPreference(country);
         session.saveOrUpdate(user);
     }
 }
