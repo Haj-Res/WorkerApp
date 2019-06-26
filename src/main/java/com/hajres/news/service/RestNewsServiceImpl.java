@@ -43,7 +43,6 @@ public class RestNewsServiceImpl implements RestNewsService {
             int pageCount = (response.getTotalResults() - 1) / pageSize + 1;
 
             result.setPageCount(pageCount);
-            System.out.println(response.getTotalResults());
             return result;
         } else {
             return null;

@@ -75,15 +75,7 @@ public class UserServiceImpl implements UserService {
         user.setLastName(userDto.getLastName());
         user.setEmail(userDto.getEmail());
         user.setCountryPreference(country);
-        if (userDto.getCategory().length == 0) {
-            user.setCategoryPreference(null);
-        } else {
-            StringBuilder categoryPreference = new StringBuilder();
-            for (int i = 0; i < userDto.getCategory().length; i++) {
-                categoryPreference.append(userDto.getCategory()[i]).append(",");
-            }
-            user.setCategoryPreference(categoryPreference.toString());
-        }
+        user.setCategoryPreference(userDto.getCategory());
 
         userDAO.save(user);
     }

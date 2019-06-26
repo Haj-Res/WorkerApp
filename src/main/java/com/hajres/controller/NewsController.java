@@ -35,16 +35,22 @@ public class NewsController {
                                   @RequestParam(value = Const.PAGE_PARAM_NAME, required = false, defaultValue = Const.DEFAULT_FIRST_PAGE_STRING) String page,
                                   @RequestParam(value = Const.PAGE_SIZE_PARAM_NAME, required = false, defaultValue = Const.DEFAULT_PAGE_SIZE_STRING) String pageSize,
                                   Model model, HttpServletRequest request) {
+
         User user = (User) request.getSession().getAttribute("user");
         String countryCode = user.getCountryPreference() == null ? "us" : user.getCountryPreference().getCountryId();
+
         List<ArticleSource> sources = restNewsService.getArticleSourcesByCountry(countryCode);
         PaginatedResult<Article> articles;
+
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put(Const.PAGE_PARAM_NAME, page);
         paramMap.put(Const.PAGE_SIZE_PARAM_NAME, pageSize);
 
         if (source == null || source.isEmpty()) {
             paramMap.put(News.PARAM_COUNTRY, countryCode);
+            if (user.getCategoryPreference() != null) {
+                paramMap.put(News.PARAM_CATEGORY, user.getCategoryPreference());
+            }
             articles = restNewsService.getBreakingNews(paramMap);
         } else {
             paramMap.put(News.PARAM_SOURCES, source);

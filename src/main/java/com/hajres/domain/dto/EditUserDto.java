@@ -24,7 +24,7 @@ public class EditUserDto {
     @NotNull
     private String country;
 
-    private String[] category;
+    private String category;
 
     public EditUserDto() {
     }
@@ -69,11 +69,11 @@ public class EditUserDto {
         this.country = country;
     }
 
-    public String[] getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(String[] category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 
@@ -84,7 +84,7 @@ public class EditUserDto {
         editUser.lastName = user.getLastName();
         editUser.email = user.getEmail();
         editUser.country = user.getCountryPreference() == null ? "" : user.getCountryPreference().getCountryId();
-        editUser.category = user.getCategoryPreference() != null ? user.getCategoryPreference().split(",") : new String[0];
+        editUser.category = user.getCategoryPreference();
         return editUser;
     }
 }
