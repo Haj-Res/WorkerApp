@@ -1,10 +1,10 @@
 package com.hajres.controller;
 
 import com.hajres.domain.entity.User;
+import com.hajres.news.News;
 import com.hajres.news.model.Article;
 import com.hajres.news.model.ArticleSource;
 import com.hajres.news.service.RestNewsService;
-import com.hajres.news.service.RestNewsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,34 +20,27 @@ import java.util.Map;
 @Controller
 @RequestMapping("/news")
 public class NewsController {
-    // Change the first number to affect how many minutes the caching lasts
-    private static final int CACHING_DURATION = 5*60*1000;
+
+    private final RestNewsService restNewsService;
 
     @Autowired
-    private RestNewsService restNewsService;
-    private List<ArticleSource> sourceList;
-    private long sourceTimestamp;
+    public NewsController(RestNewsService restNewsService) {
+        this.restNewsService = restNewsService;
+    }
 
     @GetMapping("")
     public String getBreakingNews(@RequestParam(value = "source", required = false) String source,
                                   Model model, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
         String countryCode = user.getCountryPreference() == null ? "us" : user.getCountryPreference().getCountryId();
-        long minuteAgo = System.currentTimeMillis() - CACHING_DURATION;
-        boolean isOlderThanFiveMinutes = sourceTimestamp < minuteAgo;
-        if (this.sourceList == null || isOlderThanFiveMinutes) {
-            this.sourceList = restNewsService.getArticleSourcesByCountry(countryCode);
-            this.sourceTimestamp = System.currentTimeMillis();
-            System.out.println("Getting sources.");
-        }
-        List<ArticleSource> sources = this.sourceList;
+        List<ArticleSource> sources = restNewsService.getArticleSourcesByCountry(countryCode);
         List<Article> articles;
         Map<String, String> paramMap = new HashMap<>();
-        if (source == null) {
-            paramMap.put(RestNewsServiceImpl.PARAM_COUNTRY, countryCode);
+        if (source == null || source.isEmpty()) {
+            paramMap.put(News.PARAM_COUNTRY, countryCode);
             articles = restNewsService.getBreakingNews(paramMap);
         } else {
-            paramMap.put(RestNewsServiceImpl.PARAM_SOURCES, source);
+            paramMap.put(News.PARAM_SOURCES, source);
             articles = restNewsService.getBreakingNews(paramMap);
         }
         model.addAttribute("articles", articles);

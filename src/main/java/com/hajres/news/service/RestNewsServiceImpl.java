@@ -1,9 +1,12 @@
 package com.hajres.news.service;
 
+import com.hajres.news.News;
 import com.hajres.news.model.Article;
 import com.hajres.news.model.ArticleSource;
 import com.hajres.news.model.NewsApiResponse;
 import com.hajres.news.model.SourceList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -14,26 +17,18 @@ import java.util.Map;
 
 @Service
 public class RestNewsServiceImpl implements RestNewsService {
-    // Base url parts
-    public static final String URL_TOP_HEADLINES = "https://newsapi.org/v2/top-headlines?";
-    public static final String URL_EVERYTHING = "https://newsapi.org/v2/everything?";
-    public static final String URL_SOURCES = "https://newsapi.org/v2/sources?";
 
-    // Parameter names
-    public static final String PARAM_QUERY = "q";
-    public static final String PARAM_COUNTRY = "country";
-    public static final String PARAM_CATEGORY = "category";
-    public static final String PARAM_SOURCES = "sources";
+    // Properties use to decide if you send the cached source list or to fetch it from the web
+    private List<ArticleSource> sourceList;
+    private long sourceTimestamp;
+    private String sourceCountry;
 
-    // Api key
-    private static final String API_KEY = "apiKey=05a74fc1fd934e96916010f9c80559e7";
-
-    private List<ArticleSource> sources;
+    private Logger logger = LoggerFactory.getLogger(getClass().getName());
 
     @Override
     public List<Article> getBreakingNews(Map<String, String> paramMap) {
-        String targetUrl = buildUrl(URL_TOP_HEADLINES, paramMap);
-        System.out.println("Requesting " + targetUrl);
+        String targetUrl = buildUrl(News.URL_TOP_HEADLINES, paramMap);
+        logger.info("Requesting articles from " + targetUrl);
 
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<NewsApiResponse> responseEntity = restTemplate.getForEntity(targetUrl, NewsApiResponse.class);
@@ -48,15 +43,28 @@ public class RestNewsServiceImpl implements RestNewsService {
 
     @Override
     public List<ArticleSource> getArticleSourcesByCountry(String countryCode) {
+
+        long minuteAgo = System.currentTimeMillis() - News.CACHING_DURATION;
+        boolean olderThanCacheDuration = sourceTimestamp < minuteAgo;
+        if (this.sourceList != null && !olderThanCacheDuration && this.sourceCountry.equals(countryCode)) {
+            logger.info("Returning cached source list.");
+            return this.sourceList;
+        }
+
         Map<String, String> paramMap = new HashMap<>();
-        paramMap.put(PARAM_COUNTRY, countryCode);
-        String targetUrl = buildUrl(URL_SOURCES, paramMap);
-        System.out.println("Requesting " + targetUrl);
+        paramMap.put(News.PARAM_COUNTRY, countryCode);
+        String targetUrl = buildUrl(News.URL_SOURCES, paramMap);
+        logger.info("Requesting source list from " + targetUrl);
 
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<SourceList> responseEntity = restTemplate.getForEntity(targetUrl, SourceList.class);
         SourceList sourceList = responseEntity.getBody();
-        return sourceList == null ? null : sourceList.getSources();
+
+        this.sourceTimestamp = System.currentTimeMillis();
+        this.sourceCountry = countryCode;
+        this.sourceList = sourceList == null ? null : sourceList.getSources();
+
+        return this.sourceList;
     }
 
     private String buildUrl(String base, Map<String, String> paramMap) {
@@ -64,7 +72,7 @@ public class RestNewsServiceImpl implements RestNewsService {
         for (String key : paramMap.keySet()) {
             url = url.concat(key + "=" + paramMap.get(key) + "&");
         }
-        url = url.concat(API_KEY);
+        url = url.concat(News.API_KEY);
         return url;
     }
 }
