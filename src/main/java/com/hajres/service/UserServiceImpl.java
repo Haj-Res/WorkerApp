@@ -29,13 +29,10 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDAO userDAO;
-
     @Autowired
     private RoleDAO roleDAO;
-
     @Autowired
     private CountryDAO countryDAO;
-
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
@@ -44,7 +41,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public User findByUserName(String name) {
-        logger.info("Finding User by username \"" + name +"\".");
+        logger.info("Finding User by username \"" + name + "\".");
         return userDAO.findByUserName(name);
     }
 
@@ -73,7 +70,22 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void update(EditUserDto userDto, User user) {
         Country country = countryDAO.findById((userDto.getCountry()));
-        userDAO.update(userDto, user, country);
+
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setEmail(userDto.getEmail());
+        user.setCountryPreference(country);
+        if (userDto.getCategory().length == 0) {
+            user.setCategoryPreference(null);
+        } else {
+            StringBuilder categoryPreference = new StringBuilder();
+            for (int i = 0; i < userDto.getCategory().length; i++) {
+                categoryPreference.append(userDto.getCategory()[i]).append(",");
+            }
+            user.setCategoryPreference(categoryPreference.toString());
+        }
+
+        userDAO.save(user);
     }
 
     @Override
@@ -106,10 +118,10 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        logger.info( "Loading UserDetails by username \"" + username +"\".");
+        logger.info("Loading UserDetails by username \"" + username + "\".");
         User user = userDAO.findByUserName(username);
         if (user == null) {
-            logger.warn("Failed log in attempt for username \"" + username +"\".");
+            logger.warn("Failed log in attempt for username \"" + username + "\".");
             throw new UsernameNotFoundException("Invalid username or password.");
         }
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
