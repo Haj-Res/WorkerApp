@@ -1,12 +1,11 @@
 package com.hajres.domain.dto;
 
-import com.hajres.domain.entity.Country;
 import com.hajres.domain.entity.User;
 import com.hajres.validation.ValidEmail;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.HashMap;
+import java.util.List;
 
 public class EditUserDto {
     @NotNull
@@ -24,6 +23,8 @@ public class EditUserDto {
     private String email;
     @NotNull
     private String country;
+
+    private String[] category;
 
     public EditUserDto() {
     }
@@ -68,6 +69,14 @@ public class EditUserDto {
         this.country = country;
     }
 
+    public String[] getCategory() {
+        return category;
+    }
+
+    public void setCategory(String[] category) {
+        this.category = category;
+    }
+
     public static EditUserDto map(User user) {
         EditUserDto editUser = new EditUserDto();
         editUser.username = user.getUsername();
@@ -75,6 +84,7 @@ public class EditUserDto {
         editUser.lastName = user.getLastName();
         editUser.email = user.getEmail();
         editUser.country = user.getCountryPreference() == null ? "" : user.getCountryPreference().getCountryId();
+        String[] preferences = user.getCategoryPreference().split(",");
         return editUser;
     }
 }

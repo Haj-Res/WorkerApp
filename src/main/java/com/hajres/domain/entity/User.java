@@ -49,6 +49,9 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Collection<Role> roles;
 
+    @Column(name = "category_preference")
+    private String categoryPreference;
+
     public User() {
     }
 
@@ -140,6 +143,14 @@ public class User {
         this.roles.add(role);
     }
 
+    public String getCategoryPreference() {
+        return categoryPreference;
+    }
+
+    public void setCategoryPreference(String categoryPreference) {
+        this.categoryPreference = categoryPreference;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -151,6 +162,7 @@ public class User {
                 ", email='" + email + '\'' +
                 ", roles=" + roles +
                 ", countryPreference=" + countryPreference +
+                ", categoryPreference=" + categoryPreference +
                 '}';
     }
 }
