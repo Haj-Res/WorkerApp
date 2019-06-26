@@ -75,7 +75,8 @@ public class UserServiceImpl implements UserService {
         user.setLastName(userDto.getLastName());
         user.setEmail(userDto.getEmail());
         user.setCountryPreference(country);
-        user.setCategoryPreference(userDto.getCategory());
+        String category = userDto.getCategory().isEmpty() ? null : userDto.getCategory();
+        user.setCategoryPreference(category);
 
         userDAO.save(user);
     }
@@ -100,11 +101,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public User updateCountryPreference(User user, String countryCode) {
+    public void updatePreferences(User user, String countryCode, String category) {
         Country country = countryDAO.findById(countryCode);
         user.setCountryPreference(country);
+        category = category.isEmpty() ? null : category;
+        user.setCategoryPreference(category);
         userDAO.save(user);
-        return user;
     }
 
     @Override

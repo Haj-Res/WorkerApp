@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -44,6 +45,15 @@ public class UserController {
         model.addAttribute("countries", countries);
         model.addAttribute("categories", News.CATEGORIES);
         return "user/profile";
+    }
+
+    @PostMapping("/preferences")
+    public String UpdatePreferences(@RequestParam String countryCode,
+                                    @RequestParam String category,
+                                    HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        this.userService.updatePreferences(user, countryCode, category);
+        return "redirect:../news";
     }
 
     @PostMapping("/save")

@@ -20,5 +20,5 @@ public interface UserService extends UserDetailsService {
 
     List<Country> findAllCountries();
 
-    User updateCountryPreference(User user,  String countryCode);
+    void updatePreferences(User user, String countryCode, String category);
 }
