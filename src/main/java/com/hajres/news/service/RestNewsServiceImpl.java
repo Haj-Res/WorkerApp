@@ -1,5 +1,7 @@
 package com.hajres.news.service;
 
+import com.hajres.PaginatedResult;
+import com.hajres.config.Const;
 import com.hajres.news.News;
 import com.hajres.news.model.Article;
 import com.hajres.news.model.ArticleSource;
@@ -26,15 +28,23 @@ public class RestNewsServiceImpl implements RestNewsService {
     private Logger logger = LoggerFactory.getLogger(getClass().getName());
 
     @Override
-    public List<Article> getBreakingNews(Map<String, String> paramMap) {
+    public PaginatedResult<Article> getBreakingNews(Map<String, String> paramMap) {
         String targetUrl = buildUrl(News.URL_TOP_HEADLINES, paramMap);
         logger.info("Requesting articles from " + targetUrl);
 
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<NewsApiResponse> responseEntity = restTemplate.getForEntity(targetUrl, NewsApiResponse.class);
         NewsApiResponse response = responseEntity.getBody();
+
         if (response != null && response.getStatus().equals("ok")) {
-            return response.getArticles();
+            PaginatedResult<Article> result = new PaginatedResult<>();
+            result.setResultList(response.getArticles());
+            int pageSize = Integer.parseInt(paramMap.get(Const.PAGE_SIZE_PARAM_NAME));
+            int pageCount = (response.getTotalResults() - 1) / pageSize + 1;
+
+            result.setPageCount(pageCount);
+            System.out.println(response.getTotalResults());
+            return result;
         } else {
             return null;
         }

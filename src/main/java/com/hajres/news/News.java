@@ -1,6 +1,6 @@
 package com.hajres.news;
 
-public class News {
+public abstract class News {
     // Base url parts
     public static final String URL_TOP_HEADLINES = "https://newsapi.org/v2/top-headlines?";
     public static final String URL_EVERYTHING = "https://newsapi.org/v2/everything?";

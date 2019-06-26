@@ -4,6 +4,11 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <t:genericpage pageName="News">
+
+    <jsp:attribute name="footer">
+        <%@include file="../shared/pagination.jsp" %>
+    </jsp:attribute>
+
     <jsp:body>
         <p>
             <a class="btn btn-outline-secondary mr-3" data-toggle="collapse" href="#countryCollapse"
@@ -30,7 +35,7 @@
                                 <option value="" label="All">All</option>
                                 <c:forEach items="${sources}" var="src">
                                     <option value="${src.id}" label="${src.name}"
-                                            <c:if test="${pageContext.request.getParameter('source').equals(src.id)}">selected</c:if>
+                                            <c:if test="${selectedSource.equals(src.id)}">selected</c:if>
                                     >${src.name}</option>
                                 </c:forEach>
                             </select>
