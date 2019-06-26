@@ -2,12 +2,16 @@ package com.hajres.controller;
 
 import com.hajres.PaginatedResult;
 import com.hajres.config.Const;
+import com.hajres.domain.dto.EditUserDto;
+import com.hajres.domain.entity.Country;
 import com.hajres.domain.entity.User;
 import com.hajres.news.News;
 import com.hajres.news.model.Article;
 import com.hajres.news.model.ArticleSource;
 import com.hajres.news.service.RestNewsService;
+import com.hajres.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,10 +28,12 @@ import java.util.Map;
 public class NewsController {
 
     private final RestNewsService restNewsService;
+    private final UserService userService;
 
     @Autowired
-    public NewsController(RestNewsService restNewsService) {
+    public NewsController(RestNewsService restNewsService, @Qualifier("userServiceImpl") UserService userService) {
         this.restNewsService = restNewsService;
+        this.userService = userService;
     }
 
     @GetMapping("")
@@ -56,10 +62,24 @@ public class NewsController {
             paramMap.put(News.PARAM_SOURCES, source);
             articles = restNewsService.getBreakingNews(paramMap);
         }
+        List<Country> countryList = userService.findAllCountries();
+
+        Map<String, String> countries = new HashMap<>();
+        countryList.forEach(c -> {
+            String name = c.getInternationalName() + " (" + c.getLocalName() + ")";
+            countries.put(c.getCountryId(), name);
+        });
         model.addAttribute("articles", articles.getResultList());
+
+        EditUserDto dto = new EditUserDto();
+        dto.setCountry(user.getCountryPreference().getCountryId());
+        dto.setCategory(user.getCategoryPreference());
+        model.addAttribute("dto", dto);
         model.addAttribute(Const.PAGE_COUNT_PARAM_NAME, articles.getPageCount());
         model.addAttribute(Const.PAGE_PARAM_NAME, page);
         model.addAttribute(Const.PAGE_SIZE_PARAM_NAME, pageSize);
+        model.addAttribute("countries", countries);
+        model.addAttribute("categories", News.CATEGORIES);
         model.addAttribute("selectedSource", source);
         model.addAttribute("sources", sources);
         return "news/article-list";

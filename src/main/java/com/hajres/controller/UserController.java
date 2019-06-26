@@ -36,6 +36,7 @@ public class UserController {
         User sessionUser = (User) request.getSession().getAttribute("user");
         EditUserDto user = EditUserDto.map(sessionUser);
         List<Country> countryList = userService.findAllCountries();
+
         HashMap<String, String> countries = new LinkedHashMap<>();
         countryList.forEach(c -> {
             String name = c.getInternationalName() + " (" + c.getLocalName() + ")";
@@ -48,10 +49,11 @@ public class UserController {
     }
 
     @PostMapping("/preferences")
-    public String UpdatePreferences(@RequestParam String countryCode,
-                                    @RequestParam String category,
+    public String UpdatePreferences(@ModelAttribute("dto") EditUserDto userDto,
                                     HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
+        String category = userDto.getCategory();
+        String countryCode = userDto.getCountry();
         this.userService.updatePreferences(user, countryCode, category);
         return "redirect:../news";
     }

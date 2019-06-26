@@ -104,7 +104,9 @@ public class UserServiceImpl implements UserService {
     public void updatePreferences(User user, String countryCode, String category) {
         Country country = countryDAO.findById(countryCode);
         user.setCountryPreference(country);
-        category = category.isEmpty() ? null : category;
+        if (category == null || category.isEmpty()) {
+            category = null;
+        }
         user.setCategoryPreference(category);
         userDAO.save(user);
     }
