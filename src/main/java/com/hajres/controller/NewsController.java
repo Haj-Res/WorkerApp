@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -30,6 +31,7 @@ public class NewsController {
     private final RestNewsService restNewsService;
     private final UserService userService;
 
+    private List<Article> articles;
     @Autowired
     public NewsController(RestNewsService restNewsService, @Qualifier("userServiceImpl") UserService userService) {
         this.restNewsService = restNewsService;
@@ -46,7 +48,7 @@ public class NewsController {
         String countryCode = user.getCountryPreference() == null ? "us" : user.getCountryPreference().getCountryId();
 
         List<ArticleSource> sources = restNewsService.getArticleSourcesByCountry(countryCode);
-        PaginatedResult<Article> articles;
+        PaginatedResult<Article> articlePaginatedResult;
 
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put(Const.PAGE_PARAM_NAME, page);
@@ -57,10 +59,10 @@ public class NewsController {
             if (user.getCategoryPreference() != null) {
                 paramMap.put(News.PARAM_CATEGORY, user.getCategoryPreference());
             }
-            articles = restNewsService.getBreakingNews(paramMap);
+            articlePaginatedResult = restNewsService.getBreakingNews(paramMap);
         } else {
             paramMap.put(News.PARAM_SOURCES, source);
-            articles = restNewsService.getBreakingNews(paramMap);
+            articlePaginatedResult = restNewsService.getBreakingNews(paramMap);
         }
         List<Country> countryList = userService.findAllCountries();
 
@@ -69,13 +71,14 @@ public class NewsController {
             String name = c.getInternationalName() + " (" + c.getLocalName() + ")";
             countries.put(c.getCountryId(), name);
         });
-        model.addAttribute("articles", articles.getResultList());
+        this.articles = articlePaginatedResult.getResultList();
+        model.addAttribute("articles", this.articles);
 
         EditUserDto dto = new EditUserDto();
         dto.setCountry(user.getCountryPreference().getCountryId());
         dto.setCategory(user.getCategoryPreference());
         model.addAttribute("dto", dto);
-        model.addAttribute(Const.PAGE_COUNT_PARAM_NAME, articles.getPageCount());
+        model.addAttribute(Const.PAGE_COUNT_PARAM_NAME, articlePaginatedResult.getPageCount());
         model.addAttribute(Const.PAGE_PARAM_NAME, page);
         model.addAttribute(Const.PAGE_SIZE_PARAM_NAME, pageSize);
         model.addAttribute("countries", countries);
@@ -83,6 +86,24 @@ public class NewsController {
         model.addAttribute("selectedSource", source);
         model.addAttribute("sources", sources);
         return "news/article-list";
+    }
+
+    @GetMapping("/articles/{hash}")
+    public String showArticle(@PathVariable int hash,
+                              Model model) {
+        Article article = null;
+        for (Article value : this.articles) {
+            if (value.hashCode() == hash) {
+                article = value;
+                break;
+            }
+        }
+        if (article == null) {
+            return "redirect: news";
+        }
+        model.addAttribute("article", article);
+        model.addAttribute("categories", News.CATEGORIES);
+        return "news/article";
     }
 
 

@@ -3,7 +3,7 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<t:genericpage pageName="News">
+<t:genericpage pageName="Personalized news feed">
     <jsp:attribute name="footer">
         <%@include file="../shared/pagination.jsp" %>
     </jsp:attribute>
