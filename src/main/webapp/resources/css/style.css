@@ -7,8 +7,17 @@ img.thumbnail {
     max-width: 200px;
     max-height: 200px;
 }
+
+img.article {
+    max-width: 400px;
+    max-height: 400px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    float: left;
+}
+
 .body-container {
-    min-height: 100%;
+    min-height: 100vh;
 }
 
 #body {

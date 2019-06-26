@@ -4,7 +4,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <t:genericpage pageName="News">
-
     <jsp:attribute name="footer">
         <%@include file="../shared/pagination.jsp" %>
     </jsp:attribute>
@@ -82,17 +81,7 @@
                 <c:if test="${not empty articles}">
                     <hr>
                     <c:forEach var="art" items="${articles}">
-                        <a href="#" class="list-group-item-action">
-                            <div class="media pr-5 mb-5">
-                                <img class="d-flex mr-4 thumbnail" src="${art.urlToImage}" alt="Missing Image"
-                                     data-toggle="tooltip"
-                                     data-placement="top" title="${art.title}">
-                                <div class="media-body">
-                                    <h5 class=mt-0">${art.title}</h5>
-                                    <span class="text-secondary">${art.description}</span>
-                                </div>
-                            </div>
-                        </a>
+                        <t:article-short article="${art}"/>
                         <hr>
                     </c:forEach>
                 </c:if>
