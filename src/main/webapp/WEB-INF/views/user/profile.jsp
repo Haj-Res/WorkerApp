@@ -40,6 +40,10 @@
                     <form:options items="${countries}" />
                 </form:select>
             </div>
+            <div class="form-group mt-2">
+            <label for="category">Category Preference</label>
+                <form:checkboxes cssClass="mx-2" path="category" items="${categories}"/>
+            </div>
 
             <div class="mt-2">
                 <a class="btn btn-danger" href="${pageContext.request.contextPath}/user/password">Change password</a>

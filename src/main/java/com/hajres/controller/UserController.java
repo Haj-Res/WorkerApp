@@ -4,6 +4,7 @@ import com.hajres.domain.dto.EditUserDto;
 import com.hajres.domain.dto.PasswordDto;
 import com.hajres.domain.entity.Country;
 import com.hajres.domain.entity.User;
+import com.hajres.news.News;
 import com.hajres.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -41,6 +42,7 @@ public class UserController {
         });
         model.addAttribute("user", user);
         model.addAttribute("countries", countries);
+        model.addAttribute("categories", News.CATEGORIES);
         return "user/profile";
     }
 

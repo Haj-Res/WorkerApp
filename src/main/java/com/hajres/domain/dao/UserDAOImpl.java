@@ -9,6 +9,9 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Repository
 public class UserDAOImpl implements UserDAO {
 
@@ -43,6 +46,11 @@ public class UserDAOImpl implements UserDAO {
         user.setLastName(userDto.getLastName());
         user.setEmail(userDto.getEmail());
         user.setCountryPreference(country);
+        StringBuilder categoryPreference = new StringBuilder();
+        for (int i = 0; i < userDto.getCategory().length; i++) {
+            categoryPreference.append(userDto.getCategory()[i]).append(",");
+        }
+        user.setCategoryPreference(categoryPreference.toString());
         session.saveOrUpdate(user);
     }
 }
