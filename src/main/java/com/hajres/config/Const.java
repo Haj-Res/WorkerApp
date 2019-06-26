@@ -9,7 +9,7 @@ public abstract class Const {
 
     // Parameter and entity attribute names used by the controllers
     public static final String PAGE_PARAM_NAME = "page";
-    public static final String PAGE_SIZE_PARAM_NAME = "size";
+    public static final String PAGE_SIZE_PARAM_NAME = "pageSize";
     public static final String PAGE_COUNT_PARAM_NAME = "pageCount";
 
     public static final String FILTER_PARAM_NAME = "filter";
