@@ -5,15 +5,13 @@
 
 <c:choose>
     <c:when test="${selectedSource != null}">
-        Test 1
         <c:set var="base" value="?source=${selectedSource}&" scope="page"/>
     </c:when>
     <c:otherwise>
-        Test 2
         <c:set var="base" value="?" scope="page"/>
     </c:otherwise>
 </c:choose>
-Selected source: ${selectedSource}
+
 <div class="d-flex justify-content-center p-2 pt-0 mt-0">
     <nav aria-label="...">
         <ul class="pagination">
