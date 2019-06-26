@@ -27,8 +27,11 @@
                         <label for="source">Country News Preference</label>
                         <form:form method="get" action="${pageContext.request.contextPath}/news">
                             <select id="source" class="custom-select" name="source">
+                                <option value="" label="All">All</option>
                                 <c:forEach items="${sources}" var="src">
-                                    <option value="${src.id}" label="${src.name}">${src.name}</option>
+                                    <option value="${src.id}" label="${src.name}"
+                                            <c:if test="${pageContext.request.getParameter('source').equals(src.id)}">selected</c:if>
+                                    >${src.name}</option>
                                 </c:forEach>
                             </select>
                             <input class="btn btn-secondary mt-3" type="submit" value="Update preference"/>
