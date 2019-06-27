@@ -5,12 +5,7 @@
     <jsp:body>
         <div class="row mt-3">
             <div class="col-md-3">
-                <c:forEach var="cat" items="${categories}">
-                    <div class="list-group">
-                        <a href="${pageContext.request.contextPath}/news/category/${cat}"
-                           class="list-group-item list-group-item-action">${cat}</a>
-                    </div>
-                </c:forEach>
+                <t:side-nav-bar categories="${categories}" sortMap="${sortMap}"/>
             </div>
             <article class="col-md-9">
                 <div class="mb-5 col-md-12"><h3>${article.title}</h3></div>

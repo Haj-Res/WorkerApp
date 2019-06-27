@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%--@elvariable id="selectedSource" type="java.lang.String"--%>
 
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -10,9 +10,10 @@
 
     <jsp:body>
         <div class="row mt-3">
-            <t:category-navigation categories="${categories}"/>
+            <div class="col-md-3">
+                <t:side-nav-bar categories="${categories}" sortMap="${sortMap}"/>
+            </div>
             <div class="col-md-9">
-
                 <div class="accordion" id="preferenceAccordion">
                     <div class="card">
                         <div class="card-header d-flex " id="countryCategoryHeading">
@@ -91,7 +92,6 @@
 
                 <c:if test="${empty articles}"><p>Some error occurred. No articles found</p></c:if>
                 <c:if test="${not empty articles}">
-                    <hr>
                     <t:article-list articleList="${articles}"/>
                 </c:if>
             </div>
