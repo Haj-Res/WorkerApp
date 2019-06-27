@@ -53,6 +53,8 @@ public class NewsController {
         paramMap.put(Const.PAGE_PARAM_NAME, page);
         paramMap.put(Const.PAGE_SIZE_PARAM_NAME, pageSize);
         PaginatedResult<Article> paginatedResult;
+
+        String additionalParameters = "";
         if (source == null || source.isEmpty()) {
             paramMap.put(News.PARAM_COUNTRY, countryCode);
             if (user.getCategoryPreference() != null) {
@@ -62,6 +64,7 @@ public class NewsController {
         } else {
             paramMap.put(News.PARAM_SOURCES, source);
             paginatedResult = restNewsService.getNews(News.URL_EVERYTHING, paramMap);
+            additionalParameters += News.PARAM_SOURCES + "=" + source + "&";
 
         }
 
@@ -74,18 +77,16 @@ public class NewsController {
             countries.put(c.getCountryId(), name);
         });
         this.articles = paginatedResult.getResultList();
-        model.addAttribute("articles", this.articles);
 
         EditUserDto dto = new EditUserDto();
         dto.setCountry(user.getCountryPreference().getCountryId());
         dto.setCategory(user.getCategoryPreference());
         model.addAttribute("dto", dto);
-        model.addAttribute(Const.PAGE_COUNT_PARAM_NAME, paginatedResult.getPageCount());
-        model.addAttribute(Const.PAGE_PARAM_NAME, page);
-        model.addAttribute(Const.PAGE_SIZE_PARAM_NAME, pageSize);
+
+        prepareModel(model, paginatedResult.getPageCount(),page, pageSize);
+
         model.addAttribute("countries", countries);
-        model.addAttribute("categories", News.CATEGORIES);
-        model.addAttribute("selectedSource", source);
+        model.addAttribute("additionalParameters", additionalParameters);
         model.addAttribute("sources", sources);
         return "news/personal-feed";
     }
@@ -105,6 +106,9 @@ public class NewsController {
         }
         model.addAttribute("article", article);
         model.addAttribute("categories", News.CATEGORIES);
+        model.addAttribute("languages", News.LANGUAGES);
+        model.addAttribute("sortMap", News.SORT_BY);
+
         return "news/article";
     }
 
@@ -114,26 +118,60 @@ public class NewsController {
                                  @RequestParam(value = Const.PAGE_SIZE_PARAM_NAME, required = false, defaultValue = Const.DEFAULT_PAGE_SIZE_STRING) String pageSize,
                                  HttpServletRequest request,
                                  Model model) {
-        Map<String, String> paramMap = new HashMap<>();
-        User user = (User) request.getSession().getAttribute("user");
 
-        paramMap.put(News.PARAM_CATEGORY.toString(), category);
+        User user = (User) request.getSession().getAttribute("user");
+        String countryCode = user.getCountryPreference() == null ? "us" : user.getCountryPreference().getCountryId();
+
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put(News.PARAM_COUNTRY, countryCode);
+        paramMap.put(News.PARAM_CATEGORY, category);
         paramMap.put(Const.PAGE_PARAM_NAME, page);
         paramMap.put(Const.PAGE_SIZE_PARAM_NAME, pageSize);
 
         PaginatedResult<Article> paginatedResult = restNewsService.getNews(News.URL_TOP_HEADLINES, paramMap);
         this.articles = paginatedResult.getResultList();
 
-        model.addAttribute("articles", this.articles);
-        model.addAttribute("category", category);
-        model.addAttribute("categories", News.CATEGORIES);
-
-        model.addAttribute(Const.PAGE_COUNT_PARAM_NAME, paginatedResult.getPageCount());
-        model.addAttribute(Const.PAGE_PARAM_NAME, page);
-        model.addAttribute(Const.PAGE_SIZE_PARAM_NAME, pageSize);
+        prepareModel(model, paginatedResult.getPageCount(), page, pageSize);
 
         return "news/article-list";
     }
 
+    @GetMapping("/search")
+    public String showSearchResults(@RequestParam(value = Const.PAGE_PARAM_NAME, required = false, defaultValue = Const.DEFAULT_FIRST_PAGE_STRING) String page,
+                                    @RequestParam(value = Const.PAGE_SIZE_PARAM_NAME, required = false, defaultValue = Const.DEFAULT_PAGE_SIZE_STRING) String pageSize,
+                                    @RequestParam(value = "query", required = false, defaultValue = "") String query,
+                                    @RequestParam(value = "language", required = false, defaultValue = "all") String language,
+                                    @RequestParam(value = "sortBy", required = false, defaultValue = "publishedAt") String sortBy,
+                                    Model model) {
+        String additionalParameters = "";
+
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put(Const.PAGE_PARAM_NAME, page);
+        paramMap.put(Const.PAGE_SIZE_PARAM_NAME, pageSize);
+        if (!query.isEmpty()) {
+            paramMap.put(News.PARAM_QUERY, query);
+            additionalParameters += News.PARAM_QUERY + "=" + query + "&";
+        }
+        paramMap.put(News.PARAM_SORT_BY, sortBy);
+        additionalParameters += News.PARAM_SORT_BY + "=" + sortBy + "&";
+        PaginatedResult<Article> paginatedResult = restNewsService.getNews(News.URL_EVERYTHING, paramMap);
+        this.articles = paginatedResult.getResultList();
+        prepareModel(model, paginatedResult.getPageCount(), page, pageSize);
+        model.addAttribute("additionalParameters", additionalParameters);
+
+        return "news/search-results";
+
+    }
+
+
+    private void prepareModel(Model model, long pageCount, String page, String pageSize) {
+        model.addAttribute("articles", this.articles);
+        model.addAttribute(Const.PAGE_COUNT_PARAM_NAME, pageCount);
+        model.addAttribute(Const.PAGE_PARAM_NAME, page);
+        model.addAttribute(Const.PAGE_SIZE_PARAM_NAME, pageSize);
+        model.addAttribute("categories", News.CATEGORIES);
+        model.addAttribute("languages", News.LANGUAGES);
+        model.addAttribute("sortMap", News.SORT_BY);
+    }
 
 }

@@ -35,7 +35,12 @@ public class RestNewsServiceImpl implements RestNewsService {
 
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(0, new StringHttpMessageConverter(Charset.forName("UTF-8")));
-        ResponseEntity<NewsApiResponse> responseEntity = restTemplate.getForEntity(targetUrl, NewsApiResponse.class);
+        ResponseEntity<NewsApiResponse> responseEntity;
+        try {
+            responseEntity = restTemplate.getForEntity(targetUrl, NewsApiResponse.class);
+        } catch (Exception ex) {
+            return new PaginatedResult<>();
+        }
 
         NewsApiResponse response = responseEntity.getBody();
 
