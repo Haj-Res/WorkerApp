@@ -9,7 +9,8 @@ import java.util.Map;
 
 public interface RestNewsService {
 
-    PaginatedResult<Article> getBreakingNews(Map<String, String> paramMap);
+    PaginatedResult<Article> getNews(String newsType, Map<String, String> paramMap);
+
 
     List<ArticleSource> getArticleSourcesByCountry(String countryCode);
 

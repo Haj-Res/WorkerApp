@@ -32,6 +32,7 @@ public class NewsController {
     private final UserService userService;
 
     private List<Article> articles;
+
     @Autowired
     public NewsController(RestNewsService restNewsService, @Qualifier("userServiceImpl") UserService userService) {
         this.restNewsService = restNewsService;
@@ -48,22 +49,23 @@ public class NewsController {
         String countryCode = user.getCountryPreference() == null ? "us" : user.getCountryPreference().getCountryId();
 
         List<ArticleSource> sources = restNewsService.getArticleSourcesByCountry(countryCode);
-        PaginatedResult<Article> articlePaginatedResult;
-
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put(Const.PAGE_PARAM_NAME, page);
         paramMap.put(Const.PAGE_SIZE_PARAM_NAME, pageSize);
-
+        PaginatedResult<Article> paginatedResult;
         if (source == null || source.isEmpty()) {
             paramMap.put(News.PARAM_COUNTRY, countryCode);
             if (user.getCategoryPreference() != null) {
                 paramMap.put(News.PARAM_CATEGORY, user.getCategoryPreference());
             }
-            articlePaginatedResult = restNewsService.getBreakingNews(paramMap);
+            paginatedResult = restNewsService.getNews(News.URL_TOP_HEADLINES, paramMap);
         } else {
             paramMap.put(News.PARAM_SOURCES, source);
-            articlePaginatedResult = restNewsService.getBreakingNews(paramMap);
+            paginatedResult = restNewsService.getNews(News.URL_EVERYTHING, paramMap);
+
         }
+
+
         List<Country> countryList = userService.findAllCountries();
 
         Map<String, String> countries = new HashMap<>();
@@ -71,21 +73,21 @@ public class NewsController {
             String name = c.getInternationalName() + " (" + c.getLocalName() + ")";
             countries.put(c.getCountryId(), name);
         });
-        this.articles = articlePaginatedResult.getResultList();
+        this.articles = paginatedResult.getResultList();
         model.addAttribute("articles", this.articles);
 
         EditUserDto dto = new EditUserDto();
         dto.setCountry(user.getCountryPreference().getCountryId());
         dto.setCategory(user.getCategoryPreference());
         model.addAttribute("dto", dto);
-        model.addAttribute(Const.PAGE_COUNT_PARAM_NAME, articlePaginatedResult.getPageCount());
+        model.addAttribute(Const.PAGE_COUNT_PARAM_NAME, paginatedResult.getPageCount());
         model.addAttribute(Const.PAGE_PARAM_NAME, page);
         model.addAttribute(Const.PAGE_SIZE_PARAM_NAME, pageSize);
         model.addAttribute("countries", countries);
         model.addAttribute("categories", News.CATEGORIES);
         model.addAttribute("selectedSource", source);
         model.addAttribute("sources", sources);
-        return "news/article-list";
+        return "news/personal-feed";
     }
 
     @GetMapping("/articles/{hash}")
@@ -104,6 +106,33 @@ public class NewsController {
         model.addAttribute("article", article);
         model.addAttribute("categories", News.CATEGORIES);
         return "news/article";
+    }
+
+    @GetMapping("/category/{category}")
+    public String showByCategory(@PathVariable String category,
+                                 @RequestParam(value = Const.PAGE_PARAM_NAME, required = false, defaultValue = Const.DEFAULT_FIRST_PAGE_STRING) String page,
+                                 @RequestParam(value = Const.PAGE_SIZE_PARAM_NAME, required = false, defaultValue = Const.DEFAULT_PAGE_SIZE_STRING) String pageSize,
+                                 HttpServletRequest request,
+                                 Model model) {
+        Map<String, String> paramMap = new HashMap<>();
+        User user = (User) request.getSession().getAttribute("user");
+
+        paramMap.put(News.PARAM_CATEGORY.toString(), category);
+        paramMap.put(Const.PAGE_PARAM_NAME, page);
+        paramMap.put(Const.PAGE_SIZE_PARAM_NAME, pageSize);
+
+        PaginatedResult<Article> paginatedResult = restNewsService.getNews(News.URL_TOP_HEADLINES, paramMap);
+        this.articles = paginatedResult.getResultList();
+
+        model.addAttribute("articles", this.articles);
+        model.addAttribute("category", category);
+        model.addAttribute("categories", News.CATEGORIES);
+
+        model.addAttribute(Const.PAGE_COUNT_PARAM_NAME, paginatedResult.getPageCount());
+        model.addAttribute(Const.PAGE_PARAM_NAME, page);
+        model.addAttribute(Const.PAGE_SIZE_PARAM_NAME, pageSize);
+
+        return "news/article-list";
     }
 
 
