@@ -21,6 +21,7 @@ public abstract class News {
     public static final String PARAM_COUNTRY = "country";
     public static final String PARAM_CATEGORY = "category";
     public static final String PARAM_SOURCES = "sources";
+    public static final String PARAM_LANGUAGE = "language";
 
     // News sources caching duration
     public static final int CACHING_DURATION = 5 * 60 * 1000;

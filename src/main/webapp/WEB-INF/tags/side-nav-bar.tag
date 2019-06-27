@@ -1,8 +1,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
+<%--@elvariable id="language" type="java.lang.String"--%>
+<%--@elvariable id="sortBy" type="java.lang.String"--%>
+
 <%@ attribute name="categories" required="true" type="java.util.List<java.lang.String>" %>
 <%@ attribute name="sortMap" required="true" type="java.util.Map<java.lang.String, java.lang.String>" %>
+<%@ attribute name="languages" required="true" type="java.util.Map<java.lang.String, java.lang.String>" %>
+<%@ attribute name="q" required="false" type="java.lang.String" %>
+<%@ attribute name="sortBy" required="false" type="java.lang.String" %>
+<%@ attribute name="language" required="false" type="java.lang.String" %>
 
 <div class="side-nav-bar">
     <nav class="col-md-12 mb-4">
@@ -21,11 +28,21 @@
         <label for="sortBy" class="col-md-12 mb-0">Sort by</label>
         <select id="sortBy" class="custom-select col-md-12" name="sortBy">
             <c:forEach var="item" items="${sortMap}">
-                <option value="${item.key}">${item.value}</option>
+                <option value="${item.key}"
+                        <c:if test="${item.key == sortBy}">selected</c:if>
+                >${item.value}</option>
+            </c:forEach>
+        </select>
+        <label for="languages" class="col-md-12 mb-0 mt-2">Language</label>
+        <select id="languages" class="custom-select col-md-12" name="language">
+            <c:forEach var="item" items="${languages}">
+                <option value="${item.key}"
+                        <c:if test="${item.key == language}">selected</c:if>
+                >${item.value}</option>
             </c:forEach>
         </select>
         <label class="mt-2">
-            <input class="col-md-12" type="text" name="query" placeholder="Search . . ." required/>
+            <input class="col-md-12" type="text" name="q" value="${q}" placeholder="Search . . ." required/>
         </label>
         <div class="col-md-12 p-0 d-flex justify-content-end">
             <input type="submit" class="btn btn-secondary" value="Search"/>

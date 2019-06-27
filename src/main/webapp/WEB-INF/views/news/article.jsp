@@ -5,7 +5,7 @@
     <jsp:body>
         <div class="row mt-3">
             <div class="col-md-3">
-                <t:side-nav-bar categories="${categories}" sortMap="${sortMap}"/>
+                <t:side-nav-bar categories="${categories}" sortMap="${sortMap}" languages="${languages}"/>
             </div>
             <article class="col-md-9">
                 <div class="mb-5 col-md-12"><h3>${article.title}</h3></div>

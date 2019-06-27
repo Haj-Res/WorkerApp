@@ -142,12 +142,11 @@ public class NewsController {
     @GetMapping("/search")
     public String showSearchResults(@RequestParam(value = Const.PAGE_PARAM_NAME, required = false, defaultValue = Const.DEFAULT_FIRST_PAGE_STRING) String page,
                                     @RequestParam(value = Const.PAGE_SIZE_PARAM_NAME, required = false, defaultValue = Const.DEFAULT_PAGE_SIZE_STRING) String pageSize,
-                                    @RequestParam(value = "query", required = false, defaultValue = "") String query,
+                                    @RequestParam(value = "q", required = false, defaultValue = "") String query,
                                     @RequestParam(value = "language", required = false, defaultValue = "all") String language,
                                     @RequestParam(value = "sortBy", required = false, defaultValue = "publishedAt") String sortBy,
                                     Model model) throws UnsupportedEncodingException {
         String additionalParameters = "";
-
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put(Const.PAGE_PARAM_NAME, page);
         paramMap.put(Const.PAGE_SIZE_PARAM_NAME, pageSize);
@@ -155,6 +154,10 @@ public class NewsController {
             query = URLEncoder.encode(query, StandardCharsets.UTF_8.toString());
             paramMap.put(News.PARAM_QUERY, query);
             additionalParameters += News.PARAM_QUERY + "=" + query + "&";
+        }
+
+        if (!language.equals("all")) {
+            paramMap.put(News.PARAM_LANGUAGE, language);
         }
         paramMap.put(News.PARAM_SORT_BY, sortBy);
         additionalParameters += News.PARAM_SORT_BY + "=" + sortBy + "&";

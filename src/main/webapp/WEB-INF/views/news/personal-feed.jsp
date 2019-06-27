@@ -11,7 +11,7 @@
     <jsp:body>
         <div class="row mt-3">
             <div class="col-md-3">
-                <t:side-nav-bar categories="${categories}" sortMap="${sortMap}"/>
+                <t:side-nav-bar categories="${categories}" sortMap="${sortMap}" languages="${languages}"/>
             </div>
             <div class="col-md-9 border-left">
                 <div class="accordion  mb-5" id="preferenceAccordion">
@@ -68,7 +68,7 @@
                                             </c:forEach>
                                         </select>
                                         <input class="btn btn-secondary mt-3" type="submit"
-                                               value="Update preference"/>
+                                               value="Update"/>
                                     </form:form>
                                 </div>
                             </c:if>
