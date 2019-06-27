@@ -20,6 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,7 +86,7 @@ public class NewsController {
         dto.setCategory(user.getCategoryPreference());
         model.addAttribute("dto", dto);
 
-        prepareModel(model, paginatedResult.getPageCount(),page, pageSize);
+        prepareModel(model, paginatedResult.getPageCount(), page, pageSize);
 
         model.addAttribute("countries", countries);
         model.addAttribute("additionalParameters", additionalParameters);
@@ -142,13 +145,14 @@ public class NewsController {
                                     @RequestParam(value = "query", required = false, defaultValue = "") String query,
                                     @RequestParam(value = "language", required = false, defaultValue = "all") String language,
                                     @RequestParam(value = "sortBy", required = false, defaultValue = "publishedAt") String sortBy,
-                                    Model model) {
+                                    Model model) throws UnsupportedEncodingException {
         String additionalParameters = "";
 
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put(Const.PAGE_PARAM_NAME, page);
         paramMap.put(Const.PAGE_SIZE_PARAM_NAME, pageSize);
         if (!query.isEmpty()) {
+            query = URLEncoder.encode(query, StandardCharsets.UTF_8.toString());
             paramMap.put(News.PARAM_QUERY, query);
             additionalParameters += News.PARAM_QUERY + "=" + query + "&";
         }

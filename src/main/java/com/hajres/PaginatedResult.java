@@ -1,5 +1,6 @@
 package com.hajres;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PaginatedResult<T> {
@@ -7,6 +8,7 @@ public class PaginatedResult<T> {
     private long pageCount;
 
     public PaginatedResult() {
+        this.resultList = new ArrayList<>();
     }
 
     public PaginatedResult(List<T> resultList, Long pageCount) {
