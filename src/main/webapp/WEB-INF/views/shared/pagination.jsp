@@ -1,11 +1,13 @@
 <%--@elvariable id="page" type="int"--%>
 <%--@elvariable id="pageCount" type="int"--%>
 <%--@elvariable id="pageSize" type="int"--%>
-<%--@elvariable id="selectedSource" type="String"--%>
+<%--@elvariable id="additionalParameters" type="String"--%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 
 <c:choose>
-    <c:when test="${selectedSource != null}">
-        <c:set var="base" value="?source=${selectedSource}&" scope="page"/>
+    <c:when test="${additionalParameters != null && additionalParameters != ''}">
+        <c:set var="base" value="?${additionalParameters}" scope="page"/>
     </c:when>
     <c:otherwise>
         <c:set var="base" value="?" scope="page"/>
