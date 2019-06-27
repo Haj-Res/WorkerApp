@@ -13,13 +13,12 @@
 
     <jsp:body>
         <div class="row mt-3">
-        <div class="col-md-3">
-
-
-            <t:side-nav-bar categories="${categories}" sortMap="${sortMap}"/>
-        </div>
-        <div class="col-md-9">
-            <t:article-list articleList="${articles}"/>
+            <div class="col-md-3">
+                <t:side-nav-bar categories="${categories}" sortMap="${sortMap}"/>
+            </div>
+            <div class="col-md-9 border-left">
+                <t:article-list articleList="${articles}"/>
+            </div>
         </div>
     </jsp:body>
 

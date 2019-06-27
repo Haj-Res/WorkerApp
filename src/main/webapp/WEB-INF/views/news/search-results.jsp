@@ -12,7 +12,7 @@
             <div class="col-md-3">
                 <t:side-nav-bar categories="${categories}" sortMap="${sortMap}"/>
             </div>
-            <div class="col-md-9">
+            <div class="col-md-9 border-left">
                 <t:article-list articleList="${articles}"/>
             </div>
         </div>
