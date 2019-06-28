@@ -2,7 +2,7 @@ package com.hajres.controller;
 
 import com.hajres.domain.dto.EditUserDto;
 import com.hajres.domain.dto.PasswordDto;
-import com.hajres.domain.entity.Country;
+import com.hajres.domain.entity.news.Country;
 import com.hajres.domain.entity.User;
 import com.hajres.news.News;
 import com.hajres.service.UserService;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;

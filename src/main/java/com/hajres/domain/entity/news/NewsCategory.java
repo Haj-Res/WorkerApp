@@ -1,4 +1,4 @@
-package com.hajres.news.model;
+package com.hajres.domain.entity.news;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

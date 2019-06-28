@@ -3,7 +3,7 @@ package com.hajres.service;
 import com.hajres.domain.dto.EditUserDto;
 import com.hajres.domain.dto.PasswordDto;
 import com.hajres.domain.dto.RegHelperUser;
-import com.hajres.domain.entity.Country;
+import com.hajres.domain.entity.news.Country;
 import com.hajres.domain.entity.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 

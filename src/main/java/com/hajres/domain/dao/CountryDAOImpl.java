@@ -1,6 +1,6 @@
 package com.hajres.domain.dao;
 
-import com.hajres.domain.entity.Country;
+import com.hajres.domain.entity.news.Country;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
