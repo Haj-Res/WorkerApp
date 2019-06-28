@@ -1,16 +1,15 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: resad
-  Date: 6/28/19
-  Time: 9:53 AM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Title</title>
-</head>
-<body>
 
-</body>
-</html>
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
+
+<t:genericpage pageName="Administration Panel">
+    <jsp:body>
+        <div class="d-flex flex-wrap justify-content-around mt-5">
+            <t:admin-tile faClass="fa fa-user" title="User Panel" tooltip="User administration panel"/>
+            <t:admin-tile faClass="fa fa-th-list" title="News Categories" tooltip="Add and remove news categories"/>
+            <t:admin-tile faClass="fa fa-language" title="News Languages" tooltip="Add and remove languages"/>
+            <t:admin-tile faClass="fa fa-sort" title="News Sorting" tooltip="Add and remove sorting options"/>
+        </div>
+    </jsp:body>
+</t:genericpage>
+
