@@ -1,5 +1,8 @@
 package com.hajres.domain.entity;
 
+import com.hajres.domain.entity.news.Country;
+import com.hajres.domain.entity.news.NewsCategory;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +14,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -49,8 +51,9 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Collection<Role> roles;
 
-    @Column(name = "category_preference")
-    private String categoryPreference;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "category_preference")
+    private NewsCategory categoryPreference;
 
     public User() {
     }
@@ -143,11 +146,11 @@ public class User {
         this.roles.add(role);
     }
 
-    public String getCategoryPreference() {
+    public NewsCategory getCategoryPreference() {
         return categoryPreference;
     }
 
-    public void setCategoryPreference(String categoryPreference) {
+    public void setCategoryPreference(NewsCategory categoryPreference) {
         this.categoryPreference = categoryPreference;
     }
 

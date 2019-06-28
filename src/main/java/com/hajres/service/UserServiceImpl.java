@@ -1,14 +1,16 @@
 package com.hajres.service;
 
 import com.hajres.domain.dao.CountryDAO;
+import com.hajres.domain.dao.NewsDTO;
 import com.hajres.domain.dto.EditUserDto;
 import com.hajres.domain.dto.PasswordDto;
-import com.hajres.domain.entity.Country;
+import com.hajres.domain.entity.news.Country;
 import com.hajres.domain.entity.Role;
 import com.hajres.domain.entity.User;
 import com.hajres.domain.dao.RoleDAO;
 import com.hajres.domain.dao.UserDAO;
 import com.hajres.domain.dto.RegHelperUser;
+import com.hajres.domain.entity.news.NewsCategory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,8 @@ public class UserServiceImpl implements UserService {
     private RoleDAO roleDAO;
     @Autowired
     private CountryDAO countryDAO;
+    @Autowired
+    private NewsDTO newsDTO;
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
@@ -70,12 +74,12 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void update(EditUserDto userDto, User user) {
         Country country = countryDAO.findById((userDto.getCountry()));
+        NewsCategory category = newsDTO.findCategoryById(userDto.getCategory());
 
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         user.setEmail(userDto.getEmail());
         user.setCountryPreference(country);
-        String category = userDto.getCategory().isEmpty() ? null : userDto.getCategory();
         user.setCategoryPreference(category);
 
         userDAO.save(user);
@@ -103,11 +107,9 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void updatePreferences(User user, String countryCode, String category) {
         Country country = countryDAO.findById(countryCode);
+        NewsCategory newsCategory = newsDTO.findCategoryById(category);
         user.setCountryPreference(country);
-        if (category == null || category.isEmpty()) {
-            category = null;
-        }
-        user.setCategoryPreference(category);
+        user.setCategoryPreference(newsCategory);
         userDAO.save(user);
     }
 

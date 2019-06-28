@@ -3,7 +3,7 @@ package com.hajres.controller;
 import com.hajres.PaginatedResult;
 import com.hajres.config.Const;
 import com.hajres.domain.dto.EditUserDto;
-import com.hajres.domain.entity.Country;
+import com.hajres.domain.entity.news.Country;
 import com.hajres.domain.entity.User;
 import com.hajres.news.News;
 import com.hajres.news.model.Article;
@@ -61,7 +61,7 @@ public class NewsController {
         if (source == null || source.isEmpty()) {
             paramMap.put(News.PARAM_COUNTRY, countryCode);
             if (user.getCategoryPreference() != null) {
-                paramMap.put(News.PARAM_CATEGORY, user.getCategoryPreference());
+                paramMap.put(News.PARAM_CATEGORY, user.getCategoryPreference().getId());
             }
             paginatedResult = restNewsService.getNews(News.URL_TOP_HEADLINES, paramMap);
         } else {
@@ -83,7 +83,7 @@ public class NewsController {
 
         EditUserDto dto = new EditUserDto();
         dto.setCountry(user.getCountryPreference().getCountryId());
-        dto.setCategory(user.getCategoryPreference());
+        dto.setCategory(user.getCategoryPreference().getId());
         model.addAttribute("dto", dto);
 
         prepareModel(model, paginatedResult.getPageCount(), page, pageSize);

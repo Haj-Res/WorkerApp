@@ -5,7 +5,6 @@ import com.hajres.validation.ValidEmail;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.List;
 
 public class EditUserDto {
     @NotNull
@@ -84,7 +83,7 @@ public class EditUserDto {
         editUser.lastName = user.getLastName();
         editUser.email = user.getEmail();
         editUser.country = user.getCountryPreference() == null ? "" : user.getCountryPreference().getCountryId();
-        editUser.category = user.getCategoryPreference();
+        editUser.category = user.getCategoryPreference().getId();
         return editUser;
     }
 }

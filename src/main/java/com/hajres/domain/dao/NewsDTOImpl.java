@@ -1,16 +1,18 @@
 package com.hajres.domain.dao;
 
-import com.hajres.news.model.Language;
-import com.hajres.news.model.NewsCategory;
-import com.hajres.news.model.SortOrder;
+import com.hajres.domain.entity.news.Language;
+import com.hajres.domain.entity.news.NewsCategory;
+import com.hajres.domain.entity.news.SortOrder;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Repository
 public class NewsDTOImpl implements NewsDTO {
 
     private final SessionFactory factory;
@@ -67,5 +69,17 @@ public class NewsDTOImpl implements NewsDTO {
         Session session = factory.getCurrentSession();
         session.saveOrUpdate(order);
         return order;
+    }
+
+    @Override
+    public Language findLanguageById(String id) {
+        Session session = factory.getCurrentSession();
+        return session.get(Language.class, id);
+    }
+
+    @Override
+    public NewsCategory findCategoryById(String id) {
+        Session session = factory.getCurrentSession();
+        return session.get(NewsCategory.class, id);
     }
 }
