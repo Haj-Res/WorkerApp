@@ -1,6 +1,5 @@
 package com.hajres.service;
 
-import com.hajres.domain.dao.CountryDAO;
 import com.hajres.domain.dao.NewsDTO;
 import com.hajres.domain.dto.EditUserDto;
 import com.hajres.domain.dto.PasswordDto;
@@ -11,6 +10,7 @@ import com.hajres.domain.dao.RoleDAO;
 import com.hajres.domain.dao.UserDAO;
 import com.hajres.domain.dto.RegHelperUser;
 import com.hajres.domain.entity.news.NewsCategory;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +33,6 @@ public class UserServiceImpl implements UserService {
     private UserDAO userDAO;
     @Autowired
     private RoleDAO roleDAO;
-    @Autowired
-    private CountryDAO countryDAO;
     @Autowired
     private NewsDTO newsDTO;
     @Autowired
@@ -73,7 +71,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void update(EditUserDto userDto, User user) {
-        Country country = countryDAO.findById((userDto.getCountry()));
+        Country country = newsDTO.findCountryById((userDto.getCountry()));
         NewsCategory category = newsDTO.findCategoryById(userDto.getCategory());
 
         user.setFirstName(userDto.getFirstName());
@@ -100,13 +98,13 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public List<Country> findAllCountries() {
-        return countryDAO.findAll();
+        return newsDTO.findAllCountries();
     }
 
     @Override
     @Transactional
     public void updatePreferences(User user, String countryCode, String category) {
-        Country country = countryDAO.findById(countryCode);
+        Country country = newsDTO.findCountryById(countryCode);
         NewsCategory newsCategory = newsDTO.findCategoryById(category);
         user.setCountryPreference(country);
         user.setCategoryPreference(newsCategory);

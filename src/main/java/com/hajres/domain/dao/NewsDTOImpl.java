@@ -1,5 +1,6 @@
 package com.hajres.domain.dao;
 
+import com.hajres.domain.entity.news.Country;
 import com.hajres.domain.entity.news.Language;
 import com.hajres.domain.entity.news.NewsCategory;
 import com.hajres.domain.entity.news.SortOrder;
@@ -51,6 +52,12 @@ public class NewsDTOImpl implements NewsDTO {
     }
 
     @Override
+    public List<Country> findAllCountries() {
+        Session session = factory.getCurrentSession();
+        return session.createQuery("from Country ", Country.class).getResultList();
+    }
+
+    @Override
     public Language saveLanguage(Language language) {
         Session session = factory.getCurrentSession();
         session.saveOrUpdate(language);
@@ -72,6 +79,13 @@ public class NewsDTOImpl implements NewsDTO {
     }
 
     @Override
+    public Country saveCountry(Country country) {
+        Session session = factory.getCurrentSession();
+        session.saveOrUpdate(country);
+        return country;
+    }
+
+    @Override
     public Language findLanguageById(String id) {
         Session session = factory.getCurrentSession();
         return session.get(Language.class, id);
@@ -81,5 +95,11 @@ public class NewsDTOImpl implements NewsDTO {
     public NewsCategory findCategoryById(String id) {
         Session session = factory.getCurrentSession();
         return session.get(NewsCategory.class, id);
+    }
+
+    @Override
+    public Country findCountryById(String id) {
+        Session session = factory.getCurrentSession();
+        return session.get(Country.class, id);
     }
 }
