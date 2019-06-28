@@ -4,8 +4,8 @@
 
 <article>
     <a href="${pageContext.request.contextPath}/news/articles/${article.hashCode()}" class="list-group-item-action">
-        <div class="media pr-5 mb-5">
-            <img class="d-flex mr-4 thumbnail" src="${article.urlToImage}" alt="Missing Image"
+        <div class="d-flex flex-wrap media pr-5 mb-5">
+            <img class="d-flex flex-wrap mr-4 thumbnail" src="${article.urlToImage}" alt="Missing Image"
                  data-toggle="tooltip"
                  data-placement="top" title="${article.title}">
             <div class="media-body">
