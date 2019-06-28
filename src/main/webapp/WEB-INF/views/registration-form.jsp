@@ -77,6 +77,29 @@
                         <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
                         <form:input path="email" placeholder="Email*" class="form-control"/>
                     </div>
+
+                    <div class="form-group mt-2">
+                        <div class="col-sm-12 controls">
+                            <label for="country">Country News Preference</label>
+                            <form:errors path="country" cssClass="error"/>
+                            <form:select cssClass="custom-select" path="country" name="country">
+                                <form:options items="${countries}"/>
+                            </form:select>
+                        </div>
+                    </div>
+                    <div class="form-group mt-2">
+                        <div class="col-sm-12 controls">
+                            <label for="category">Category Preference</label><br>
+                            <div class="d-flex flex-row justify-content-start flex-wrap">
+                                <div class="col-md-6">
+                                    <form:radiobutton cssClass="mr-2" path="category" value="" label="No preference"/>
+                                </div>
+                                <form:radiobuttons cssClass="mr-2" element="div class='col-md-6'" path="category"
+                                                   items="${categories}"/>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Register Button -->
                     <div style="margin-top: 10px" class="form-group">
                         <div class="col-sm-6 controls">

@@ -2,6 +2,8 @@ package com.hajres.controller;
 
 import com.hajres.domain.dto.RegHelperUser;
 import com.hajres.domain.entity.User;
+import com.hajres.domain.entity.news.Country;
+import com.hajres.news.service.RestNewsService;
 import com.hajres.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,13 +18,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class LoginController {
 
     @Autowired
     @Qualifier(value = "userServiceImpl")
-    UserService userService;
+    private UserService userService;
+
+    @Autowired
+    private RestNewsService restNewsService;
     private Logger logger = LoggerFactory.getLogger(getClass().getName());
 
     @GetMapping("/login")
@@ -38,8 +46,11 @@ public class LoginController {
     @GetMapping("/registration")
     public String showMyLoginPage(Model model) {
 
+        Map<String, String> categories = restNewsService.getCategories();
+        Map<String, String> countries = mapCountriesFromList(restNewsService.getCountries());
         model.addAttribute("regHelperUser", new RegHelperUser());
-
+        model.addAttribute("countries", countries);
+        model.addAttribute("categories", categories);
         return "registration-form";
     }
 
@@ -47,7 +58,12 @@ public class LoginController {
     public String processRegistrationForm(
             @Valid @ModelAttribute("regHelperUser") RegHelperUser regHelperUser,
             BindingResult theBindingResult,
-            Model theModel) {
+            Model model) {
+
+        Map<String, String> categories = restNewsService.getCategories();
+        Map<String, String> countries = mapCountriesFromList(restNewsService.getCountries());
+        model.addAttribute("countries", countries);
+        model.addAttribute("categories", categories);
 
         // form validation
         if (theBindingResult.hasErrors()) {
@@ -60,8 +76,8 @@ public class LoginController {
         // check the database if user already exists
         User existing = userService.findByUserName(userName);
         if (existing != null) {
-            theModel.addAttribute("regHelperUser", new RegHelperUser());
-            theModel.addAttribute("registrationError", "User name already exists.");
+            model.addAttribute("regHelperUser", new RegHelperUser());
+            model.addAttribute("registrationError", "User name already exists.");
 
             logger.warn("User name already exists.");
             return "registration-form";
@@ -78,5 +94,14 @@ public class LoginController {
     public String show404(HttpServletRequest request, Model model) {
         model.addAttribute("method", request.getMethod());
         return "/error/404";
+    }
+
+    private Map<String, String> mapCountriesFromList(List<Country> countryList) {
+        Map<String, String> countries = new HashMap<>();
+        countryList.forEach(c -> {
+            String name = c.getInternationalName() + " (" + c.getLocalName() + ")";
+            countries.put(c.getCountryId(), name);
+        });
+        return countries;
     }
 }

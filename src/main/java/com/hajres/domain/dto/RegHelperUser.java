@@ -5,6 +5,7 @@ import com.hajres.validation.FieldMatch;
 import com.hajres.validation.ValidEmail;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +41,12 @@ public class RegHelperUser {
     private String email;
 
     private List<String> roles;
+
+    @NotNull(message = "is required")
+    private String country;
+
+    @NotNull(message = "is required")
+    private String category;
 
     public RegHelperUser() {
     }
@@ -98,6 +105,22 @@ public class RegHelperUser {
 
     public void setRoles(List<String> roles) {
         this.roles = roles;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public void addRole(String role) {

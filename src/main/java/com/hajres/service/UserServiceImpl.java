@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Service
@@ -57,6 +58,12 @@ public class UserServiceImpl implements UserService {
         user.setFirstName(regHelperUser.getFirstName());
         user.setLastName(regHelperUser.getLastName());
         user.setEmail(regHelperUser.getEmail());
+
+        Country country = newsDTO.findCountryById(regHelperUser.getCountry());
+        user.setCountryPreference(country);
+
+        NewsCategory category = newsDTO.findCategoryById(regHelperUser.getCategory());
+        user.setCategoryPreference(category);
 
         user.addRole(roleDAO.findRoleByName("ROLE_EMPLOYEE"));
 
