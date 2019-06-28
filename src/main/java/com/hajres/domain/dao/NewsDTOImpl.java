@@ -1,5 +1,6 @@
 package com.hajres.domain.dao;
 
+import com.hajres.domain.entity.news.CachedRecord;
 import com.hajres.domain.entity.news.Country;
 import com.hajres.domain.entity.news.Language;
 import com.hajres.domain.entity.news.NewsCategory;
@@ -9,7 +10,6 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.ManyToOne;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -108,5 +108,22 @@ public class NewsDTOImpl implements NewsDTO {
     public Country findCountryById(String id) {
         Session session = factory.getCurrentSession();
         return session.get(Country.class, id);
+    }
+
+    @Override
+    public CachedRecord findCachedRecord(String url) {
+        Session session = factory.getCurrentSession();
+        try {
+            return session.createQuery("from CachedRecord where url=:url", CachedRecord.class).setParameter("url", url).getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @Override
+    public CachedRecord saveCachedRecord(CachedRecord record) {
+        Session session = factory.getCurrentSession();
+        session.saveOrUpdate((record));
+        return record;
     }
 }

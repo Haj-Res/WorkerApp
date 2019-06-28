@@ -18,5 +18,5 @@ public abstract class News {
     public static final String PARAM_LANGUAGE = "language";
 
     // News sources caching duration
-    public static final int CACHING_DURATION = 5 * 60 * 1000;
+    public static final int CACHING_DURATION_MINUTES = 5;
 }

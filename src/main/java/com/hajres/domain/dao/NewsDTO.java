@@ -1,5 +1,6 @@
 package com.hajres.domain.dao;
 
+import com.hajres.domain.entity.news.CachedRecord;
 import com.hajres.domain.entity.news.Country;
 import com.hajres.domain.entity.news.Language;
 import com.hajres.domain.entity.news.NewsCategory;
@@ -34,4 +35,8 @@ public interface NewsDTO {
     NewsCategory findCategoryById(String id);
 
     Country findCountryById(String id);
+
+    CachedRecord findCachedRecord(String url);
+
+    CachedRecord saveCachedRecord(CachedRecord record);
 }
