@@ -9,6 +9,11 @@
     </properties>
     <root id="archive" name="WorkerApp.war">
       <element id="artifact" artifact-name="WorkerApp:war exploded" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="library" level="application" name="jquery-3.4.1" />
+        </element>
+      </element>
     </root>
   </artifact>
 </component>
