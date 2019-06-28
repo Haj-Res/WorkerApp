@@ -186,7 +186,5 @@ public class NewsController {
         model.addAttribute("categories", this.categories);
         model.addAttribute("languages", this.languages);
         model.addAttribute("sortMap", this.sortOrders);
-        System.out.println(this.languages);
     }
-
 }
