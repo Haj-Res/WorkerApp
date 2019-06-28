@@ -8,7 +8,7 @@
                 <t:side-nav-bar categories="${categories}" sortMap="${sortMap}" languages="${languages}"/>
             </div>
             <article class="col-md-9">
-                <div class="mb-5 col-md-12"><h3>${article.title}</h3></div>
+                <div class="mb-3 col-md-12"><h4>${article.title}</h4></div>
                 <div class="mb-5 col-md-12">
                     <p>
                         <a href="${article.urlToImage}"><img class="article" src="${article.urlToImage}"/></a>
