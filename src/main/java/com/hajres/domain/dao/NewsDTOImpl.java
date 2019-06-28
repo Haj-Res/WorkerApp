@@ -9,6 +9,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.ManyToOne;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,9 +23,10 @@ public class NewsDTOImpl implements NewsDTO {
     public NewsDTOImpl(SessionFactory factory) {
         this.factory = factory;
     }
+
     @Override
     public Map<String, String> findAllLanguages() {
-        Session session =factory.getCurrentSession();
+        Session session = factory.getCurrentSession();
         List<Language> list = session.createQuery("from Language ", Language.class).getResultList();
         Map<String, String> languages = new HashMap<>();
         list.forEach(l -> {
@@ -34,9 +36,14 @@ public class NewsDTOImpl implements NewsDTO {
     }
 
     @Override
-    public List<String> findAllCategories() {
+    public Map<String, String> findAllCategories() {
         Session session = factory.getCurrentSession();
-        return session.createQuery("select name from NewsCategory ", String.class).getResultList();
+        List<NewsCategory> list = session.createQuery("from NewsCategory ", NewsCategory.class).getResultList();
+        Map<String, String> categories = new HashMap<>();
+        list.forEach(l -> {
+            categories.put(l.getId(), l.getName());
+        });
+        return categories;
     }
 
     @Override
@@ -44,7 +51,7 @@ public class NewsDTOImpl implements NewsDTO {
         Session session = factory.getCurrentSession();
         List<SortOrder> list = session.createQuery("from SortOrder ", SortOrder.class).getResultList();
         Map<String, String> sortOrders = new HashMap<>();
-        list.forEach(l-> {
+        list.forEach(l -> {
             sortOrders.put(l.getId(), l.getName());
 
         });

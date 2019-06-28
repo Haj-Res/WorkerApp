@@ -2,6 +2,8 @@ package com.hajres.news.service;
 
 import com.hajres.PaginatedResult;
 import com.hajres.config.Const;
+import com.hajres.domain.dao.NewsDTO;
+import com.hajres.domain.entity.news.Country;
 import com.hajres.news.News;
 import com.hajres.news.model.Article;
 import com.hajres.news.model.ArticleSource;
@@ -9,9 +11,11 @@ import com.hajres.news.model.NewsApiResponse;
 import com.hajres.news.model.SourceList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.Charset;
@@ -21,6 +25,9 @@ import java.util.Map;
 
 @Service
 public class RestNewsServiceImpl implements RestNewsService {
+
+    @Autowired
+    private NewsDTO newsDTO;
 
     // Properties use to decide if you send the cached source list or to fetch it from the web
     private List<ArticleSource> sourceList;
@@ -82,6 +89,30 @@ public class RestNewsServiceImpl implements RestNewsService {
         this.sourceList = sourceList == null ? null : sourceList.getSources();
 
         return this.sourceList;
+    }
+
+    @Override
+    @Transactional
+    public Map<String, String> getCategories() {
+        return newsDTO.findAllCategories();
+    }
+
+    @Override
+    @Transactional
+    public List<Country> getCountries() {
+        return newsDTO.findAllCountries();
+    }
+
+    @Override
+    @Transactional
+    public Map<String, String> getLanguages() {
+        return newsDTO.findAllLanguages();
+    }
+
+    @Override
+    @Transactional
+    public Map<String, String> getSortOrders() {
+        return newsDTO.findAllSortOrders();
     }
 
     private String buildUrl(String base, Map<String, String> paramMap) {

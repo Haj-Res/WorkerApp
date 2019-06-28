@@ -4,7 +4,7 @@ import com.hajres.domain.dto.EditUserDto;
 import com.hajres.domain.dto.PasswordDto;
 import com.hajres.domain.entity.news.Country;
 import com.hajres.domain.entity.User;
-import com.hajres.news.News;
+import com.hajres.news.service.RestNewsService;
 import com.hajres.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/user")
@@ -30,20 +30,23 @@ public class UserController {
     @Qualifier("userServiceImpl")
     private UserService userService;
 
+    @Autowired
+    private RestNewsService newsService;
+
     @GetMapping("/profile")
     public String showProfile(Model model, HttpServletRequest request) {
         User sessionUser = (User) request.getSession().getAttribute("user");
         EditUserDto user = EditUserDto.map(sessionUser);
         List<Country> countryList = userService.findAllCountries();
-
-        HashMap<String, String> countries = new LinkedHashMap<>();
+        Map<String, String> countries = new HashMap<>();
         countryList.forEach(c -> {
             String name = c.getInternationalName() + " (" + c.getLocalName() + ")";
             countries.put(c.getCountryId(), name);
         });
+        Map<String, String> categories = newsService.getCategories();
         model.addAttribute("user", user);
         model.addAttribute("countries", countries);
-        model.addAttribute("categories", News.CATEGORIES);
+        model.addAttribute("categories", categories);
         return "user/profile";
     }
 

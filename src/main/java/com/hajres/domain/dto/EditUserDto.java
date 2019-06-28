@@ -82,8 +82,8 @@ public class EditUserDto {
         editUser.firstName = user.getFirstName();
         editUser.lastName = user.getLastName();
         editUser.email = user.getEmail();
-        editUser.country = user.getCountryPreference() == null ? "" : user.getCountryPreference().getCountryId();
-        editUser.category = user.getCategoryPreference().getId();
+        editUser.country = user.getCountryIdOrNull();
+        editUser.category = user.getCategoryIdOrNull();
         return editUser;
     }
 }

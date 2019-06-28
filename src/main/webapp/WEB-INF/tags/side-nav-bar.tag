@@ -4,7 +4,7 @@
 <%--@elvariable id="language" type="java.lang.String"--%>
 <%--@elvariable id="sortBy" type="java.lang.String"--%>
 
-<%@ attribute name="categories" required="true" type="java.util.List<java.lang.String>" %>
+<%@ attribute name="categories" required="true" type="java.util.Map<java.lang.String, java.lang.String>" %>
 <%@ attribute name="sortMap" required="true" type="java.util.Map<java.lang.String, java.lang.String>" %>
 <%@ attribute name="languages" required="true" type="java.util.Map<java.lang.String, java.lang.String>" %>
 <%@ attribute name="q" required="false" type="java.lang.String" %>
@@ -17,8 +17,8 @@
             <a href="${pageContext.request.contextPath}/news/"
                class="list-group-item list-group-item-action">Show my feed</a>
             <c:forEach var="cat" items="${categories}">
-                <a href="${pageContext.request.contextPath}/news/category/${cat}"
-                   class="list-group-item list-group-item-action">${cat}</a>
+                <a href="${pageContext.request.contextPath}/news/category/${cat.key}"
+                   class="list-group-item list-group-item-action">${cat.value}</a>
             </c:forEach>
         </div>
     </nav>

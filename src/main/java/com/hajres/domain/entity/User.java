@@ -154,6 +154,14 @@ public class User {
         this.categoryPreference = categoryPreference;
     }
 
+    public String getCountryIdOrNull() {
+        return this.countryPreference == null ? null : this.countryPreference.getCountryId();
+    }
+
+    public String getCategoryIdOrNull() {
+        return this.categoryPreference == null ? null : this.categoryPreference.getId();
+    }
+
     @Override
     public String toString() {
         return "User{" +

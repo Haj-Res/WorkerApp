@@ -13,7 +13,7 @@ public interface NewsDTO {
     // fetch all
     Map<String, String> findAllLanguages();
 
-    List<String> findAllCategories();
+    Map<String, String> findAllCategories();
 
     Map<String, String> findAllSortOrders();
 

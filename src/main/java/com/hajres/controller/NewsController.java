@@ -33,6 +33,10 @@ public class NewsController {
 
     private final RestNewsService restNewsService;
     private final UserService userService;
+    private Map<String, String> categories;
+    private Map<String, String> languages;
+    private Map<String, String> sortOrders;
+    private List<Country> countries;
 
     private List<Article> articles;
 
@@ -40,6 +44,10 @@ public class NewsController {
     public NewsController(RestNewsService restNewsService, @Qualifier("userServiceImpl") UserService userService) {
         this.restNewsService = restNewsService;
         this.userService = userService;
+        this.categories = restNewsService.getCategories();
+        this.languages = restNewsService.getLanguages();
+        this.sortOrders = restNewsService.getSortOrders();
+        this.countries = restNewsService.getCountries();
     }
 
     @GetMapping("")
@@ -49,7 +57,7 @@ public class NewsController {
                                   Model model, HttpServletRequest request) {
 
         User user = (User) request.getSession().getAttribute("user");
-        String countryCode = user.getCountryPreference() == null ? "us" : user.getCountryPreference().getCountryId();
+        String countryCode = user.getCountryIdOrNull() == null ? "us" : user.getCountryIdOrNull();
 
         List<ArticleSource> sources = restNewsService.getArticleSourcesByCountry(countryCode);
         Map<String, String> paramMap = new HashMap<>();
@@ -71,19 +79,18 @@ public class NewsController {
 
         }
 
-
-        List<Country> countryList = userService.findAllCountries();
-
         Map<String, String> countries = new HashMap<>();
-        countryList.forEach(c -> {
+        this.countries.forEach(c -> {
             String name = c.getInternationalName() + " (" + c.getLocalName() + ")";
             countries.put(c.getCountryId(), name);
         });
         this.articles = paginatedResult.getResultList();
 
         EditUserDto dto = new EditUserDto();
-        dto.setCountry(user.getCountryPreference().getCountryId());
-        dto.setCategory(user.getCategoryPreference().getId());
+
+        dto.setCountry(user.getCountryIdOrNull());
+        dto.setCategory(user.getCategoryIdOrNull());
+
         model.addAttribute("dto", dto);
 
         prepareModel(model, paginatedResult.getPageCount(), page, pageSize);
@@ -108,9 +115,9 @@ public class NewsController {
             return "redirect: news";
         }
         model.addAttribute("article", article);
-        model.addAttribute("categories", News.CATEGORIES);
-        model.addAttribute("languages", News.LANGUAGES);
-        model.addAttribute("sortMap", News.SORT_BY);
+        model.addAttribute("categories", this.categories);
+        model.addAttribute("languages", this.languages);
+        model.addAttribute("sortMap", this.sortOrders);
 
         return "news/article";
     }
@@ -123,7 +130,7 @@ public class NewsController {
                                  Model model) {
 
         User user = (User) request.getSession().getAttribute("user");
-        String countryCode = user.getCountryPreference() == null ? "us" : user.getCountryPreference().getCountryId();
+        String countryCode = user.getCountryIdOrNull() == null ? "us" : user.getCountryIdOrNull();
 
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put(News.PARAM_COUNTRY, countryCode);
@@ -143,7 +150,7 @@ public class NewsController {
     public String showSearchResults(@RequestParam(value = Const.PAGE_PARAM_NAME, required = false, defaultValue = Const.DEFAULT_FIRST_PAGE_STRING) String page,
                                     @RequestParam(value = Const.PAGE_SIZE_PARAM_NAME, required = false, defaultValue = Const.DEFAULT_PAGE_SIZE_STRING) String pageSize,
                                     @RequestParam(value = "q", required = false, defaultValue = "") String query,
-                                    @RequestParam(value = "language", required = false, defaultValue = "all") String language,
+                                    @RequestParam(value = "language", required = false, defaultValue = "") String language,
                                     @RequestParam(value = "sortBy", required = false, defaultValue = "publishedAt") String sortBy,
                                     Model model) throws UnsupportedEncodingException {
         String additionalParameters = "";
@@ -156,7 +163,7 @@ public class NewsController {
             additionalParameters += News.PARAM_QUERY + "=" + query + "&";
         }
 
-        if (!language.equals("all")) {
+        if (!language.equals("")) {
             paramMap.put(News.PARAM_LANGUAGE, language);
         }
         paramMap.put(News.PARAM_SORT_BY, sortBy);
@@ -176,9 +183,10 @@ public class NewsController {
         model.addAttribute(Const.PAGE_COUNT_PARAM_NAME, pageCount);
         model.addAttribute(Const.PAGE_PARAM_NAME, page);
         model.addAttribute(Const.PAGE_SIZE_PARAM_NAME, pageSize);
-        model.addAttribute("categories", News.CATEGORIES);
-        model.addAttribute("languages", News.LANGUAGES);
-        model.addAttribute("sortMap", News.SORT_BY);
+        model.addAttribute("categories", this.categories);
+        model.addAttribute("languages", this.languages);
+        model.addAttribute("sortMap", this.sortOrders);
+        System.out.println(this.languages);
     }
 
 }
