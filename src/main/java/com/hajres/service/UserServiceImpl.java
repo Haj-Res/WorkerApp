@@ -1,6 +1,6 @@
 package com.hajres.service;
 
-import com.hajres.domain.dao.NewsDTO;
+import com.hajres.domain.dao.NewsDAO;
 import com.hajres.domain.dto.EditUserDto;
 import com.hajres.domain.dto.PasswordDto;
 import com.hajres.domain.entity.news.Country;
@@ -24,7 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,7 +34,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private RoleDAO roleDAO;
     @Autowired
-    private NewsDTO newsDTO;
+    private NewsDAO newsDAO;
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
@@ -59,10 +58,10 @@ public class UserServiceImpl implements UserService {
         user.setLastName(regHelperUser.getLastName());
         user.setEmail(regHelperUser.getEmail());
 
-        Country country = newsDTO.findCountryById(regHelperUser.getCountry());
+        Country country = newsDAO.findCountryById(regHelperUser.getCountry());
         user.setCountryPreference(country);
 
-        NewsCategory category = newsDTO.findCategoryById(regHelperUser.getCategory());
+        NewsCategory category = newsDAO.findCategoryById(regHelperUser.getCategory());
         user.setCategoryPreference(category);
 
         user.addRole(roleDAO.findRoleByName("ROLE_EMPLOYEE"));
@@ -78,8 +77,8 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void update(EditUserDto userDto, User user) {
-        Country country = newsDTO.findCountryById((userDto.getCountry()));
-        NewsCategory category = newsDTO.findCategoryById(userDto.getCategory());
+        Country country = newsDAO.findCountryById((userDto.getCountry()));
+        NewsCategory category = newsDAO.findCategoryById(userDto.getCategory());
 
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
@@ -105,14 +104,14 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public List<Country> findAllCountries() {
-        return newsDTO.findAllCountries();
+        return newsDAO.findAllCountries();
     }
 
     @Override
     @Transactional
     public void updatePreferences(User user, String countryCode, String category) {
-        Country country = newsDTO.findCountryById(countryCode);
-        NewsCategory newsCategory = newsDTO.findCategoryById(category);
+        Country country = newsDAO.findCountryById(countryCode);
+        NewsCategory newsCategory = newsDAO.findCategoryById(category);
         user.setCountryPreference(country);
         user.setCategoryPreference(newsCategory);
         userDAO.save(user);

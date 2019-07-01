@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.hajres.PaginatedResult;
 import com.hajres.config.Const;
-import com.hajres.domain.dao.NewsDTO;
+import com.hajres.domain.dao.NewsDAO;
 import com.hajres.domain.entity.news.CachedRecord;
 import com.hajres.domain.entity.news.Country;
 import com.hajres.domain.entity.news.Language;
@@ -38,7 +38,7 @@ import java.util.Map;
 public class RestNewsServiceImpl implements RestNewsService {
 
     @Autowired
-    private NewsDTO newsDTO;
+    private NewsDAO newsDAO;
 
     private Logger logger = LoggerFactory.getLogger(getClass().getName());
 
@@ -47,7 +47,7 @@ public class RestNewsServiceImpl implements RestNewsService {
     public PaginatedResult<Article> getNews(String newsType, Map<String, String> paramMap) {
         String targetUrl = buildUrl(newsType, paramMap);
 
-        CachedRecord record = newsDTO.findCachedRecord(targetUrl);
+        CachedRecord record = newsDAO.findCachedRecord(targetUrl);
 
         // if cached record is null or too old, fetch new data
         if (record == null || record.isOutdated(News.CACHING_DURATION_MINUTES)) {
@@ -75,7 +75,7 @@ public class RestNewsServiceImpl implements RestNewsService {
                 record.setJson(json);
                 record.setUrl(targetUrl);
                 record.setTimestamp(Instant.now());
-                newsDTO.saveCachedRecord(record);
+                newsDAO.saveCachedRecord(record);
             } catch (JsonProcessingException e) {
                 logger.error(e.getLocalizedMessage());
             }
@@ -119,7 +119,7 @@ public class RestNewsServiceImpl implements RestNewsService {
         paramMap.put(News.PARAM_COUNTRY, countryCode);
         String targetUrl = buildUrl(News.URL_SOURCES, paramMap);
 
-        CachedRecord record = newsDTO.findCachedRecord(targetUrl);
+        CachedRecord record = newsDAO.findCachedRecord(targetUrl);
         if (record == null || record.isOutdated(News.CACHING_DURATION_MINUTES)) {
             if (record == null) {
                 logger.info("No records found for request " + targetUrl);
@@ -139,7 +139,7 @@ public class RestNewsServiceImpl implements RestNewsService {
                 record.setUrl(targetUrl);
                 record.setJson(json);
                 record.setTimestamp(Instant.now());
-                newsDTO.saveCachedRecord(record);
+                newsDAO.saveCachedRecord(record);
             } catch (JsonProcessingException e) {
                 logger.error(e.getLocalizedMessage());
             }
@@ -161,7 +161,7 @@ public class RestNewsServiceImpl implements RestNewsService {
     @Override
     @Transactional
     public Map<String, String> getCategories() {
-        List<NewsCategory> list = newsDTO.findAllCategories();
+        List<NewsCategory> list = newsDAO.findAllCategories();
         Map<String, String> categories = new HashMap<>();
         list.forEach(l -> {
             categories.put(l.getId(), l.getName());
@@ -172,13 +172,13 @@ public class RestNewsServiceImpl implements RestNewsService {
     @Override
     @Transactional
     public List<Country> getCountries() {
-        return newsDTO.findAllCountries();
+        return newsDAO.findAllCountries();
     }
 
     @Override
     @Transactional
     public Map<String, String> getLanguages() {
-        List<Language> list = newsDTO.findAllLanguages();
+        List<Language> list = newsDAO.findAllLanguages();
         Map<String, String> languages = new HashMap<>();
         list.forEach(l -> {
             languages.put(l.getId(), l.getName());
@@ -189,7 +189,7 @@ public class RestNewsServiceImpl implements RestNewsService {
     @Override
     @Transactional
     public Map<String, String> getSortOrders() {
-        List<SortOrder> list = newsDTO.findAllSortOrders();
+        List<SortOrder> list = newsDAO.findAllSortOrders();
         Map<String, String> sortOrders = new HashMap<>();
         list.forEach(l -> {
             sortOrders.put(l.getId(), l.getName());
@@ -201,39 +201,39 @@ public class RestNewsServiceImpl implements RestNewsService {
     @Override
     @Transactional
     public List<SortOrder> getSortOrderList() {
-        return newsDTO.findAllSortOrders();
+        return newsDAO.findAllSortOrders();
     }
 
     @Override
     @Transactional
     public List<Language> getLanguageList() {
-        return newsDTO.findAllLanguages();
+        return newsDAO.findAllLanguages();
     }
 
     @Override
     @Transactional
     public List<NewsCategory> getCategoryList() {
-        return newsDTO.findAllCategories();
+        return newsDAO.findAllCategories();
     }
 
     @Override
     @Transactional
     public SortOrder getSortOrder(String id) {
-        return newsDTO.findSortOrderById(id);
+        return newsDAO.findSortOrderById(id);
     }
 
     @Override
     @Transactional
     public void saveSortOrder(SortOrder sortOrder) {
         logger.info("Saving sortOrder " + sortOrder);
-        newsDTO.saveSortOrder(sortOrder);
+        newsDAO.saveSortOrder(sortOrder);
     }
 
     @Override
     @Transactional
     public void deleteSortOrder(String id) {
         logger.info("Deleting sort order '" + id + "'");
-        newsDTO.deleteSortOrder(id);
+        newsDAO.deleteSortOrder(id);
     }
 
     private String buildUrl(String base, Map<String, String> paramMap) {
