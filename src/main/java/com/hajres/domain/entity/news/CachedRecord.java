@@ -1,7 +1,5 @@
 package com.hajres.domain.entity.news;
 
-import com.hajres.news.News;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -52,15 +50,12 @@ public class CachedRecord {
         this.json = json;
     }
 
-    public Instant getTimestamp() {
-        return timestamp;
-    }
-
     public void setTimestamp(Instant timestamp) {
         this.timestamp = timestamp;
     }
 
-    public boolean isOutdated() {
-        return Duration.between(timestamp, Instant.now()).compareTo(Duration.ofMinutes(News.CACHING_DURATION_MINUTES)) > 0;
+    public boolean isOutdated(int cacheDurationInMinutes) {
+        return Duration.between(timestamp, Instant.now()).compareTo(Duration.ofMinutes(cacheDurationInMinutes)) > 0;
+
     }
 }

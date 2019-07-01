@@ -2,6 +2,7 @@ package com.hajres.news.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import com.hajres.PaginatedResult;
 import com.hajres.config.Const;
 import com.hajres.domain.dao.NewsDTO;
@@ -12,8 +13,10 @@ import com.hajres.news.model.Article;
 import com.hajres.news.model.ArticleSource;
 import com.hajres.news.model.NewsApiResponse;
 import com.hajres.news.model.SourceList;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.StringHttpMessageConverter;
@@ -44,7 +47,7 @@ public class RestNewsServiceImpl implements RestNewsService {
         CachedRecord record = newsDTO.findCachedRecord(targetUrl);
 
         // if cached record is null or too old, fetch new data
-        if (record == null || record.isOutdated()) {
+        if (record == null || record.isOutdated(News.CACHING_DURATION_MINUTES)) {
             if (record == null) {
                 logger.info("No records found for request " + targetUrl);
                 record = new CachedRecord();
@@ -114,7 +117,7 @@ public class RestNewsServiceImpl implements RestNewsService {
         String targetUrl = buildUrl(News.URL_SOURCES, paramMap);
 
         CachedRecord record = newsDTO.findCachedRecord(targetUrl);
-        if (record == null || record.isOutdated()) {
+        if (record == null || record.isOutdated(News.CACHING_DURATION_MINUTES)) {
             if (record == null) {
                 logger.info("No records found for request " + targetUrl);
                 record = new CachedRecord();

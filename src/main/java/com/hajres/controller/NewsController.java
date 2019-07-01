@@ -9,9 +9,8 @@ import com.hajres.news.News;
 import com.hajres.news.model.Article;
 import com.hajres.news.model.ArticleSource;
 import com.hajres.news.service.RestNewsService;
-import com.hajres.service.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +31,6 @@ import java.util.Map;
 public class NewsController {
 
     private final RestNewsService restNewsService;
-    private final UserService userService;
     private Map<String, String> categories;
     private Map<String, String> languages;
     private Map<String, String> sortOrders;
@@ -41,9 +39,8 @@ public class NewsController {
     private List<Article> articles;
 
     @Autowired
-    public NewsController(RestNewsService restNewsService, @Qualifier("userServiceImpl") UserService userService) {
+    public NewsController(RestNewsService restNewsService) {
         this.restNewsService = restNewsService;
-        this.userService = userService;
         this.categories = restNewsService.getCategories();
         this.languages = restNewsService.getLanguages();
         this.sortOrders = restNewsService.getSortOrders();

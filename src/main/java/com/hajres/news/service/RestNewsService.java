@@ -1,12 +1,10 @@
 package com.hajres.news.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hajres.PaginatedResult;
 import com.hajres.domain.entity.news.Country;
 import com.hajres.news.model.Article;
 import com.hajres.news.model.ArticleSource;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
