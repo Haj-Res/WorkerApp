@@ -1,22 +1,15 @@
 package com.hajres.controller;
 
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.validation.Valid;
 
-import com.hajres.config.Const;
-import com.hajres.domain.entity.news.CachedRecord;
-import com.hajres.domain.entity.news.Country;
 import com.hajres.domain.entity.news.Language;
 import com.hajres.domain.entity.news.NewsCategory;
 import com.hajres.domain.entity.news.SortOrder;
-import com.hajres.news.service.RestNewsService;
 import com.hajres.service.NewsParameterService;
-import com.hajres.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,7 +21,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/admin")
@@ -166,7 +158,7 @@ public class AdministrationController {
 
     @GetMapping("/category-list")
     public String showCategoryList(Model model) {
-        List<NewsCategory> list = newsParameterService.getCategoryList();
+        List<NewsCategory> list = newsParameterService.getNewsCategory();
         model.addAttribute("list", list);
         model.addAttribute("type", "category");
         model.addAttribute("pageTitle", "News Category List");
@@ -176,7 +168,7 @@ public class AdministrationController {
     @GetMapping("/category/edit/{id}")
     public String getEditCategory(@PathVariable String id,
                                   Model model) {
-        NewsCategory category = newsParameterService.getCategoryById(id);
+        NewsCategory category = newsParameterService.getNewsCategoryById(id);
         model.addAttribute("dataModel", category);
         model.addAttribute("type", "category");
         model.addAttribute("pageTitle", "Edit News Category");
@@ -200,14 +192,14 @@ public class AdministrationController {
         if (result.hasErrors()) {
             return "admin/add-edit-model";
         }
-        newsParameterService.saveCategory(category);
+        newsParameterService.saveNewsCategory(category);
         return "redirect: ../category-list";
     }
 
     @GetMapping("/category/delete/{id}")
     public String getDeleteCategory(@PathVariable String id,
                                     Model model) {
-        NewsCategory category = newsParameterService.getCategoryById(id);
+        NewsCategory category = newsParameterService.getNewsCategoryById(id);
         model.addAttribute("dataModel", category);
         model.addAttribute("type", "category");
         return "admin/delete-model";
@@ -215,7 +207,7 @@ public class AdministrationController {
 
     @PostMapping("/category/delete/{id}")
     public String postDeleteCategory(@PathVariable String id) {
-        newsParameterService.deleteCategory(id);
+        newsParameterService.deleteNewsCategory(id);
         return "redirect: ../../category-list";
     }
 }

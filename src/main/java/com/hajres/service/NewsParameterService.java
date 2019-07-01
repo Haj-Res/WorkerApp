@@ -21,15 +21,15 @@ public interface NewsParameterService {
 
     // NewsCategory
 
-    NewsCategory getCategoryById(String id);
+    NewsCategory getNewsCategoryById(String id);
 
-    List<NewsCategory> getCategoryList();
+    List<NewsCategory> getNewsCategory();
 
-    Map<String, String> getCategories();
+    Map<String, String> getNewsCategoryMap();
 
-    void saveCategory(NewsCategory category);
+    void saveNewsCategory(NewsCategory category);
 
-    void deleteCategory(String id);
+    void deleteNewsCategory(String id);
 
     // Language
     Language getLanguageById(String id);

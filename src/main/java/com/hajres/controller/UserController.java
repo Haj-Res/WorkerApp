@@ -4,7 +4,6 @@ import com.hajres.domain.dto.EditUserDto;
 import com.hajres.domain.dto.PasswordDto;
 import com.hajres.domain.entity.news.Country;
 import com.hajres.domain.entity.User;
-import com.hajres.news.service.RestNewsService;
 import com.hajres.service.NewsParameterService;
 import com.hajres.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +52,7 @@ public class UserController {
             String name = c.getInternationalName() + " (" + c.getLocalName() + ")";
             countries.put(c.getCountryId(), name);
         });
-        Map<String, String> categories = newsParameterService.getCategories();
+        Map<String, String> categories = newsParameterService.getNewsCategoryMap();
         model.addAttribute("user", user);
         model.addAttribute("countries", countries);
         model.addAttribute("categories", categories);

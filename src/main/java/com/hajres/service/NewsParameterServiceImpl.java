@@ -45,19 +45,19 @@ public class NewsParameterServiceImpl implements NewsParameterService {
 
     @Override
     @Transactional
-    public NewsCategory getCategoryById(String id) {
+    public NewsCategory getNewsCategoryById(String id) {
         return newsDAO.findCategoryById(id);
     }
 
     @Override
     @Transactional
-    public List<NewsCategory> getCategoryList() {
+    public List<NewsCategory> getNewsCategory() {
         return newsDAO.findAllCategories();
     }
 
     @Override
     @Transactional
-    public Map<String, String> getCategories() {
+    public Map<String, String> getNewsCategoryMap() {
         List<NewsCategory> list = newsDAO.findAllCategories();
         Map<String, String> categories = new HashMap<>();
         list.forEach(l -> categories.put(l.getId(), l.getName()));
@@ -66,14 +66,14 @@ public class NewsParameterServiceImpl implements NewsParameterService {
 
     @Override
     @Transactional
-    public void saveCategory(NewsCategory category) {
+    public void saveNewsCategory(NewsCategory category) {
         newsDAO.saveCategory(category);
 
     }
 
     @Override
     @Transactional
-    public void deleteCategory(String id) {
+    public void deleteNewsCategory(String id) {
         newsDAO.deleteCategory(id);
 
     }

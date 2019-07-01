@@ -45,7 +45,7 @@ public class NewsController {
         this.restNewsService = restNewsService;
         this.newsParameterService = newsParameterService;
 
-        this.categories = newsParameterService.getCategories();
+        this.categories = newsParameterService.getNewsCategoryMap();
         this.languages = newsParameterService.getLanguages();
         this.sortOrders = newsParameterService.getSortOrders();
         this.countries = newsParameterService.getCountries();

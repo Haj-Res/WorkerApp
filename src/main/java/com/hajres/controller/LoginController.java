@@ -3,7 +3,6 @@ package com.hajres.controller;
 import com.hajres.domain.dto.RegHelperUser;
 import com.hajres.domain.entity.User;
 import com.hajres.domain.entity.news.Country;
-import com.hajres.news.service.RestNewsService;
 import com.hajres.service.NewsParameterService;
 import com.hajres.service.UserService;
 import org.slf4j.Logger;
@@ -48,7 +47,7 @@ public class LoginController {
     @GetMapping("/registration")
     public String showMyLoginPage(Model model) {
 
-        Map<String, String> categories = newsParameterService.getCategories();
+        Map<String, String> categories = newsParameterService.getNewsCategoryMap();
         Map<String, String> countries = mapCountriesFromList(newsParameterService.getCountries());
         model.addAttribute("regHelperUser", new RegHelperUser());
         model.addAttribute("countries", countries);
@@ -62,7 +61,7 @@ public class LoginController {
             BindingResult theBindingResult,
             Model model) {
 
-        Map<String, String> categories = newsParameterService.getCategories();
+        Map<String, String> categories = newsParameterService.getNewsCategoryMap();
         Map<String, String> countries = mapCountriesFromList(newsParameterService.getCountries());
         model.addAttribute("countries", countries);
         model.addAttribute("categories", categories);
