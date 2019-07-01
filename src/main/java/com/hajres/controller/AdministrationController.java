@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import com.hajres.config.Const;
 import com.hajres.domain.entity.news.Country;
+import com.hajres.domain.entity.news.Language;
 import com.hajres.domain.entity.news.SortOrder;
 import com.hajres.news.service.RestNewsService;
 import com.hajres.service.NewsParameterService;
@@ -31,12 +32,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/admin")
 public class AdministrationController {
 
-    private RestNewsService restNewsService;
     private NewsParameterService newsParameterService;
 
     @Autowired
-    public AdministrationController(RestNewsService restNewsService, NewsParameterService newsParameterService) {
-        this.restNewsService = restNewsService;
+    public AdministrationController(NewsParameterService newsParameterService) {
         this.newsParameterService = newsParameterService;
     }
 
@@ -56,13 +55,9 @@ public class AdministrationController {
     @GetMapping("/sort-order-list")
     public String showSortOrderList(Model model) {
         List<SortOrder> list = newsParameterService.getSortOrderList();
-
         model.addAttribute("list", list);
         model.addAttribute("type", "sort-order");
         model.addAttribute("pageTitle", "Sort Order List");
-        model.addAttribute("columnOne", "Parameter name");
-        model.addAttribute("columnTwo", "Display name");
-
         return "admin/two-column-list-view";
     }
 
@@ -70,11 +65,10 @@ public class AdministrationController {
     public String editSortOrder(@PathVariable String id,
                                 Model model) {
         SortOrder sortOrder = newsParameterService.getSortOrder(id);
-
         model.addAttribute("dataModel", sortOrder);
+        model.addAttribute("type", "sort-order");
         model.addAttribute("pageTitle", "Edit Sort Order");
         model.addAttribute("action", "sort-order/save");
-
         return "admin/add-edit-model";
     }
 
@@ -82,13 +76,14 @@ public class AdministrationController {
     public String getNewSortOrder(Model model) {
         SortOrder sortOrder = new SortOrder();
         model.addAttribute("dataModel", sortOrder);
+        model.addAttribute("type", "sort-order");
         model.addAttribute("pageTitle", "Edit Sort Order");
         model.addAttribute("action", "sort-order/save");
         return "admin/add-edit-model";
     }
 
     @PostMapping("/sort-order/save")
-    public String postEditSortOrder(@Valid @ModelAttribute SortOrder sortOrder,
+    public String postEditSortOrder(@Valid @ModelAttribute("dataModel") SortOrder sortOrder,
                                     BindingResult result) {
         if (result.hasErrors()) {
             return "admin/add-edit-model";
@@ -110,5 +105,60 @@ public class AdministrationController {
     public String postDeleteSortOrder(@PathVariable String id) {
         newsParameterService.deleteSortOrder(id);
         return "redirect: ../../sort-order-list";
+    }
+
+    @GetMapping("/language-list")
+    public String showLanguageList(Model model) {
+        List<Language> list = newsParameterService.getLanguageList();
+        model.addAttribute("list", list);
+        model.addAttribute("type", "language");
+        model.addAttribute("pageTitle", "Language List");
+        return "admin/two-column-list-view";
+    }
+
+    @GetMapping("/language/edit/{id}")
+    public String getEditLanguage(@PathVariable String id,
+                                  Model model) {
+        Language language = newsParameterService.getLanguageById(id);
+        model.addAttribute("dataModel", language);
+        model.addAttribute("type", "language");
+        model.addAttribute("pageTitle", "Edit Language");
+        model.addAttribute("action", "language/save");
+        return "admin/add-edit-model";
+    }
+
+    @GetMapping("/language/add")
+    public String getAddLanguage(Model model) {
+        Language language = new Language();
+        model.addAttribute("dataModel", language);
+        model.addAttribute("type", "language");
+        model.addAttribute("pageTitle", "Add New Language");
+        model.addAttribute("action", "language/save");
+        return "admin/add-edit-model";
+    }
+
+    @PostMapping("/language/save")
+    public String postSaveLanguage(@Valid @ModelAttribute("dataModel") Language language,
+                                   BindingResult result) {
+        if (result.hasErrors()) {
+            return "admin/add-edit-model";
+        }
+        newsParameterService.saveLanguage(language);
+        return "redirect: ../language-list";
+    }
+
+    @GetMapping("/language/delete/{id}")
+    public String getDeleteLanguage(@PathVariable String id,
+                                    Model model) {
+        Language language = newsParameterService.getLanguageById(id);
+        model.addAttribute("dataModel", language);
+        model.addAttribute("type", "language");
+        return "admin/delete-model";
+    }
+
+    @PostMapping("/language/delete/{id}")
+    public String postDeleteLanguage(@PathVariable String id) {
+        newsParameterService.deleteLanguage(id);
+        return "redirect: ../../language-list";
     }
 }
