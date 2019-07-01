@@ -14,12 +14,12 @@ public class SortOrder {
     @Id
     @Column
     @NotNull(message = "is required")
-    @Size(min = 1, message = "is required")
+    @Size(min = 1, max = 50, message = "Must be between 1 and 50 character long")
     private String id;
 
     @Column
     @NotNull(message = "is required")
-    @Size(min = 1, message = "is required")
+    @Size(min = 1, max = 100, message = "Must be between 1 and 100 character long")
     private String name;
 
     public SortOrder() {

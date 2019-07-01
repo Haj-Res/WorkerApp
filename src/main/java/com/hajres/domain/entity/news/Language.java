@@ -21,7 +21,7 @@ public class Language {
 
     @Column
     @NotNull
-    @Size(min = 1, message = "is required")
+    @Size(min = 1, max = 100, message = "Must be between 1 and 100 character long")
     private String name;
 
     public Language() {
