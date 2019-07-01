@@ -7,8 +7,10 @@ import java.util.logging.Logger;
 import javax.validation.Valid;
 
 import com.hajres.config.Const;
+import com.hajres.domain.entity.news.CachedRecord;
 import com.hajres.domain.entity.news.Country;
 import com.hajres.domain.entity.news.Language;
+import com.hajres.domain.entity.news.NewsCategory;
 import com.hajres.domain.entity.news.SortOrder;
 import com.hajres.news.service.RestNewsService;
 import com.hajres.service.NewsParameterService;
@@ -160,5 +162,60 @@ public class AdministrationController {
     public String postDeleteLanguage(@PathVariable String id) {
         newsParameterService.deleteLanguage(id);
         return "redirect: ../../language-list";
+    }
+
+    @GetMapping("/category-list")
+    public String showCategoryList(Model model) {
+        List<NewsCategory> list = newsParameterService.getCategoryList();
+        model.addAttribute("list", list);
+        model.addAttribute("type", "category");
+        model.addAttribute("pageTitle", "News Category List");
+        return "admin/two-column-list-view";
+    }
+
+    @GetMapping("/category/edit/{id}")
+    public String getEditCategory(@PathVariable String id,
+                                  Model model) {
+        NewsCategory category = newsParameterService.getCategoryById(id);
+        model.addAttribute("dataModel", category);
+        model.addAttribute("type", "category");
+        model.addAttribute("pageTitle", "Edit News Category");
+        model.addAttribute("action", "category/save");
+        return "admin/add-edit-model";
+    }
+
+    @GetMapping("/category/add")
+    public String getAddCategory(Model model) {
+        NewsCategory category = new NewsCategory();
+        model.addAttribute("dataModel", category);
+        model.addAttribute("type", "category");
+        model.addAttribute("pageTitle", "Add New News Category");
+        model.addAttribute("action", "category/save");
+        return "admin/add-edit-model";
+    }
+
+    @PostMapping("/category/save")
+    public String postSaveCategory(@Valid @ModelAttribute("dataModel") NewsCategory category,
+                                   BindingResult result) {
+        if (result.hasErrors()) {
+            return "admin/add-edit-model";
+        }
+        newsParameterService.saveCategory(category);
+        return "redirect: ../category-list";
+    }
+
+    @GetMapping("/category/delete/{id}")
+    public String getDeleteCategory(@PathVariable String id,
+                                    Model model) {
+        NewsCategory category = newsParameterService.getCategoryById(id);
+        model.addAttribute("dataModel", category);
+        model.addAttribute("type", "category");
+        return "admin/delete-model";
+    }
+
+    @PostMapping("/category/delete/{id}")
+    public String postDeleteCategory(@PathVariable String id) {
+        newsParameterService.deleteCategory(id);
+        return "redirect: ../../category-list";
     }
 }
