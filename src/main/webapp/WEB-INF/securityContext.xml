@@ -20,7 +20,7 @@
         <sec:intercept-url pattern="/news/**" access="isAuthenticated()"/>
         <sec:intercept-url pattern="/user/**" access="isAuthenticated()"/>
         <sec:intercept-url pattern="/*/list/**" access="hasRole('${roles.employee}')"/>
-        <sec:intercept-url pattern="/administration/**" access="hasRole('${roles.admin}')"/>
+        <sec:intercept-url pattern="/admin/**" access="hasRole('${roles.admin}')"/>
         <sec:intercept-url pattern="/*/add/**" access="hasAnyRole('${roles.admin}', '${roles.manager}')"/>
         <sec:intercept-url pattern="/*/edit/**" access="hasAnyRole('${roles.admin}', '${roles.manager}')"/>
         <sec:intercept-url pattern="/*/delete/**" access="hasRole('${roles.admin}')"/>
