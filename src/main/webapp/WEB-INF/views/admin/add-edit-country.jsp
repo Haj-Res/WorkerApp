@@ -7,6 +7,10 @@
     <jsp:body>
         <form:form method="post" action="${pageContext.request.contextPath}/admin/country/save"
                    modelAttribute="dataModel">
+
+            <label for="oldId">
+                <input type="text" value="${dataModel.countryId}" id="oldId" name="oldId" hidden/>
+            </label>
             <div class="form-group">
                 <label for="id">Country code:</label>
                 <form:input cssClass="form-control" type="text" id="id" path="countryId"/>

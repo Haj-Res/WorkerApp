@@ -38,6 +38,11 @@ public class NewsParameterServiceImpl implements NewsParameterService {
     }
 
     @Override
+    public void updateCountry(Country country, String oldId) {
+        newsDAO.updateCountry(country, oldId);
+    }
+
+    @Override
     @Transactional
     public void deleteCountry(String id) {
         newsDAO.deleteCountry(id);
@@ -69,6 +74,11 @@ public class NewsParameterServiceImpl implements NewsParameterService {
     public void saveNewsCategory(NewsCategory category) {
         newsDAO.saveCategory(category);
 
+    }
+
+    @Override
+    public void updateNewsCategory(NewsCategory category, String oldId) {
+        newsDAO.updateNewsCategory(category, oldId);
     }
 
     @Override
@@ -106,6 +116,11 @@ public class NewsParameterServiceImpl implements NewsParameterService {
     }
 
     @Override
+    public void updateLanguage(Language language, String oldId) {
+        newsDAO.updateLanguage(language, oldId);
+    }
+
+    @Override
     @Transactional
     public void deleteLanguage(String id) {
         newsDAO.deleteLanguage(id);
@@ -136,6 +151,12 @@ public class NewsParameterServiceImpl implements NewsParameterService {
     @Transactional
     public void saveSortOrder(SortOrder sortOrder) {
         newsDAO.saveSortOrder(sortOrder);
+    }
+
+    @Override
+    @Transactional
+    public void updateSortOrder(SortOrder sortOrder, String oldId) {
+        newsDAO.updateSortOrder(sortOrder, oldId);
     }
 
     @Override

@@ -17,6 +17,8 @@ public interface NewsDAO {
 
     Country saveCountry(Country country);
 
+    void updateCountry(Country country, String oldId);
+
     void deleteCountry(String id);
 
     // NewsCategory
@@ -25,6 +27,8 @@ public interface NewsDAO {
     List<NewsCategory> findAllCategories();
 
     NewsCategory saveCategory(NewsCategory category);
+
+    void updateNewsCategory(NewsCategory category, String oldId);
 
     void deleteCategory(String id);
 
@@ -36,6 +40,8 @@ public interface NewsDAO {
 
     Language saveLanguage(Language language);
 
+    void updateLanguage(Language language, String oldId);
+
     void deleteLanguage(String id);
 
     // SortOrder
@@ -45,12 +51,13 @@ public interface NewsDAO {
 
     SortOrder saveSortOrder(SortOrder order);
 
+    SortOrder updateSortOrder(SortOrder order, String oldId);
+
     void deleteSortOrder(String id);
 
     // CachedRecord
     CachedRecord findCachedRecord(String url);
 
     CachedRecord saveCachedRecord(CachedRecord record);
-
 
 }

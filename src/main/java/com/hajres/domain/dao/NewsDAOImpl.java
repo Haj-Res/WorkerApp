@@ -8,6 +8,7 @@ import com.hajres.domain.entity.news.SortOrder;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -45,6 +46,17 @@ public class NewsDAOImpl implements NewsDAO {
     }
 
     @Override
+    public void updateCountry(Country country, String oldId) {
+        Session session = factory.getCurrentSession();
+        Query query = session.createQuery("update Country set countryId=:id, localName=:localName, internationalName=:internationalName where countryId=:oldId");
+        query.setParameter("id", country.getCountryId());
+        query.setParameter("localName", country.getLocalName());
+        query.setParameter("internationalName", country.getInternationalName());
+        query.setParameter("oldId", oldId);
+        query.executeUpdate();
+    }
+
+    @Override
     public void deleteCountry(String id) {
         Session session = factory.getCurrentSession();
         session.createQuery("delete from Country where countryId = :id").setParameter("id", id).executeUpdate();
@@ -68,6 +80,16 @@ public class NewsDAOImpl implements NewsDAO {
         Session session = factory.getCurrentSession();
         session.saveOrUpdate(category);
         return category;
+    }
+
+    @Override
+    public void updateNewsCategory(NewsCategory category, String oldId) {
+        Session session = factory.getCurrentSession();
+        Query query = session.createQuery("update NewsCategory set id=:id, name=:name where id=:oldId");
+        query.setParameter("id", category.getId());
+        query.setParameter("name", category.getName());
+        query.setParameter("oldId", oldId);
+        query.executeUpdate();
     }
 
     @Override
@@ -97,6 +119,16 @@ public class NewsDAOImpl implements NewsDAO {
     }
 
     @Override
+    public void updateLanguage(Language language, String oldId) {
+        Session session = factory.getCurrentSession();
+        Query query = session.createQuery("update Language set id=:id, name=:name where id=:oldId");
+        query.setParameter("id", language.getId());
+        query.setParameter("name", language.getName());
+        query.setParameter("oldId", oldId);
+        query.executeUpdate();
+    }
+
+    @Override
     public void deleteLanguage(String id) {
         Session session = factory.getCurrentSession();
         session.createQuery("delete from Language where id = :id").setParameter("id", id).executeUpdate();
@@ -119,6 +151,17 @@ public class NewsDAOImpl implements NewsDAO {
     public SortOrder saveSortOrder(SortOrder order) {
         Session session = factory.getCurrentSession();
         session.saveOrUpdate(order);
+        return order;
+    }
+
+    @Override
+    public SortOrder updateSortOrder(SortOrder order, String oldId) {
+        Session session = factory.getCurrentSession();
+        Query query = session.createQuery("update SortOrder set id=:id, name=:name where id=:oldId");
+        query.setParameter("id", order.getId());
+        query.setParameter("name", order.getName());
+        query.setParameter("oldId", oldId);
+        query.executeUpdate();
         return order;
     }
 

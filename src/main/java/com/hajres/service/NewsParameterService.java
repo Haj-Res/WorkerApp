@@ -17,6 +17,8 @@ public interface NewsParameterService {
 
     void saveCountry(Country country);
 
+    void updateCountry(Country country, String oldId);
+
     void deleteCountry(String id);
 
     // NewsCategory
@@ -29,6 +31,8 @@ public interface NewsParameterService {
 
     void saveNewsCategory(NewsCategory category);
 
+    void updateNewsCategory(NewsCategory category, String oldId);
+
     void deleteNewsCategory(String id);
 
     // Language
@@ -40,6 +44,8 @@ public interface NewsParameterService {
 
     void saveLanguage(Language language);
 
+    void updateLanguage(Language language, String oldId);
+
     void deleteLanguage(String id);
 
     // SortOrder
@@ -50,6 +56,8 @@ public interface NewsParameterService {
     Map<String, String> getSortOrders();
 
     void saveSortOrder(SortOrder sortOrder);
+
+    void updateSortOrder(SortOrder sortOrder, String oldId);
 
     void deleteSortOrder(String id);
 

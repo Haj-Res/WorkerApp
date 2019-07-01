@@ -7,6 +7,9 @@
 
     <jsp:body>
         <form:form method="post" action="${pageContext.request.contextPath}/admin/${action}" modelAttribute="dataModel">
+            <label for="oldId">
+                <input type="text" value="${dataModel.id}" id="oldId" name="oldId" hidden/>
+            </label>
             <div class="form-group">
                 <label for="id">URL parameter name:</label>
                 <form:input cssClass="form-control" type="text" id="id" path="id"/>

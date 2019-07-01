@@ -3,6 +3,7 @@ package com.hajres.controller;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import com.hajres.domain.entity.news.Country;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/admin")
@@ -78,12 +80,17 @@ public class AdministrationController {
     }
 
     @PostMapping("/sort-order/save")
-    public String postEditSortOrder(@Valid @ModelAttribute("dataModel") SortOrder sortOrder,
+    public String postEditSortOrder(@RequestParam("oldId") String oldId,
+                                    @Valid @ModelAttribute("dataModel") SortOrder sortOrder,
                                     BindingResult result) {
         if (result.hasErrors()) {
             return "admin/add-edit-model";
         }
-        newsParameterService.saveSortOrder(sortOrder);
+        if (oldId == null || oldId.equals(sortOrder.getId())) {
+            newsParameterService.saveSortOrder(sortOrder);
+        } else {
+            newsParameterService.updateSortOrder(sortOrder, oldId);
+        }
         return "redirect: ../sort-order-list";
     }
 
@@ -133,12 +140,17 @@ public class AdministrationController {
     }
 
     @PostMapping("/language/save")
-    public String postSaveLanguage(@Valid @ModelAttribute("dataModel") Language language,
+    public String postSaveLanguage(@RequestParam("oldId") String oldId,
+                                   @Valid @ModelAttribute("dataModel") Language language,
                                    BindingResult result) {
         if (result.hasErrors()) {
             return "admin/add-edit-model";
         }
-        newsParameterService.saveLanguage(language);
+        if (oldId == null || oldId.equals(language.getId())) {
+            newsParameterService.saveLanguage(language);
+        } else {
+            newsParameterService.updateLanguage(language, oldId);
+        }
         return "redirect: ../language-list";
     }
 
@@ -188,12 +200,17 @@ public class AdministrationController {
     }
 
     @PostMapping("/category/save")
-    public String postSaveCategory(@Valid @ModelAttribute("dataModel") NewsCategory category,
+    public String postSaveCategory(@RequestParam("oldId") String oldId,
+                                   @Valid @ModelAttribute("dataModel") NewsCategory category,
                                    BindingResult result) {
         if (result.hasErrors()) {
             return "admin/add-edit-model";
         }
-        newsParameterService.saveNewsCategory(category);
+        if (oldId == null || oldId.equals(category.getId())) {
+            newsParameterService.saveNewsCategory(category);
+        } else {
+            newsParameterService.updateNewsCategory(category, oldId);
+        }
         return "redirect: ../category-list";
     }
 
@@ -237,12 +254,17 @@ public class AdministrationController {
     }
 
     @PostMapping("/country/save")
-    public String postSaveCountry(@Valid @ModelAttribute("dataModel") Country country,
+    public String postSaveCountry(@RequestParam("oldId") String oldId,
+                                  @Valid @ModelAttribute("dataModel") Country country,
                                   BindingResult result) {
         if (result.hasErrors()) {
             return "admin/add-edit-country";
         }
-        newsParameterService.saveCountry(country);
+        if (oldId == null || oldId.equals(country.getCountryId())) {
+            newsParameterService.saveCountry(country);
+        } else {
+            newsParameterService.updateCountry(country, oldId);
+        }
         return "redirect: ../country-list";
     }
 
