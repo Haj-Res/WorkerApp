@@ -44,11 +44,6 @@ public class NewsController {
     public NewsController(RestNewsService restNewsService, NewsParameterService newsParameterService) {
         this.restNewsService = restNewsService;
         this.newsParameterService = newsParameterService;
-
-        this.categories = newsParameterService.getNewsCategoryMap();
-        this.languages = newsParameterService.getLanguages();
-        this.sortOrders = newsParameterService.getSortOrders();
-        this.countries = newsParameterService.getCountries();
     }
 
     @GetMapping("")
@@ -79,7 +74,7 @@ public class NewsController {
             additionalParameters += News.PARAM_SOURCES + "=" + source + "&";
 
         }
-
+        this.countries = newsParameterService.getCountries();
         Map<String, String> countries = new HashMap<>();
         this.countries.forEach(c -> {
             String name = c.getInternationalName() + " (" + c.getLocalName() + ")";
@@ -184,8 +179,16 @@ public class NewsController {
         model.addAttribute(Const.PAGE_COUNT_PARAM_NAME, pageCount);
         model.addAttribute(Const.PAGE_PARAM_NAME, page);
         model.addAttribute(Const.PAGE_SIZE_PARAM_NAME, pageSize);
+        refreshParameters();
         model.addAttribute("categories", this.categories);
         model.addAttribute("languages", this.languages);
         model.addAttribute("sortMap", this.sortOrders);
+    }
+
+    private void refreshParameters() {
+        this.categories = newsParameterService.getNewsCategoryMap();
+        this.languages = newsParameterService.getLanguages();
+        this.sortOrders = newsParameterService.getSortOrders();
+        this.countries = newsParameterService.getCountries();
     }
 }
