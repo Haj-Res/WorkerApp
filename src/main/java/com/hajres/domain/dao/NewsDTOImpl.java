@@ -11,9 +11,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public class NewsDTOImpl implements NewsDTO {
@@ -26,37 +24,21 @@ public class NewsDTOImpl implements NewsDTO {
     }
 
     @Override
-    public Map<String, String> findAllLanguages() {
+    public List<Language> findAllLanguages() {
         Session session = factory.getCurrentSession();
-        List<Language> list = session.createQuery("from Language ", Language.class).getResultList();
-        Map<String, String> languages = new HashMap<>();
-        list.forEach(l -> {
-            languages.put(l.getId(), l.getName());
-        });
-        return languages;
+        return session.createQuery("from Language ", Language.class).getResultList();
     }
 
     @Override
-    public Map<String, String> findAllCategories() {
+    public List<NewsCategory> findAllCategories() {
         Session session = factory.getCurrentSession();
-        List<NewsCategory> list = session.createQuery("from NewsCategory ", NewsCategory.class).getResultList();
-        Map<String, String> categories = new HashMap<>();
-        list.forEach(l -> {
-            categories.put(l.getId(), l.getName());
-        });
-        return categories;
+        return session.createQuery("from NewsCategory ", NewsCategory.class).getResultList();
     }
 
     @Override
-    public Map<String, String> findAllSortOrders() {
+    public List<SortOrder> findAllSortOrders() {
         Session session = factory.getCurrentSession();
-        List<SortOrder> list = session.createQuery("from SortOrder ", SortOrder.class).getResultList();
-        Map<String, String> sortOrders = new HashMap<>();
-        list.forEach(l -> {
-            sortOrders.put(l.getId(), l.getName());
-
-        });
-        return sortOrders;
+        return session.createQuery("from SortOrder ", SortOrder.class).getResultList();
     }
 
     @Override
@@ -126,5 +108,17 @@ public class NewsDTOImpl implements NewsDTO {
         Session session = factory.getCurrentSession();
         session.saveOrUpdate((record));
         return record;
+    }
+
+    @Override
+    public SortOrder findSortOrderById(String id) {
+        Session session = factory.getCurrentSession();
+        return session.get(SortOrder.class, id);
+    }
+
+    @Override
+    public void deleteSortOrder(String id) {
+        Session session = factory.getCurrentSession();
+        session.createQuery("delete from SortOrder where id = :id").setParameter("id", id).executeUpdate();
     }
 }

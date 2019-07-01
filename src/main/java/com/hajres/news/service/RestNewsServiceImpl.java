@@ -8,6 +8,9 @@ import com.hajres.config.Const;
 import com.hajres.domain.dao.NewsDTO;
 import com.hajres.domain.entity.news.CachedRecord;
 import com.hajres.domain.entity.news.Country;
+import com.hajres.domain.entity.news.Language;
+import com.hajres.domain.entity.news.NewsCategory;
+import com.hajres.domain.entity.news.SortOrder;
 import com.hajres.news.News;
 import com.hajres.news.model.Article;
 import com.hajres.news.model.ArticleSource;
@@ -158,7 +161,12 @@ public class RestNewsServiceImpl implements RestNewsService {
     @Override
     @Transactional
     public Map<String, String> getCategories() {
-        return newsDTO.findAllCategories();
+        List<NewsCategory> list = newsDTO.findAllCategories();
+        Map<String, String> categories = new HashMap<>();
+        list.forEach(l -> {
+            categories.put(l.getId(), l.getName());
+        });
+        return categories;
     }
 
     @Override
@@ -170,13 +178,62 @@ public class RestNewsServiceImpl implements RestNewsService {
     @Override
     @Transactional
     public Map<String, String> getLanguages() {
-        return newsDTO.findAllLanguages();
+        List<Language> list = newsDTO.findAllLanguages();
+        Map<String, String> languages = new HashMap<>();
+        list.forEach(l -> {
+            languages.put(l.getId(), l.getName());
+        });
+        return languages;
     }
 
     @Override
     @Transactional
     public Map<String, String> getSortOrders() {
+        List<SortOrder> list = newsDTO.findAllSortOrders();
+        Map<String, String> sortOrders = new HashMap<>();
+        list.forEach(l -> {
+            sortOrders.put(l.getId(), l.getName());
+
+        });
+        return sortOrders;
+    }
+
+    @Override
+    @Transactional
+    public List<SortOrder> getSortOrderList() {
         return newsDTO.findAllSortOrders();
+    }
+
+    @Override
+    @Transactional
+    public List<Language> getLanguageList() {
+        return newsDTO.findAllLanguages();
+    }
+
+    @Override
+    @Transactional
+    public List<NewsCategory> getCategoryList() {
+        return newsDTO.findAllCategories();
+    }
+
+    @Override
+    @Transactional
+    public SortOrder getSortOrder(String id) {
+        return newsDTO.findSortOrderById(id);
+    }
+
+    @Override
+    @Transactional
+    public void saveSortOrder(SortOrder sortOrder) {
+        logger.info("Saving sortOrder " + sortOrder);
+        newsDTO.saveSortOrder(sortOrder);
+    }
+
+    @Override
+    @Transactional
+    public void deleteSortOrder(String id) {
+        logger.info("Deleting sort order '" + id + "'");
+        newsDTO.deleteSortOrder(id);
     }
 
     private String buildUrl(String base, Map<String, String> paramMap) {

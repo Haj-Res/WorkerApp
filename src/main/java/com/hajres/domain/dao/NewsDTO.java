@@ -7,16 +7,15 @@ import com.hajres.domain.entity.news.NewsCategory;
 import com.hajres.domain.entity.news.SortOrder;
 
 import java.util.List;
-import java.util.Map;
 
 public interface NewsDTO {
 
     // fetch all
-    Map<String, String> findAllLanguages();
+    List<Language> findAllLanguages();
 
-    Map<String, String> findAllCategories();
+    List<NewsCategory> findAllCategories();
 
-    Map<String, String> findAllSortOrders();
+    List<SortOrder> findAllSortOrders();
 
     List<Country> findAllCountries();
 
@@ -39,4 +38,8 @@ public interface NewsDTO {
     CachedRecord findCachedRecord(String url);
 
     CachedRecord saveCachedRecord(CachedRecord record);
+
+    SortOrder findSortOrderById(String id);
+
+    void deleteSortOrder(String id);
 }
