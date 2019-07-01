@@ -10,6 +10,7 @@ import com.hajres.config.Const;
 import com.hajres.domain.entity.news.Country;
 import com.hajres.domain.entity.news.SortOrder;
 import com.hajres.news.service.RestNewsService;
+import com.hajres.service.NewsParameterService;
 import com.hajres.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -30,23 +31,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/admin")
 public class AdministrationController {
 
-    private UserService userService;
     private RestNewsService restNewsService;
-
-    private Map<String, String> categories;
-    private Map<String, String> languages;
-    private Map<String, String> sortOrders;
-    private List<Country> countries;
+    private NewsParameterService newsParameterService;
 
     @Autowired
-    public AdministrationController(@Qualifier("userServiceImpl") UserService userService, RestNewsService restNewsService) {
-        this.userService = userService;
+    public AdministrationController(RestNewsService restNewsService, NewsParameterService newsParameterService) {
         this.restNewsService = restNewsService;
-
-        this.categories = restNewsService.getCategories();
-        this.languages = restNewsService.getLanguages();
-        this.sortOrders = restNewsService.getSortOrders();
-        this.countries = restNewsService.getCountries();
+        this.newsParameterService = newsParameterService;
     }
 
     private Logger logger = Logger.getLogger(getClass().getName());
@@ -66,7 +57,7 @@ public class AdministrationController {
     public String showSortOrderList(@RequestParam(value = Const.PAGE_PARAM_NAME, required = false, defaultValue = Const.DEFAULT_FIRST_PAGE_STRING) int page,
                                     @RequestParam(value = Const.PAGE_SIZE_PARAM_NAME, required = false, defaultValue = Const.DEFAULT_PAGE_SIZE_STRING) int pageSize,
                                     Model model) {
-        List<SortOrder> list = restNewsService.getSortOrderList();
+        List<SortOrder> list = newsParameterService.getSortOrderList();
 
         model.addAttribute("list", list);
         model.addAttribute("page", page);
@@ -82,7 +73,7 @@ public class AdministrationController {
     @GetMapping("/sort-order/edit/{id}")
     public String editSortOrder(@PathVariable String id,
                                 Model model) {
-        SortOrder sortOrder = restNewsService.getSortOrder(id);
+        SortOrder sortOrder = newsParameterService.getSortOrder(id);
 
         model.addAttribute("dataModel", sortOrder);
         model.addAttribute("pageTitle", "Edit Sort Order");
@@ -106,14 +97,14 @@ public class AdministrationController {
         if (result.hasErrors()) {
             return "admin/add-edit-model";
         }
-        restNewsService.saveSortOrder(sortOrder);
+        newsParameterService.saveSortOrder(sortOrder);
         return "redirect: ../sort-order-list";
     }
 
     @GetMapping("/sort-order/delete/{id}")
     public String getDeleteSortOrder(@PathVariable String id,
                                      Model model) {
-        SortOrder sortOrder = restNewsService.getSortOrder(id);
+        SortOrder sortOrder = newsParameterService.getSortOrder(id);
         model.addAttribute("dataModel", sortOrder);
         model.addAttribute("type", "sort-order");
         return "admin/delete-model";
@@ -121,7 +112,7 @@ public class AdministrationController {
 
     @PostMapping("/sort-order/delete/{id}")
     public String postDeleteSortOrder(@PathVariable String id) {
-        restNewsService.deleteSortOrder(id);
+        newsParameterService.deleteSortOrder(id);
         return "redirect: ../../sort-order-list";
     }
 }

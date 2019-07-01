@@ -5,6 +5,7 @@ import com.hajres.domain.dto.PasswordDto;
 import com.hajres.domain.entity.news.Country;
 import com.hajres.domain.entity.User;
 import com.hajres.news.service.RestNewsService;
+import com.hajres.service.NewsParameterService;
 import com.hajres.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -34,7 +35,7 @@ public class UserController {
     private UserService userService;
 
     @Autowired
-    private RestNewsService newsService;
+    private NewsParameterService newsParameterService;
 
     @InitBinder
     public void initBinder(WebDataBinder dataBinder) {
@@ -52,7 +53,7 @@ public class UserController {
             String name = c.getInternationalName() + " (" + c.getLocalName() + ")";
             countries.put(c.getCountryId(), name);
         });
-        Map<String, String> categories = newsService.getCategories();
+        Map<String, String> categories = newsParameterService.getCategories();
         model.addAttribute("user", user);
         model.addAttribute("countries", countries);
         model.addAttribute("categories", categories);
@@ -96,9 +97,9 @@ public class UserController {
 
     @PostMapping("/process-password")
     public String savePassword(@Valid @ModelAttribute("password") PasswordDto passwordDto,
-                                BindingResult bindingResult,
-                                HttpServletRequest request,
-                                Model model) {
+                               BindingResult bindingResult,
+                               HttpServletRequest request,
+                               Model model) {
         if (bindingResult.hasErrors()) {
             return "user/password";
         }
