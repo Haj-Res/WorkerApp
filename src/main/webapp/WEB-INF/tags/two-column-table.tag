@@ -2,10 +2,7 @@
 
 <%@ attribute name="columnOne" required="true" type="java.lang.String" %>
 <%@ attribute name="columnTwo" required="true" type="java.lang.String" %>
-
 <%@ attribute name="type" required="true" type="java.lang.String" %>
-<%@ attribute name="page" required="true" type="java.lang.Integer" %>
-<%@ attribute name="size" required="true" type="java.lang.Integer" %>
 
 <%@ attribute name="list" required="true" type="java.util.List<com.hajres.domain.entity.news.SortOrder>" %>
 <table class="table">
@@ -29,7 +26,7 @@
             </c:url>
 
 
-            <td><c:out value="${loop.index + 1 + ( page - 1 ) * size}."/></td>
+            <td><c:out value="${loop.index + 1}."/></td>
             <td><c:out value="${element.id}"/></td>
             <td><c:out value="${element.name}"/></td>
             <td class="d-flex justify-content-around">

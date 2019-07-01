@@ -3,17 +3,12 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <t:genericpage pageName="${pageTitle}">
-
-    <jsp:attribute name="footer">
-        <%@ include file="../shared/pagination.jsp" %>
-    </jsp:attribute>
     <jsp:body>
         <div class="d-flex flex-row justify-content-end px-2 py-3">
             <a href="${pageContext.request.contextPath}/admin/${type}/add" class="btn btn-success"><span
                     class="fas fa-plus"></span> Add New</a>
         </div>
-        <t:two-column-table columnOne="${columnOne}" columnTwo="${columnTwo}" type="${type}" page="${page}"
-                            size="${pageSize}" list="${list}"/>
+        <t:two-column-table columnOne="${columnOne}" columnTwo="${columnTwo}" type="${type}" list="${list}"/>
     </jsp:body>
 </t:genericpage>
 

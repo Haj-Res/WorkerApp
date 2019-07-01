@@ -54,14 +54,10 @@ public class AdministrationController {
     }
 
     @GetMapping("/sort-order-list")
-    public String showSortOrderList(@RequestParam(value = Const.PAGE_PARAM_NAME, required = false, defaultValue = Const.DEFAULT_FIRST_PAGE_STRING) int page,
-                                    @RequestParam(value = Const.PAGE_SIZE_PARAM_NAME, required = false, defaultValue = Const.DEFAULT_PAGE_SIZE_STRING) int pageSize,
-                                    Model model) {
+    public String showSortOrderList(Model model) {
         List<SortOrder> list = newsParameterService.getSortOrderList();
 
         model.addAttribute("list", list);
-        model.addAttribute("page", page);
-        model.addAttribute("pageSize", pageSize);
         model.addAttribute("type", "sort-order");
         model.addAttribute("pageTitle", "Sort Order List");
         model.addAttribute("columnOne", "Parameter name");
