@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 
 import javax.validation.Valid;
 
+import com.hajres.domain.entity.news.Country;
 import com.hajres.domain.entity.news.Language;
 import com.hajres.domain.entity.news.NewsCategory;
 import com.hajres.domain.entity.news.SortOrder;
@@ -209,5 +210,53 @@ public class AdministrationController {
     public String postDeleteCategory(@PathVariable String id) {
         newsParameterService.deleteNewsCategory(id);
         return "redirect: ../../category-list";
+    }
+
+    @GetMapping("/country-list")
+    public String showCountryList(Model model) {
+        List<Country> list = newsParameterService.getCountries();
+        model.addAttribute("list", list);
+        return "admin/country-list";
+    }
+
+    @GetMapping("/country/edit/{id}")
+    public String getEditCountry(@PathVariable String id,
+                                 Model model) {
+        Country country = newsParameterService.getCountryById(id);
+        model.addAttribute("dataModel", country);
+        model.addAttribute("pageTitle", "Edit Country");
+        return "admin/add-edit-country";
+    }
+
+    @GetMapping("/country/add")
+    public String getAddCountry(Model model) {
+        Country country = new Country();
+        model.addAttribute("dataModel", country);
+        model.addAttribute("pageTitle", "Add New Country");
+        return "admin/add-edit-country";
+    }
+
+    @PostMapping("/country/save")
+    public String postSaveCountry(@Valid @ModelAttribute("dataModel") Country country,
+                                  BindingResult result) {
+        if (result.hasErrors()) {
+            return "admin/add-edit-country";
+        }
+        newsParameterService.saveCountry(country);
+        return "redirect: ../country-list";
+    }
+
+    @GetMapping("/country/delete/{id}")
+    public String getDeleteCountry(@PathVariable String id,
+                                   Model model) {
+        Country country = newsParameterService.getCountryById(id);
+        model.addAttribute("dataModel", country);
+        return "admin/delete-country";
+    }
+
+    @PostMapping("/country/delete/{id}")
+    public String postDeleteCountry(@PathVariable String id) {
+        newsParameterService.deleteCountry(id);
+        return "redirect: ../../country-list";
     }
 }
