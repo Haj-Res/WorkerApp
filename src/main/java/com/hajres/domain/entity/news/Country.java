@@ -43,4 +43,13 @@ public class Country {
     public void setLocalName(String localName) {
         this.localName = localName;
     }
+
+    @Override
+    public String toString() {
+        return "Country{" +
+                "countryId='" + countryId + '\'' +
+                ", internationalName='" + internationalName + '\'' +
+                ", localName='" + localName + '\'' +
+                '}';
+    }
 }

@@ -40,4 +40,12 @@ public class NewsCategory {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return "NewsCategory{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
