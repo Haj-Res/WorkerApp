@@ -8,7 +8,7 @@
             undone.</p>
         <form:form method="post" action="${pageContext.request.contextPath}/admin/${type}/delete/${dataModel.id}">
             <input type="submit" class="btn btn-danger mr-4" value="DELETE"/>
-            <a href="${pageContext.request.contextPath}/admin/sort-order-list" class="btn btn-secondary">Cancel</a>
+            <a href="${pageContext.request.contextPath}/admin/${type}-list" class="btn btn-secondary">Cancel</a>
         </form:form>
     </jsp:body>
 </t:genericpage>

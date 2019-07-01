@@ -20,7 +20,7 @@
             <div class="mx-2 mt-2">
                 <button type="submit" class="btn btn-secondary">Submit</button>
                 <a class="ml-3 btn btn-light border-secondary"
-                   href="${pageContext.request.contextPath}/admin/panel">Cancel</a>
+                   href="${pageContext.request.contextPath}/admin/${type}-list">Cancel</a>
             </div>
         </form:form>
     </jsp:body>

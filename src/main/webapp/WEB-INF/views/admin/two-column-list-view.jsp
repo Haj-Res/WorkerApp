@@ -8,7 +8,7 @@
             <a href="${pageContext.request.contextPath}/admin/${type}/add" class="btn btn-success"><span
                     class="fas fa-plus"></span> Add New</a>
         </div>
-        <t:two-column-table columnOne="${columnOne}" columnTwo="${columnTwo}" type="${type}" list="${list}"/>
+        <t:two-column-table type="${type}" list="${list}"/>
     </jsp:body>
 </t:genericpage>
 

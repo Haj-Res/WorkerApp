@@ -1,7 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%@ attribute name="columnOne" required="true" type="java.lang.String" %>
-<%@ attribute name="columnTwo" required="true" type="java.lang.String" %>
 <%@ attribute name="type" required="true" type="java.lang.String" %>
 
 <%@ attribute name="list" required="true" type="java.util.List<com.hajres.domain.entity.news.SortOrder>" %>
@@ -9,8 +7,8 @@
     <thead class="thead-light">
     <tr>
         <th>#</th>
-        <th>${columnOne}</th>
-        <th>${columnTwo}</th>
+        <th>Parameter name</th>
+        <th>Display text</th>
         <th>Actions</th>
     </tr>
     </thead>
