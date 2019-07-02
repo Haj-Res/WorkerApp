@@ -60,7 +60,7 @@
                         <c:url var="deleteWorker" value="/worker/delete">
                             <c:param name="workerId" value="${worker.id}"/>
                         </c:url>
-`                        <td><c:out value="${loop.index + 1 + ( page - 1 ) * pageSize}."/></td>
+                        <td><c:out value="${loop.index + 1 + ( page - 1 ) * pageSize}."/></td>
                         <td><c:out value="${worker.jmbg}"/></td>
                         <td><c:out value="${worker.firstName} ${worker.lastName}"/></td>
                         <td><c:out value="${worker.birthDate}"/></td>
