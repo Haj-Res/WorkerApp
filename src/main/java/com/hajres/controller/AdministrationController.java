@@ -67,7 +67,7 @@ public class AdministrationController {
         model.addAttribute("list", list);
         model.addAttribute("type", "sort-order");
         model.addAttribute("pageTitle", "Sort Order List");
-        return "admin/two-column-list-view";
+        return "admin/list-two-column";
     }
 
     @GetMapping("/sort-order/edit/{id}")
@@ -127,7 +127,7 @@ public class AdministrationController {
         model.addAttribute("list", list);
         model.addAttribute("type", "language");
         model.addAttribute("pageTitle", "Language List");
-        return "admin/two-column-list-view";
+        return "admin/list-two-column";
     }
 
     @GetMapping("/language/edit/{id}")
@@ -187,7 +187,7 @@ public class AdministrationController {
         model.addAttribute("list", list);
         model.addAttribute("type", "category");
         model.addAttribute("pageTitle", "News Category List");
-        return "admin/two-column-list-view";
+        return "admin/list-two-column";
     }
 
     @GetMapping("/category/edit/{id}")
@@ -245,7 +245,7 @@ public class AdministrationController {
     public String showCountryList(Model model) {
         List<Country> list = newsParameterService.getCountries();
         model.addAttribute("list", list);
-        return "admin/country-list";
+        return "admin/list-country";
     }
 
     @GetMapping("/country/edit/{id}")
@@ -304,7 +304,7 @@ public class AdministrationController {
         model.addAttribute(Const.PAGE_PARAM_NAME, page);
         model.addAttribute(Const.PAGE_SIZE_PARAM_NAME, pageSize);
 
-        return "admin/user-list";
+        return "admin/list-user";
     }
 
     @GetMapping("/user/edit/{username}")
@@ -317,7 +317,7 @@ public class AdministrationController {
         } else {
             model.addAttribute("user", user);
             addNewsParamsToModel(model);
-            return "admin/user-edit";
+            return "admin/edit-user";
         }
     }
 
@@ -336,7 +336,7 @@ public class AdministrationController {
             }
         }
         if (bindingResult.hasErrors()) {
-            return "admin/user-edit";
+            return "admin/edit-user";
         }
         User user = userService.findByUserName(oldUsername);
         userService.update(userDto, user);
