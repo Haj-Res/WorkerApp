@@ -10,7 +10,7 @@
     <jsp:body>
         <div class="flex-row d-flex justify-content-between mb-2">
             <a href="${pageContext.request.contextPath}/admin/panel" class="btn btn-secondary">Back</a>
-            <a href="/admin/user/add" class="btn btn-success">Add New User</a></div>
+        </div>
         <div class="flex-row">
             <table class="table">
                 <thead class="thead-light">
