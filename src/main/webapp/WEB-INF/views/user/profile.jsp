@@ -41,12 +41,12 @@
                 </form:select>
             </div>
             <div class="form-group mt-2">
-                <label for="category">Category Preference</label><br>
+                <label class="d-flex flex-row" for="category">Category Preference</label>
                 <div class="d-flex flex-row container justify-content-start flex-wrap">
-                    <div class="col-md-5">
-                        <form:radiobutton cssClass="mr-2" path="category" value="" label="No preference"/>
+                    <div class="col-md-4">
+                        <form:radiobutton cssClass="mr-2" path="category" value="*" label="No preference"/>
                     </div>
-                    <form:radiobuttons cssClass="mr-2" element="div class='col-md-5'" path="category" items="${categories}"/>
+                    <form:radiobuttons cssClass="mr-2" element="div class='col-md-4'" path="category" items="${categories}"/>
                 </div>
             </div>
 

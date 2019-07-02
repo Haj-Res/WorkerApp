@@ -64,7 +64,7 @@ public class NewsController {
         String additionalParameters = "";
         if (source == null || source.isEmpty()) {
             paramMap.put(News.PARAM_COUNTRY, countryCode);
-            if (user.getCategoryPreference() != null) {
+            if (user.getCategoryPreference() != null && !user.getCategoryIdOrNull().equals("*")) {
                 paramMap.put(News.PARAM_CATEGORY, user.getCategoryPreference().getId());
             }
             paginatedResult = restNewsService.getNews(News.URL_TOP_HEADLINES, paramMap);

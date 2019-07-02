@@ -72,7 +72,7 @@ public class NewsDAOImpl implements NewsDAO {
     @Override
     public List<NewsCategory> findAllCategories() {
         Session session = factory.getCurrentSession();
-        return session.createQuery("from NewsCategory ", NewsCategory.class).getResultList();
+        return session.createQuery("from NewsCategory where id != :star ", NewsCategory.class).setParameter("star", "*").getResultList();
     }
 
     @Override
