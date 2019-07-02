@@ -7,6 +7,8 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class RoleDAOImpl implements RoleDAO {
 
@@ -28,5 +30,11 @@ public class RoleDAOImpl implements RoleDAO {
             role = null;
         }
         return role;
+    }
+
+    @Override
+    public List<Role> findAllRoles() {
+        Session session = factory.getCurrentSession();
+        return session.createQuery("from Role", Role.class).getResultList();
     }
 }

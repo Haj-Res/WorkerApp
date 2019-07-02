@@ -5,6 +5,7 @@ import com.hajres.domain.dto.EditUserDto;
 import com.hajres.domain.dto.PasswordDto;
 import com.hajres.domain.dto.RegHelperUser;
 import com.hajres.domain.dto.UserDisplayDTO;
+import com.hajres.domain.entity.Role;
 import com.hajres.domain.entity.news.Country;
 import com.hajres.domain.entity.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,4 +26,8 @@ public interface UserService extends UserDetailsService {
     void updatePreferences(User user, String countryCode, String category);
 
     PaginatedResult<UserDisplayDTO> findAllPaginatedUser(int pageSize, int page);
+
+    List<Role> findAllRoles();
+
+    EditUserDto findEditUserDTOByUsername(String username);
 }

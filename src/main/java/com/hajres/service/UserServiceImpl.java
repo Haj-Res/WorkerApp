@@ -24,6 +24,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -82,12 +83,17 @@ public class UserServiceImpl implements UserService {
         Country country = newsDAO.findCountryById((userDto.getCountry()));
         NewsCategory category = newsDAO.findCategoryById(userDto.getCategory());
 
+        user.setUsername(userDto.getUsername());
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         user.setEmail(userDto.getEmail());
         user.setCountryPreference(country);
         user.setCategoryPreference(category);
-
+        user.setRoles(new ArrayList<>());
+        userDto.getRoles().forEach(r -> {
+            Role role = roleDAO.findRoleByName(r);
+            user.getRoles().add(role);
+        });
         userDAO.save(user);
     }
 
@@ -123,6 +129,22 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public PaginatedResult<UserDisplayDTO> findAllPaginatedUser(int pageSize, int page) {
         return userDAO.findAllPaginatedUser(pageSize, page);
+    }
+
+    @Override
+    @Transactional
+    public List<Role> findAllRoles() {
+        return roleDAO.findAllRoles();
+    }
+
+    @Override
+    @Transactional
+    public EditUserDto findEditUserDTOByUsername(String username) {
+        User user = findByUserName(username);
+        if (user == null) {
+            return null;
+        }
+        return EditUserDto.map(user);
     }
 
 

@@ -3,12 +3,13 @@ package com.hajres.controller;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.jws.soap.SOAPBinding;
 import javax.validation.Valid;
 
 import com.hajres.PaginatedResult;
 import com.hajres.config.Const;
+import com.hajres.domain.dto.EditUserDto;
 import com.hajres.domain.dto.UserDisplayDTO;
+import com.hajres.domain.entity.Role;
 import com.hajres.domain.entity.User;
 import com.hajres.domain.entity.news.Country;
 import com.hajres.domain.entity.news.Language;
@@ -303,5 +304,53 @@ public class AdministrationController {
         model.addAttribute(Const.PAGE_SIZE_PARAM_NAME, pageSize);
 
         return "admin/user-list";
+    }
+
+    @GetMapping("/user/edit/{username}")
+    public String getEditUser(@PathVariable String username,
+                              Model model) {
+        EditUserDto user = userService.findEditUserDTOByUsername(username);
+        if (user == null) {
+            // TODO: Show error
+            return "redirect: ../../user";
+        } else {
+            model.addAttribute("user", user);
+            addNewsParamsToModel(model);
+            return "admin/user-edit";
+        }
+    }
+
+    @PostMapping("/user/save")
+    public String postSaveUser(@ModelAttribute("oldUsername") String oldUsername,
+                               @Valid @ModelAttribute("user") EditUserDto userDto,
+                               BindingResult bindingResult,
+                               Model model) {
+        if (userDto.getRoles().size() < 1) {
+            bindingResult.rejectValue("roles", "role.missing", "User must have at least one role");
+        }
+        if (!oldUsername.equals(userDto.getUsername())) {
+            User user = userService.findByUserName(userDto.getUsername());
+            if (user != null) {
+                bindingResult.rejectValue("username", "username.duplicate", "Username is already taken");
+            }
+        }
+        if (bindingResult.hasErrors()) {
+            return "admin/user-edit";
+        }
+        User user = userService.findByUserName(oldUsername);
+        userService.update(userDto, user);
+
+        return "redirect: ../user";
+    }
+
+    private void addNewsParamsToModel(Model model) {
+        List<Role> roles = userService.findAllRoles();
+        model.addAttribute("roles", roles);
+
+        List<Country> countries = newsParameterService.getCountries();
+        model.addAttribute("countries", countries);
+
+        List<NewsCategory> categories = newsParameterService.getNewsCategory();
+        model.addAttribute("categories", categories);
     }
 }

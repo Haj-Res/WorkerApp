@@ -5,9 +5,11 @@ import com.hajres.validation.ValidEmail;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EditUserDto {
-    @NotNull
+    @NotNull(message = "is required")
     @Size(min = 1, message = "is required")
     private String username;
     @NotNull
@@ -24,6 +26,8 @@ public class EditUserDto {
     private String country;
 
     private String category;
+
+    private List<String> roles;
 
     public EditUserDto() {
     }
@@ -76,6 +80,14 @@ public class EditUserDto {
         this.category = category;
     }
 
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
+    }
+
     public static EditUserDto map(User user) {
         EditUserDto editUser = new EditUserDto();
         editUser.username = user.getUsername();
@@ -84,6 +96,10 @@ public class EditUserDto {
         editUser.email = user.getEmail();
         editUser.country = user.getCountryIdOrNull();
         editUser.category = user.getCategoryIdOrNull();
+        editUser.roles = new ArrayList<>();
+        user.getRoles().forEach(r -> {
+            editUser.roles.add(r.getName());
+        });
         return editUser;
     }
 }

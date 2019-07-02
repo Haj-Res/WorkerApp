@@ -45,7 +45,7 @@ public class UserController {
     @GetMapping("/profile")
     public String showProfile(Model model, HttpServletRequest request) {
         User sessionUser = (User) request.getSession().getAttribute("user");
-        EditUserDto user = EditUserDto.map(sessionUser);
+        EditUserDto user = userService.findEditUserDTOByUsername(sessionUser.getUsername());
         List<Country> countryList = userService.findAllCountries();
         Map<String, String> countries = new HashMap<>();
         countryList.forEach(c -> {
