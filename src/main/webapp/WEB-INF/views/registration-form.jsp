@@ -89,10 +89,11 @@
                     </div>
                     <div class="form-group mt-2">
                         <div class="col-sm-12 controls">
-                            <label for="category">Category Preference</label><br>
+                            <label class="d-flex flex-row" for="category">Category Preference</label>
+                            <form:errors path="category" cssClass="error"/>
                             <div class="d-flex flex-row justify-content-start flex-wrap">
                                 <div class="col-md-6">
-                                    <form:radiobutton cssClass="mr-2" path="category" value="" label="No preference"/>
+                                    <form:radiobutton cssClass="mr-2" path="category" value="*" label="No preference"/>
                                 </div>
                                 <form:radiobuttons cssClass="mr-2" element="div class='col-md-6'" path="category"
                                                    items="${categories}"/>

@@ -28,7 +28,7 @@ public class LoginController {
     @Autowired
     @Qualifier(value = "userServiceImpl")
     private UserService userService;
-    
+
     @Autowired
     private NewsParameterService newsParameterService;
 
@@ -58,7 +58,7 @@ public class LoginController {
     @PostMapping("/processRegistration")
     public String processRegistrationForm(
             @Valid @ModelAttribute("regHelperUser") RegHelperUser regHelperUser,
-            BindingResult theBindingResult,
+            BindingResult bindingResult,
             Model model) {
 
         Map<String, String> categories = newsParameterService.getNewsCategoryMap();
@@ -67,7 +67,7 @@ public class LoginController {
         model.addAttribute("categories", categories);
 
         // form validation
-        if (theBindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return "registration-form";
         }
 
@@ -77,10 +77,8 @@ public class LoginController {
         // check the database if user already exists
         User existing = userService.findByUserName(userName);
         if (existing != null) {
-            model.addAttribute("regHelperUser", new RegHelperUser());
-            model.addAttribute("registrationError", "User name already exists.");
-
-            logger.warn("User name already exists.");
+            bindingResult.rejectValue("username", "username.exist", "Username is already take.");
+            logger.info("Username already exists.");
             return "registration-form";
         }
         // create user account
