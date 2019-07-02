@@ -8,14 +8,16 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto d-flex">
             <li class="nav-item <c:if test="${active == 'news'}">active</c:if>">
-                <a class="nav-link" href="${pageContext.request.contextPath}/news">News</a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/news/">News</a>
             </li>
-            <li class="nav-item <c:if test="${active == 'worker'}">active</c:if>">
-                <a class="nav-link" href="${pageContext.request.contextPath}/worker/list">Worker list</a>
-            </li>
-            <li class="nav-item <c:if test="${active == 'company'}">active</c:if>">
-                <a class="nav-link" href="${pageContext.request.contextPath}/company/list">Company list</a>
-            </li>
+            <security:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER', 'ROLE_EMPLOYEE')">
+                <li class="nav-item <c:if test="${active == 'worker'}">active</c:if>">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/worker/list">Worker list</a>
+                </li>
+                <li class="nav-item <c:if test="${active == 'company'}">active</c:if>">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/company/list">Company list</a>
+                </li>
+            </security:authorize>
             <security:authorize access="hasRole('ROLE_ADMIN')">
                 <li class="nav-item <c:if test="${active == 'admin'}">active</c:if>">
                     <a class="nav-link" href="${pageContext.request.contextPath}/admin/panel">Admin panel</a>
