@@ -105,7 +105,7 @@ public class UserController {
         User user = (User) request.getSession().getAttribute("user");
         User result = userService.updatePassword(passwordDto, user);
         if (result == null) {
-            model.addAttribute("errorMessage", "Wrong password.");
+            bindingResult.rejectValue("oldPassword", "password.wrong", "Wrong password");
             return "user/password";
         }
         request.getSession().setAttribute("user", result);
