@@ -37,16 +37,17 @@
                 <label for="country">Country News Preference</label>
                 <form:errors path="country" cssClass="error"/>
                 <form:select cssClass="custom-select" path="country" name="country">
-                    <form:options items="${countries}"/>
+                    <form:options items="${countries}" itemValue="countryId" itemLabel="internationalName"/>
                 </form:select>
             </div>
             <div class="form-group mt-2">
                 <label class="d-flex flex-row" for="category">Category Preference</label>
                 <div class="d-flex flex-row container justify-content-start flex-wrap">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <form:radiobutton cssClass="mr-2" path="category" value="*" label="No preference"/>
                     </div>
-                    <form:radiobuttons cssClass="mr-2" element="div class='col-md-4'" path="category" items="${categories}"/>
+                    <form:radiobuttons cssClass="mr-2" element="div class='col-md-3'" path="category"
+                                       items="${categories}" itemValue="id" itemLabel="name"/>
                 </div>
             </div>
 

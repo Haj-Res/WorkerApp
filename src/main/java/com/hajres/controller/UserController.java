@@ -4,6 +4,7 @@ import com.hajres.domain.dto.EditUserDto;
 import com.hajres.domain.dto.PasswordDto;
 import com.hajres.domain.entity.news.Country;
 import com.hajres.domain.entity.User;
+import com.hajres.domain.entity.news.NewsCategory;
 import com.hajres.service.NewsParameterService;
 import com.hajres.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -46,15 +46,12 @@ public class UserController {
     public String showProfile(Model model, HttpServletRequest request) {
         User sessionUser = (User) request.getSession().getAttribute("user");
         EditUserDto user = userService.findEditUserDTOByUsername(sessionUser.getUsername());
-        List<Country> countryList = userService.findAllCountries();
-        Map<String, String> countries = new HashMap<>();
-        countryList.forEach(c -> {
-            String name = c.getInternationalName() + " (" + c.getLocalName() + ")";
-            countries.put(c.getCountryId(), name);
-        });
-        Map<String, String> categories = newsParameterService.getNewsCategoryMap();
         model.addAttribute("user", user);
+
+        List<Country> countries = newsParameterService.getCountries();
         model.addAttribute("countries", countries);
+
+        List<NewsCategory> categories = newsParameterService.getNewsCategory();
         model.addAttribute("categories", categories);
         return "user/profile";
     }
@@ -76,12 +73,18 @@ public class UserController {
                            Model model) {
 
         if (bindingResult.hasErrors()) {
+            List<Country> countries = newsParameterService.getCountries();
+            model.addAttribute("countries", countries);
+
+            List<NewsCategory> categories = newsParameterService.getNewsCategory();
+            model.addAttribute("categories", categories);
             return "user/profile";
         }
         User user = (User) request.getSession().getAttribute("user");
         userDto.setUsername(user.getUsername());
         userService.update(userDto, user);
         request.getSession().setAttribute("user", user);
+
         model.addAttribute("message", "Profile updated.");
 
         return "redirect:../news";

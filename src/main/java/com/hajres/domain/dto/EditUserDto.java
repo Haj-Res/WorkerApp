@@ -12,17 +12,17 @@ public class EditUserDto {
     @NotNull(message = "is required")
     @Size(min = 1, message = "is required")
     private String username;
-    @NotNull
+    @NotNull(message = "is required")
     @Size(min = 1, message = "is required")
     private String firstName;
-    @NotNull
+    @NotNull(message = "is required")
     @Size(min = 1, message = "is required")
     private String lastName;
-    @NotNull
+    @NotNull(message = "is required")
     @Size(min = 1, message = "is required")
     @ValidEmail
     private String email;
-    @NotNull
+    @NotNull(message = "is required")
     private String country;
 
     private String category;
