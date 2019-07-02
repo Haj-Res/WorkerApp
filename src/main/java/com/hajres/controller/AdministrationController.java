@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import com.hajres.PaginatedResult;
 import com.hajres.config.Const;
 import com.hajres.domain.dto.EditUserDto;
+import com.hajres.domain.dto.PasswordDto;
 import com.hajres.domain.dto.UserDisplayDTO;
 import com.hajres.domain.entity.Role;
 import com.hajres.domain.entity.User;
@@ -343,6 +344,29 @@ public class AdministrationController {
         return "redirect: ../user";
     }
 
+    @GetMapping("/user/password/{username}")
+    public String showPasswordForm(@PathVariable String username, Model model) {
+        PasswordDto passwordDto = new PasswordDto();
+        model.addAttribute("username", username);
+        model.addAttribute("password", passwordDto);
+        return "admin/password";
+    }
+
+    @PostMapping("/user/password/{username}")
+    public String processPassword(@PathVariable String username,
+                                  @Valid @ModelAttribute("password") PasswordDto passwordDto,
+                                  BindingResult bindingResult) {
+        User user = userService.findByUserName(username);
+        if (user == null) {
+            bindingResult.rejectValue(null, "user.missing", "Error while searching for user. Please go back to the user list and try again.");
+        }
+        if (bindingResult.hasErrors()) {
+            return "admin/password";
+        }
+        userService.updatePasswordAdmin(passwordDto, user);
+        return "redirect: ../";
+    }
+
     private void addNewsParamsToModel(Model model) {
         List<Role> roles = userService.findAllRoles();
         model.addAttribute("roles", roles);
@@ -352,5 +376,22 @@ public class AdministrationController {
 
         List<NewsCategory> categories = newsParameterService.getNewsCategory();
         model.addAttribute("categories", categories);
+    }
+
+    @GetMapping("user/delete/{username}")
+    public String getDeleteUser(@PathVariable String username,
+                                Model model) {
+        User user = userService.findByUserName(username);
+        if (user == null) {
+            return "redirect: admin/user";
+        }
+        model.addAttribute("user", user);
+        return "admin/delete-user";
+    }
+
+    @PostMapping("user/delete/{username}")
+    public String postDeleteUser(@PathVariable String username) {
+        userService.deleteUser(username);
+        return "redirect: ../";
     }
 }

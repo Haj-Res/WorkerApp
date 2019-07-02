@@ -66,7 +66,8 @@
                     <input class="btn btn-secondary mr-3" type="submit" value="Save"/>
                     <a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/admin/user">Cancel</a>
                 </div>
-                <a class="btn btn-danger" href="${pageContext.request.contextPath}/admin/user/password">Change
+                <a class="btn btn-danger"
+                   href="${pageContext.request.contextPath}/admin/user/password/${user.username}">Change
                     password</a>
             </div>
 

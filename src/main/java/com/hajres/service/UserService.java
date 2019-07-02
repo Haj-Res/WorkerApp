@@ -21,6 +21,8 @@ public interface UserService extends UserDetailsService {
 
     User updatePassword(PasswordDto passwordDto, User user);
 
+    User updatePasswordAdmin(PasswordDto passwordDto, User user);
+
     List<Country> findAllCountries();
 
     void updatePreferences(User user, String countryCode, String category);
@@ -30,4 +32,6 @@ public interface UserService extends UserDetailsService {
     List<Role> findAllRoles();
 
     EditUserDto findEditUserDTOByUsername(String username);
+
+    void deleteUser(String username);
 }

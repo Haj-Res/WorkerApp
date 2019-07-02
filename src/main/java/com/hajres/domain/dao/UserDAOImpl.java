@@ -59,4 +59,12 @@ public class UserDAOImpl implements UserDAO {
         result.setPageCount((rowCount - 1) / pageSize + 1);
         return result;
     }
+
+    @Override
+    public void delete(String username) {
+        Session session = factory.getCurrentSession();
+        session.createQuery("delete from User where username = :username")
+                .setParameter("username", username)
+                .executeUpdate();
+    }
 }

@@ -111,6 +111,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
+    public User updatePasswordAdmin(PasswordDto passwordDto, User user) {
+        user.setPassword(passwordEncoder.encode(passwordDto.getNewPassword()));
+        userDAO.save(user);
+        return user;
+    }
+
+    @Override
+    @Transactional
     public List<Country> findAllCountries() {
         return newsDAO.findAllCountries();
     }
@@ -145,6 +153,12 @@ public class UserServiceImpl implements UserService {
             return null;
         }
         return EditUserDto.map(user);
+    }
+
+    @Override
+    @Transactional
+    public void deleteUser(String username) {
+        userDAO.delete(username);
     }
 
 

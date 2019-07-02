@@ -7,8 +7,6 @@ import javax.validation.constraints.Size;
 
 @FieldMatch.List({@FieldMatch(first = "newPassword", second = "newMatchingPassword", message = "Passwords must match.")})
 public class PasswordDto {
-    @NotNull
-    @Size(min = 1, message = "is required")
     private String oldPassword;
     @NotNull
     @Size(min = 1, message = "is required")

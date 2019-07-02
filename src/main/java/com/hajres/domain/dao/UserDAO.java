@@ -10,4 +10,6 @@ public interface UserDAO {
     void save(User user);
 
     PaginatedResult<UserDisplayDTO> findAllPaginatedUser(int pageSize, int page);
+
+    void delete(String username);
 }
