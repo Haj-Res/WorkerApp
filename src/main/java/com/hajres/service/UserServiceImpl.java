@@ -89,11 +89,13 @@ public class UserServiceImpl implements UserService {
         user.setEmail(userDto.getEmail());
         user.setCountryPreference(country);
         user.setCategoryPreference(category);
-        user.setRoles(new ArrayList<>());
-        userDto.getRoles().forEach(r -> {
-            Role role = roleDAO.findRoleByName(r);
-            user.getRoles().add(role);
-        });
+        if (userDto.getRoles() != null) {
+            user.setRoles(new ArrayList<>());
+            userDto.getRoles().forEach(r -> {
+                Role role = roleDAO.findRoleByName(r);
+                user.getRoles().add(role);
+            });
+        }
         userDAO.save(user);
     }
 
