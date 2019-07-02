@@ -3,14 +3,22 @@ package com.hajres.controller;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.jws.soap.SOAPBinding;
 import javax.validation.Valid;
 
+import com.hajres.PaginatedResult;
+import com.hajres.config.Const;
+import com.hajres.domain.dto.UserDisplayDTO;
+import com.hajres.domain.entity.User;
 import com.hajres.domain.entity.news.Country;
 import com.hajres.domain.entity.news.Language;
 import com.hajres.domain.entity.news.NewsCategory;
 import com.hajres.domain.entity.news.SortOrder;
 import com.hajres.service.NewsParameterService;
+
+import com.hajres.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,9 +37,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class AdministrationController {
 
     private NewsParameterService newsParameterService;
+    private UserService userService;
 
     @Autowired
-    public AdministrationController(NewsParameterService newsParameterService) {
+    public AdministrationController(@Qualifier("userServiceImpl") UserService userService,
+                                    NewsParameterService newsParameterService) {
+        this.userService = userService;
         this.newsParameterService = newsParameterService;
     }
 
@@ -279,5 +290,18 @@ public class AdministrationController {
     public String postDeleteCountry(@PathVariable String id) {
         newsParameterService.deleteCountry(id);
         return "redirect: ../../country-list";
+    }
+
+    @GetMapping("/user")
+    public String showUserList(@RequestParam(name = Const.PAGE_SIZE_PARAM_NAME, defaultValue = Const.DEFAULT_PAGE_SIZE_STRING, required = false) int pageSize,
+                               @RequestParam(name = Const.PAGE_PARAM_NAME, defaultValue = Const.DEFAULT_FIRST_PAGE_STRING, required = false) int page,
+                               Model model) {
+        PaginatedResult<UserDisplayDTO> users = userService.findAllPaginatedUser(pageSize, page);
+        model.addAttribute("users", users.getResultList());
+        model.addAttribute(Const.PAGE_COUNT_PARAM_NAME, users.getPageCount());
+        model.addAttribute(Const.PAGE_PARAM_NAME, page);
+        model.addAttribute(Const.PAGE_SIZE_PARAM_NAME, pageSize);
+
+        return "admin/user-list";
     }
 }

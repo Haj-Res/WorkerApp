@@ -1,8 +1,10 @@
 package com.hajres.service;
 
+import com.hajres.PaginatedResult;
 import com.hajres.domain.dao.NewsDAO;
 import com.hajres.domain.dto.EditUserDto;
 import com.hajres.domain.dto.PasswordDto;
+import com.hajres.domain.dto.UserDisplayDTO;
 import com.hajres.domain.entity.news.Country;
 import com.hajres.domain.entity.Role;
 import com.hajres.domain.entity.User;
@@ -64,7 +66,7 @@ public class UserServiceImpl implements UserService {
         NewsCategory category = newsDAO.findCategoryById(regHelperUser.getCategory());
         user.setCategoryPreference(category);
 
-        user.addRole(roleDAO.findRoleByName("ROLE_EMPLOYEE"));
+        user.addRole(roleDAO.findRoleByName("ROLE_USER"));
 
         if (regHelperUser.getRoles() != null) {
             regHelperUser.getRoles().forEach(role -> user.addRole(roleDAO.findRoleByName(role)));
@@ -116,6 +118,13 @@ public class UserServiceImpl implements UserService {
         user.setCategoryPreference(newsCategory);
         userDAO.save(user);
     }
+
+    @Override
+    @Transactional
+    public PaginatedResult<UserDisplayDTO> findAllPaginatedUser(int pageSize, int page) {
+        return userDAO.findAllPaginatedUser(pageSize, page);
+    }
+
 
     @Override
     @Transactional

@@ -18,6 +18,9 @@ public class Role {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "display_name")
+    private String displayName;
+
     public Role() {
     }
 
@@ -41,11 +44,20 @@ public class Role {
         this.name = name;
     }
 
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
     @Override
     public String toString() {
         return "Role{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", displayName='" + displayName + '\'' +
                 '}';
     }
 }
